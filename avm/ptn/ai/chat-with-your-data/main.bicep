@@ -2,18 +2,19 @@ targetScope = 'subscription'
 
 @minLength(1)
 @maxLength(20)
-@description('Name of the the environment which is used to generate a short unique hash used in all resources.')
+@description('Required. Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
 
+@description('Optional.')
 param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
 
-@description('Location for all resources.')
+@description('Required. Location for all resources.')
 param location string
 
-@description('Name of App Service plan')
+@description('Optional. Name of App Service plan')
 param hostingPlanName string = 'hosting-plan-${resourceToken}'
 
-@description('The pricing tier for the App Service plan')
+@description('Optional. The pricing tier for the App Service plan')
 @allowed([
   'F1'
   'D1'
@@ -30,7 +31,7 @@ param hostingPlanName string = 'hosting-plan-${resourceToken}'
 ])
 param hostingPlanSku string = 'B3'
 
-@description('The sku tier for the App Service plan')
+@description('Optional. The sku tier for the App Service plan')
 @allowed([
   'Free'
   'Shared'
@@ -42,91 +43,91 @@ param hostingPlanSku string = 'B3'
 ])
 param skuTier string = 'Basic'
 
-@description('Name of Web App')
+@description('Optional. Name of Web App')
 param websiteName string = 'web-${resourceToken}'
 
-@description('Name of Admin Web App')
+@description('Optional. Name of Admin Web App')
 param adminWebsiteName string = '${websiteName}-admin'
 
-@description('Name of Application Insights')
+@description('Optional. Name of Application Insights')
 param applicationInsightsName string = 'appinsights-${resourceToken}'
 
-@description('Name of the Workbook')
+@description('Optional. Name of the Workbook')
 param workbookDisplayName string = 'workbook-${resourceToken}'
 
-@description('Use semantic search')
+@description('Optional. Use semantic search')
 param azureSearchUseSemanticSearch bool = false
 
-@description('Semantic search config')
+@description('Optional. Semantic search config')
 param azureSearchSemanticSearchConfig string = 'default'
 
-@description('Is the index prechunked')
+@description('Optional. Is the index prechunked')
 param azureSearchIndexIsPrechunked string = 'false'
 
-@description('Top K results')
+@description('Optional. Top K results')
 param azureSearchTopK string = '5'
 
-@description('Enable in domain')
+@description('Optional. Enable in domain')
 param azureSearchEnableInDomain string = 'false'
 
-@description('Content columns')
+@description('Optional. Content columns')
 param azureSearchContentColumns string = 'content'
 
-@description('Vector columns')
+@description('Optional. Vector columns')
 param azureSearchVectorColumns string = 'content_vector'
 
-@description('Filename column')
+@description('Optional. Filename column')
 param azureSearchFilenameColumn string = 'filename'
 
-@description('Search filter')
+@description('Optional. Search filter')
 param azureSearchFilter string = ''
 
-@description('Title column')
+@description('Optional. Title column')
 param azureSearchTitleColumn string = 'title'
 
-@description('Url column')
+@description('Optional. Url column')
 param azureSearchUrlColumn string = 'url'
 
-@description('Use Azure Search Integrated Vectorization')
+@description('Optional. Use Azure Search Integrated Vectorization')
 param azureSearchUseIntegratedVectorization bool = false
 
-@description('Name of Azure OpenAI Resource')
+@description('Optional. Name of Azure OpenAI Resource')
 param azureOpenAIResourceName string = 'openai-${resourceToken}'
 
-@description('Name of Azure OpenAI Resource SKU')
+@description('Optional. Name of Azure OpenAI Resource SKU')
 param azureOpenAISkuName string = 'S0'
 
-@description('Azure OpenAI Model Deployment Name')
+@description('Optional. Azure OpenAI Model Deployment Name')
 param azureOpenAIModel string = 'gpt-35-turbo-16k'
 
-@description('Azure OpenAI Model Name')
+@description('Optional. Azure OpenAI Model Name')
 param azureOpenAIModelName string = 'gpt-35-turbo-16k'
 
-@description('Azure OpenAI Model Version')
+@description('Optional. Azure OpenAI Model Version')
 param azureOpenAIModelVersion string = '0613'
 
-@description('Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIModelCapacity int = 30
 
-@description('Enables the use of a vision LLM and Computer Vision for embedding images')
+@description('Optional. Enables the use of a vision LLM and Computer Vision for embedding images')
 param useAdvancedImageProcessing bool = false
 
-@description('The maximum number of images to pass to the vision model in a single request')
+@description('Optional. The maximum number of images to pass to the vision model in a single request')
 param advancedImageProcessingMaxImages int = 1
 
-@description('Azure OpenAI Vision Model Deployment Name')
+@description('Optional. Azure OpenAI Vision Model Deployment Name')
 param azureOpenAIVisionModel string = 'gpt-4'
 
-@description('Azure OpenAI Vision Model Name')
+@description('Optional. Azure OpenAI Vision Model Name')
 param azureOpenAIVisionModelName string = 'gpt-4'
 
-@description('Azure OpenAI Vision Model Version')
+@description('Optional. Azure OpenAI Vision Model Version')
 param azureOpenAIVisionModelVersion string = 'vision-preview'
 
-@description('Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIVisionModelCapacity int = 10
 
-@description('Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain')
+@description('Optional. Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain')
 @allowed([
   'openai_function'
   'semantic_kernel'
@@ -135,57 +136,57 @@ param azureOpenAIVisionModelCapacity int = 10
 ])
 param orchestrationStrategy string = 'openai_function'
 
-@description('Chat conversation type: custom or byod.')
+@description('Optional. Chat conversation type: custom or byod.')
 @allowed([
   'custom'
   'byod'
 ])
 param conversationFlow string = 'custom'
 
-@description('Azure OpenAI Temperature')
+@description('Optional. Azure OpenAI Temperature')
 param azureOpenAITemperature string = '0'
 
-@description('Azure OpenAI Top P')
+@description('Optional. Azure OpenAI Top P')
 param azureOpenAITopP string = '1'
 
-@description('Azure OpenAI Max Tokens')
+@description('Optional. Azure OpenAI Max Tokens')
 param azureOpenAIMaxTokens string = '1000'
 
-@description('Azure OpenAI Stop Sequence')
+@description('Optional. Azure OpenAI Stop Sequence')
 param azureOpenAIStopSequence string = ''
 
-@description('Azure OpenAI System Message')
+@description('Optional. Azure OpenAI System Message')
 param azureOpenAISystemMessage string = 'You are an AI assistant that helps people find information.'
 
-@description('Azure OpenAI Api Version')
+@description('Optional. Azure OpenAI Api Version')
 param azureOpenAIApiVersion string = '2024-02-01'
 
-@description('Whether or not to stream responses from Azure OpenAI')
+@description('Optional. Whether or not to stream responses from Azure OpenAI')
 param azureOpenAIStream string = 'true'
 
-@description('Azure OpenAI Embedding Model Deployment Name')
+@description('Optional. Azure OpenAI Embedding Model Deployment Name')
 param azureOpenAIEmbeddingModel string = 'text-embedding-ada-002'
 
-@description('Azure OpenAI Embedding Model Name')
+@description('Optional. Azure OpenAI Embedding Model Name')
 param azureOpenAIEmbeddingModelName string = 'text-embedding-ada-002'
 
-@description('Azure OpenAI Embedding Model Version')
+@description('Optional. Azure OpenAI Embedding Model Version')
 param azureOpenAIEmbeddingModelVersion string = '2'
 
-@description('Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIEmbeddingModelCapacity int = 30
 
-@description('Name of Computer Vision Resource (if useAdvancedImageProcessing=true)')
+@description('Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true)')
 param computerVisionName string = 'computer-vision-${resourceToken}'
 
-@description('Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)')
+@description('Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)')
 @allowed([
   'F0'
   'S1'
 ])
 param computerVisionSkuName string = 'S1'
 
-@description('Location of Computer Vision Resource (if useAdvancedImageProcessing=true)')
+@description('Optional. Location of Computer Vision Resource (if useAdvancedImageProcessing=true)')
 @allowed([
   // List taken from https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/how-to/image-retrieval?tabs=python#prerequisites
   'eastus'
@@ -199,16 +200,16 @@ param computerVisionSkuName string = 'S1'
 ])
 param computerVisionLocation string = ''
 
-@description('Azure Computer Vision Vectorize Image API Version')
+@description('Optional. Azure Computer Vision Vectorize Image API Version')
 param computerVisionVectorizeImageApiVersion string = '2024-02-01'
 
-@description('Azure Computer Vision Vectorize Image Model Version')
+@description('Optional. Azure Computer Vision Vectorize Image Model Version')
 param computerVisionVectorizeImageModelVersion string = '2023-04-15'
 
-@description('Azure AI Search Resource')
+@description('Optional. Azure AI Search Resource')
 param azureAISearchName string = 'search-${resourceToken}'
 
-@description('The SKU of the search service you want to create. E.g. free or standard')
+@description('Optional. The SKU of the search service you want to create. E.g. free or standard')
 @allowed([
   'free'
   'basic'
@@ -218,53 +219,56 @@ param azureAISearchName string = 'search-${resourceToken}'
 ])
 param azureSearchSku string = 'standard'
 
-@description('Azure AI Search Index')
+@description('Optional. Azure AI Search Index')
 param azureSearchIndex string = 'index-${resourceToken}'
 
-@description('Azure AI Search Indexer')
+@description('Optional. Azure AI Search Indexer')
 param azureSearchIndexer string = 'indexer-${resourceToken}'
 
-@description('Azure AI Search Datasource')
+@description('Optional. Azure AI Search Datasource')
 param azureSearchDatasource string = 'datasource-${resourceToken}'
 
-@description('Azure AI Search Conversation Log Index')
+@description('Optional. Azure AI Search Conversation Log Index')
 param azureSearchConversationLogIndex string = 'conversations'
 
-@description('Name of Storage Account')
+@description('Optional. Name of Storage Account')
 param storageAccountName string = 'str${resourceToken}'
 
-@description('Name of Function App for Batch document processing')
+@description('Optional. Name of Function App for Batch document processing')
 param functionName string = 'backend-${resourceToken}'
 
-@description('Azure Form Recognizer Name')
+@description('Optional. Azure Form Recognizer Name')
 param formRecognizerName string = 'formrecog-${resourceToken}'
 
-@description('Azure Content Safety Name')
+@description('Optional. Azure Content Safety Name')
 param contentSafetyName string = 'contentsafety-${resourceToken}'
 
-@description('Azure Speech Service Name')
+@description('Optional. Azure Speech Service Name')
 param speechServiceName string = 'speech-${resourceToken}'
 
-@description('Log Analytics Name')
+@description('Optional. Log Analytics Name')
 param logAnalyticsName string = 'la-${resourceToken}'
 
+@description('Optional. Guid')
 param newGuidString string = newGuid()
+
+@description('Optional. Search Tag.')
 param searchTag string = 'chatwithyourdata-sa'
 
-@description('Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false.')
+@description('Optional. Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false.')
 param useKeyVault bool = authType == 'rbac' ? false : true
 
-@description('Id of the user or app to assign application roles')
+@description('Optional. Id of the user or app to assign application roles')
 param principalId string = ''
 
-@description('Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles.')
+@description('Optional. Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles.')
 @allowed([
   'rbac'
   'keys'
 ])
 param authType string = 'keys'
 
-@description('Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization.')
+@description('Optional. Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization.')
 @allowed([
   'code'
   'container'
@@ -278,12 +282,13 @@ param hostingModel string = 'container'
   'INFO'
   'DEBUG'
 ])
+@description('Optional.')
 param logLevel string = 'INFO'
 
-@description('List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages')
+@description('Optional. List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages')
 param recognizedLanguages string = 'en-US,fr-FR,de-DE,it-IT'
 
-@description('Azure Machine Learning Name')
+@description('Optional. Azure Machine Learning Name')
 param azureMachineLearningName string = 'aml-${resourceToken}'
 
 var blobContainerName = 'documents'
