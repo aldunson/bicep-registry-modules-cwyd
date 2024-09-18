@@ -64,8 +64,8 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
+    environmentName: 'acwyddef001'
     location: '<location>'
-    name: 'acwyddef001'
   }
 }
 ```
@@ -83,11 +83,11 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "contentVersion": "1.0.0.0",
   "parameters": {
     // Required parameters
+    "environmentName": {
+      "value": "acwyddef001"
+    },
     "location": {
       "value": "<location>"
-    },
-    "name": {
-      "value": "acwyddef001"
     }
   }
 }
@@ -107,8 +107,8 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
+    environmentName: 'acwydwaf001'
     location: '<location>'
-    name: 'acwydwaf001'
   }
 }
 ```
@@ -126,11 +126,11 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "contentVersion": "1.0.0.0",
   "parameters": {
     // Required parameters
+    "environmentName": {
+      "value": "acwydwaf001"
+    },
     "location": {
       "value": "<location>"
-    },
-    "name": {
-      "value": "acwydwaf001"
     }
   }
 }

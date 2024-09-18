@@ -279,7 +279,7 @@ resource applicationInsightsDashboard 'Microsoft.Portal/dashboards@2020-09-01-pr
                 {
                   name: 'DataModel'
                   value: {
-                    version: '1.0.0'
+                    version: '#_moduleVersion_#'
                     timeContext: {
                       durationMs: 86400000
                       createdTime: '2018-05-04T23:42:40.072Z'
@@ -343,7 +343,7 @@ resource applicationInsightsDashboard 'Microsoft.Portal/dashboards@2020-09-01-pr
                 {
                   name: 'DataModel'
                   value: {
-                    version: '1.0.0'
+                    version: '#_moduleVersion_#'
                     timeContext: {
                       durationMs: 86400000
                       createdTime: '2018-05-04T23:43:37.804Z'

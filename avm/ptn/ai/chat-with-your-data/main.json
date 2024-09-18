@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+  "contentVersion": "#_moduleVersion_#.0",
   "metadata": {
     "_generator": {
       "name": "bicep",
@@ -663,7 +663,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -760,7 +760,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -919,7 +919,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1072,7 +1072,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1143,7 +1143,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1214,7 +1214,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1285,7 +1285,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1360,7 +1360,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1529,7 +1529,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1742,7 +1742,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1911,7 +1911,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -2094,7 +2094,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -2272,7 +2272,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2499,7 +2499,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -2577,7 +2577,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2646,7 +2646,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2715,7 +2715,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2784,7 +2784,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2850,7 +2850,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3051,7 +3051,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -3229,7 +3229,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3456,7 +3456,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -3534,7 +3534,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3603,7 +3603,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3672,7 +3672,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3741,7 +3741,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3807,7 +3807,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4007,7 +4007,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -4178,7 +4178,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4405,7 +4405,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -4483,7 +4483,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4552,7 +4552,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4621,7 +4621,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4690,7 +4690,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4756,7 +4756,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4953,7 +4953,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -5124,7 +5124,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5351,7 +5351,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -5429,7 +5429,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5498,7 +5498,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5567,7 +5567,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5636,7 +5636,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5702,7 +5702,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5817,7 +5817,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -5869,7 +5869,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5950,7 +5950,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -6015,7 +6015,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -6311,7 +6311,7 @@
                                             {
                                               "name": "DataModel",
                                               "value": {
-                                                "version": "1.0.0",
+                                                "version": "#_moduleVersion_#",
                                                 "timeContext": {
                                                   "durationMs": 86400000,
                                                   "createdTime": "2018-05-04T23:42:40.072Z",
@@ -6374,7 +6374,7 @@
                                             {
                                               "name": "DataModel",
                                               "value": {
-                                                "version": "1.0.0",
+                                                "version": "#_moduleVersion_#",
                                                 "timeContext": {
                                                   "durationMs": 86400000,
                                                   "createdTime": "2018-05-04T23:43:37.804Z",
@@ -7354,7 +7354,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -7437,7 +7437,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -7629,7 +7629,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -7818,7 +7818,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8026,7 +8026,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -8253,7 +8253,7 @@
                                 },
                                 "template": {
                                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                                  "contentVersion": "1.0.0.0",
+                                  "contentVersion": "#_moduleVersion_#.0",
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
@@ -8349,7 +8349,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8418,7 +8418,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8487,7 +8487,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8556,7 +8556,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8625,7 +8625,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8691,7 +8691,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8870,7 +8870,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -9059,7 +9059,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9267,7 +9267,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "1.0.0.0",
+                          "contentVersion": "#_moduleVersion_#.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -9494,7 +9494,7 @@
                                 },
                                 "template": {
                                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                                  "contentVersion": "1.0.0.0",
+                                  "contentVersion": "#_moduleVersion_#.0",
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
@@ -9590,7 +9590,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9659,7 +9659,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9728,7 +9728,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9797,7 +9797,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9866,7 +9866,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9932,7 +9932,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
+                  "contentVersion": "#_moduleVersion_#.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -10038,7 +10038,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10193,7 +10193,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10351,7 +10351,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10481,7 +10481,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10706,7 +10706,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10776,7 +10776,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10846,7 +10846,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10916,7 +10916,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -11002,7 +11002,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
+          "contentVersion": "#_moduleVersion_#.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
