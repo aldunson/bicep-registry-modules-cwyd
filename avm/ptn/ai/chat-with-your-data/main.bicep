@@ -1,20 +1,24 @@
 targetScope = 'subscription'
+metadata name = 'Chat with Your Data'
+metadata description = '''This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
+which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.'''
+metadata owner = 'Azure/module-maintainers'
 
 @minLength(1)
 @maxLength(20)
 @description('Required. Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
 
-@description('Optional.')
+@description('Optional. Resource Token.')
 param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
 
 @description('Required. Location for all resources.')
 param location string
 
-@description('Optional. Name of App Service plan')
+@description('Optional. Name of App Service plan.')
 param hostingPlanName string = 'hosting-plan-${resourceToken}'
 
-@description('Optional. The pricing tier for the App Service plan')
+@description('Optional. The pricing tier for the App Service plan.')
 @allowed([
   'F1'
   'D1'
@@ -31,7 +35,7 @@ param hostingPlanName string = 'hosting-plan-${resourceToken}'
 ])
 param hostingPlanSku string = 'B3'
 
-@description('Optional. The sku tier for the App Service plan')
+@description('Optional. The sku tier for the App Service plan.')
 @allowed([
   'Free'
   'Shared'
@@ -43,91 +47,91 @@ param hostingPlanSku string = 'B3'
 ])
 param skuTier string = 'Basic'
 
-@description('Optional. Name of Web App')
+@description('Optional. Name of Web App.')
 param websiteName string = 'web-${resourceToken}'
 
-@description('Optional. Name of Admin Web App')
+@description('Optional. Name of Admin Web App.')
 param adminWebsiteName string = '${websiteName}-admin'
 
-@description('Optional. Name of Application Insights')
+@description('Optional. Name of Application Insights.')
 param applicationInsightsName string = 'appinsights-${resourceToken}'
 
-@description('Optional. Name of the Workbook')
+@description('Optional. Name of the Workbook.')
 param workbookDisplayName string = 'workbook-${resourceToken}'
 
-@description('Optional. Use semantic search')
+@description('Optional. Use semantic search.')
 param azureSearchUseSemanticSearch bool = false
 
-@description('Optional. Semantic search config')
+@description('Optional. Semantic search config.')
 param azureSearchSemanticSearchConfig string = 'default'
 
-@description('Optional. Is the index prechunked')
+@description('Optional. Is the index prechunked.')
 param azureSearchIndexIsPrechunked string = 'false'
 
-@description('Optional. Top K results')
+@description('Optional. Top K results.')
 param azureSearchTopK string = '5'
 
-@description('Optional. Enable in domain')
+@description('Optional. Enable in domain.')
 param azureSearchEnableInDomain string = 'false'
 
-@description('Optional. Content columns')
+@description('Optional. Content columns.')
 param azureSearchContentColumns string = 'content'
 
-@description('Optional. Vector columns')
+@description('Optional. Vector columns.')
 param azureSearchVectorColumns string = 'content_vector'
 
-@description('Optional. Filename column')
+@description('Optional. Filename column.')
 param azureSearchFilenameColumn string = 'filename'
 
-@description('Optional. Search filter')
+@description('Optional. Search filter.')
 param azureSearchFilter string = ''
 
-@description('Optional. Title column')
+@description('Optional. Title column.')
 param azureSearchTitleColumn string = 'title'
 
-@description('Optional. Url column')
+@description('Optional. Url column.')
 param azureSearchUrlColumn string = 'url'
 
-@description('Optional. Use Azure Search Integrated Vectorization')
+@description('Optional. Use Azure Search Integrated Vectorization.')
 param azureSearchUseIntegratedVectorization bool = false
 
-@description('Optional. Name of Azure OpenAI Resource')
+@description('Optional. Name of Azure OpenAI Resource.')
 param azureOpenAIResourceName string = 'openai-${resourceToken}'
 
-@description('Optional. Name of Azure OpenAI Resource SKU')
+@description('Optional. Name of Azure OpenAI Resource SKU.')
 param azureOpenAISkuName string = 'S0'
 
-@description('Optional. Azure OpenAI Model Deployment Name')
+@description('Optional. Azure OpenAI Model Deployment Name.')
 param azureOpenAIModel string = 'gpt-35-turbo-16k'
 
-@description('Optional. Azure OpenAI Model Name')
+@description('Optional. Azure OpenAI Model Name.')
 param azureOpenAIModelName string = 'gpt-35-turbo-16k'
 
-@description('Optional. Azure OpenAI Model Version')
+@description('Optional. Azure OpenAI Model Version.')
 param azureOpenAIModelVersion string = '0613'
 
-@description('Optional. Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .')
 param azureOpenAIModelCapacity int = 30
 
-@description('Optional. Enables the use of a vision LLM and Computer Vision for embedding images')
+@description('Optional. Enables the use of a vision LLM and Computer Vision for embedding images.')
 param useAdvancedImageProcessing bool = false
 
-@description('Optional. The maximum number of images to pass to the vision model in a single request')
+@description('Optional. The maximum number of images to pass to the vision model in a single request.')
 param advancedImageProcessingMaxImages int = 1
 
-@description('Optional. Azure OpenAI Vision Model Deployment Name')
+@description('Optional. Azure OpenAI Vision Model Deployment Name.')
 param azureOpenAIVisionModel string = 'gpt-4'
 
-@description('Optional. Azure OpenAI Vision Model Name')
+@description('Optional. Azure OpenAI Vision Model Name.')
 param azureOpenAIVisionModelName string = 'gpt-4'
 
-@description('Optional. Azure OpenAI Vision Model Version')
+@description('Optional. Azure OpenAI Vision Model Version.')
 param azureOpenAIVisionModelVersion string = 'vision-preview'
 
-@description('Optional. Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .')
 param azureOpenAIVisionModelCapacity int = 10
 
-@description('Optional. Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain')
+@description('Optional. Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain.')
 @allowed([
   'openai_function'
   'semantic_kernel'
@@ -143,50 +147,50 @@ param orchestrationStrategy string = 'openai_function'
 ])
 param conversationFlow string = 'custom'
 
-@description('Optional. Azure OpenAI Temperature')
+@description('Optional. Azure OpenAI Temperature.')
 param azureOpenAITemperature string = '0'
 
-@description('Optional. Azure OpenAI Top P')
+@description('Optional. Azure OpenAI Top P.')
 param azureOpenAITopP string = '1'
 
-@description('Optional. Azure OpenAI Max Tokens')
+@description('Optional. Azure OpenAI Max Tokens.')
 param azureOpenAIMaxTokens string = '1000'
 
-@description('Optional. Azure OpenAI Stop Sequence')
+@description('Optional. Azure OpenAI Stop Sequence.')
 param azureOpenAIStopSequence string = ''
 
-@description('Optional. Azure OpenAI System Message')
+@description('Optional. Azure OpenAI System Message.')
 param azureOpenAISystemMessage string = 'You are an AI assistant that helps people find information.'
 
-@description('Optional. Azure OpenAI Api Version')
+@description('Optional. Azure OpenAI Api Version.')
 param azureOpenAIApiVersion string = '2024-02-01'
 
-@description('Optional. Whether or not to stream responses from Azure OpenAI')
+@description('Optional. Whether or not to stream responses from Azure OpenAI.')
 param azureOpenAIStream string = 'true'
 
-@description('Optional. Azure OpenAI Embedding Model Deployment Name')
+@description('Optional. Azure OpenAI Embedding Model Deployment Name.')
 param azureOpenAIEmbeddingModel string = 'text-embedding-ada-002'
 
-@description('Optional. Azure OpenAI Embedding Model Name')
+@description('Optional. Azure OpenAI Embedding Model Name.')
 param azureOpenAIEmbeddingModelName string = 'text-embedding-ada-002'
 
-@description('Optional. Azure OpenAI Embedding Model Version')
+@description('Optional. Azure OpenAI Embedding Model Version.')
 param azureOpenAIEmbeddingModelVersion string = '2'
 
-@description('Optional. Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
+@description('Optional. Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .')
 param azureOpenAIEmbeddingModelCapacity int = 30
 
-@description('Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true)')
+@description('Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true).')
 param computerVisionName string = 'computer-vision-${resourceToken}'
 
-@description('Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)')
+@description('Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true).')
 @allowed([
   'F0'
   'S1'
 ])
 param computerVisionSkuName string = 'S1'
 
-@description('Optional. Location of Computer Vision Resource (if useAdvancedImageProcessing=true)')
+@description('Optional. Location of Computer Vision Resource (if useAdvancedImageProcessing=true).')
 @allowed([
   // List taken from https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/how-to/image-retrieval?tabs=python#prerequisites
   'eastus'
@@ -200,16 +204,16 @@ param computerVisionSkuName string = 'S1'
 ])
 param computerVisionLocation string = ''
 
-@description('Optional. Azure Computer Vision Vectorize Image API Version')
+@description('Optional. Azure Computer Vision Vectorize Image API Version.')
 param computerVisionVectorizeImageApiVersion string = '2024-02-01'
 
-@description('Optional. Azure Computer Vision Vectorize Image Model Version')
+@description('Optional. Azure Computer Vision Vectorize Image Model Version.')
 param computerVisionVectorizeImageModelVersion string = '2023-04-15'
 
-@description('Optional. Azure AI Search Resource')
+@description('Optional. Azure AI Search Resource.')
 param azureAISearchName string = 'search-${resourceToken}'
 
-@description('Optional. The SKU of the search service you want to create. E.g. free or standard')
+@description('Optional. The SKU of the search service you want to create. E.g. free or standard.')
 @allowed([
   'free'
   'basic'
@@ -219,37 +223,37 @@ param azureAISearchName string = 'search-${resourceToken}'
 ])
 param azureSearchSku string = 'standard'
 
-@description('Optional. Azure AI Search Index')
+@description('Optional. Azure AI Search Index.')
 param azureSearchIndex string = 'index-${resourceToken}'
 
-@description('Optional. Azure AI Search Indexer')
+@description('Optional. Azure AI Search Indexer.')
 param azureSearchIndexer string = 'indexer-${resourceToken}'
 
-@description('Optional. Azure AI Search Datasource')
+@description('Optional. Azure AI Search Datasource.')
 param azureSearchDatasource string = 'datasource-${resourceToken}'
 
-@description('Optional. Azure AI Search Conversation Log Index')
+@description('Optional. Azure AI Search Conversation Log Index.')
 param azureSearchConversationLogIndex string = 'conversations'
 
-@description('Optional. Name of Storage Account')
+@description('Optional. Name of Storage Account.')
 param storageAccountName string = 'str${resourceToken}'
 
-@description('Optional. Name of Function App for Batch document processing')
+@description('Optional. Name of Function App for Batch document processing.')
 param functionName string = 'backend-${resourceToken}'
 
-@description('Optional. Azure Form Recognizer Name')
+@description('Optional. Azure Form Recognizer Name.')
 param formRecognizerName string = 'formrecog-${resourceToken}'
 
-@description('Optional. Azure Content Safety Name')
+@description('Optional. Azure Content Safety Name.')
 param contentSafetyName string = 'contentsafety-${resourceToken}'
 
-@description('Optional. Azure Speech Service Name')
+@description('Optional. Azure Speech Service Name.')
 param speechServiceName string = 'speech-${resourceToken}'
 
-@description('Optional. Log Analytics Name')
+@description('Optional. Log Analytics Name.')
 param logAnalyticsName string = 'la-${resourceToken}'
 
-@description('Optional. Guid')
+@description('Optional. Guid.')
 param newGuidString string = newGuid()
 
 @description('Optional. Search Tag.')
@@ -258,7 +262,7 @@ param searchTag string = 'chatwithyourdata-sa'
 @description('Optional. Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false.')
 param useKeyVault bool = authType == 'rbac' ? false : true
 
-@description('Optional. Id of the user or app to assign application roles')
+@description('Optional. Id of the user or app to assign application roles.')
 param principalId string = ''
 
 @description('Optional. Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles.')
@@ -282,14 +286,17 @@ param hostingModel string = 'container'
   'INFO'
   'DEBUG'
 ])
-@description('Optional.')
+@description('Optional. Log level web service.')
 param logLevel string = 'INFO'
 
-@description('Optional. List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages')
+@description('Optional. List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages .')
 param recognizedLanguages string = 'en-US,fr-FR,de-DE,it-IT'
 
-@description('Optional. Azure Machine Learning Name')
+@description('Optional. Azure Machine Learning Name.')
 param azureMachineLearningName string = 'aml-${resourceToken}'
+
+@description('Optional. Enable/Disable usage telemetry for module.')
+param enableTelemetry bool = true
 
 var blobContainerName = 'documents'
 var queueName = 'doc-processing'
@@ -298,6 +305,26 @@ var eventGridSystemTopicName = 'doc-processing'
 var tags = { 'azd-env-name': environmentName }
 var rgName = 'rg-${environmentName}'
 var keyVaultName = 'kv-${resourceToken}'
+
+//resources
+#disable-next-line no-deployments-resources
+resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableTelemetry) {
+  name: '46d3xbcp.ptn.ai-chatwithyourdata.${replace('-..--..-', '.', '-')}.${substring(uniqueString(deployment().name, location), 0, 4)}'
+  properties: {
+    mode: 'Incremental'
+    template: {
+      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
+      contentVersion: '1.0.0.0'
+      resources: []
+      outputs: {
+        telemetry: {
+          type: 'String'
+          value: 'For more information, see https://aka.ms/avm/TelemetryInfo'
+        }
+      }
+    }
+  }
+}
 
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -1093,73 +1120,198 @@ module machineLearning 'app/machinelearning.bicep' = if (orchestrationStrategy =
   }
 }
 
-output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
-output AZURE_APP_SERVICE_HOSTING_MODEL string = hostingModel
-output AZURE_BLOB_CONTAINER_NAME string = blobContainerName
-output AZURE_BLOB_ACCOUNT_NAME string = storageAccountName
-output AZURE_BLOB_ACCOUNT_KEY string = useKeyVault ? storekeys.outputs.STORAGE_ACCOUNT_KEY_NAME : ''
-output AZURE_COMPUTER_VISION_ENDPOINT string = useAdvancedImageProcessing ? computerVision.outputs.endpoint : ''
-output AZURE_COMPUTER_VISION_LOCATION string = useAdvancedImageProcessing ? computerVision.outputs.location : ''
-output AZURE_COMPUTER_VISION_KEY string = useKeyVault ? storekeys.outputs.COMPUTER_VISION_KEY_NAME : ''
-output AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_API_VERSION string = computerVisionVectorizeImageApiVersion
-output AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_MODEL_VERSION string = computerVisionVectorizeImageModelVersion
-output AZURE_CONTENT_SAFETY_ENDPOINT string = contentsafety.outputs.endpoint
-output AZURE_CONTENT_SAFETY_KEY string = useKeyVault ? storekeys.outputs.CONTENT_SAFETY_KEY_NAME : ''
-output AZURE_FORM_RECOGNIZER_ENDPOINT string = formrecognizer.outputs.endpoint
-output AZURE_FORM_RECOGNIZER_KEY string = useKeyVault ? storekeys.outputs.FORM_RECOGNIZER_KEY_NAME : ''
-output AZURE_KEY_VAULT_ENDPOINT string = useKeyVault ? keyvault.outputs.endpoint : ''
-output AZURE_KEY_VAULT_NAME string = useKeyVault || authType == 'rbac' ? keyvault.outputs.name : ''
-output AZURE_LOCATION string = location
-output AZURE_OPENAI_MODEL_NAME string = azureOpenAIModelName
-output AZURE_OPENAI_MODEL_VERSION string = azureOpenAIModelVersion
-output AZURE_OPENAI_STREAM string = azureOpenAIStream
-output AZURE_OPENAI_SYSTEM_MESSAGE string = azureOpenAISystemMessage
-output AZURE_OPENAI_STOP_SEQUENCE string = azureOpenAIStopSequence
-output AZURE_OPENAI_MAX_TOKENS string = azureOpenAIMaxTokens
-output AZURE_OPENAI_TOP_P string = azureOpenAITopP
-output AZURE_OPENAI_TEMPERATURE string = azureOpenAITemperature
-output AZURE_OPENAI_API_VERSION string = azureOpenAIApiVersion
-output AZURE_OPENAI_RESOURCE string = azureOpenAIResourceName
-output AZURE_OPENAI_EMBEDDING_MODEL_NAME string = azureOpenAIEmbeddingModelName
-output AZURE_OPENAI_EMBEDDING_MODEL_VERSION string = azureOpenAIEmbeddingModelVersion
-output AZURE_OPENAI_API_KEY string = useKeyVault ? storekeys.outputs.OPENAI_KEY_NAME : ''
-output AZURE_RESOURCE_GROUP string = rgName
-output AZURE_SEARCH_KEY string = useKeyVault ? storekeys.outputs.SEARCH_KEY_NAME : ''
-output AZURE_SEARCH_SERVICE string = search.outputs.endpoint
-output AZURE_SEARCH_USE_SEMANTIC_SEARCH bool = azureSearchUseSemanticSearch
-output AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG string = azureSearchSemanticSearchConfig
-output AZURE_SEARCH_INDEX_IS_PRECHUNKED string = azureSearchIndexIsPrechunked
-output AZURE_SEARCH_TOP_K string = azureSearchTopK
-output AZURE_SEARCH_ENABLE_IN_DOMAIN string = azureSearchEnableInDomain
-output AZURE_SEARCH_CONTENT_COLUMNS string = azureSearchContentColumns
-output AZURE_SEARCH_CONTENT_VECTOR_COLUMNS string = azureSearchVectorColumns
-output AZURE_SEARCH_FILENAME_COLUMN string = azureSearchFilenameColumn
-output AZURE_SEARCH_FILTER string = azureSearchFilter
-output AZURE_SEARCH_TITLE_COLUMN string = azureSearchTitleColumn
-output AZURE_SEARCH_URL_COLUMN string = azureSearchUrlColumn
-output AZURE_SEARCH_USE_INTEGRATED_VECTORIZATION bool = azureSearchUseIntegratedVectorization
-output AZURE_SEARCH_INDEX string = azureSearchIndex
-output AZURE_SEARCH_INDEXER_NAME string = azureSearchIndexer
-output AZURE_SEARCH_DATASOURCE_NAME string = azureSearchDatasource
-output AZURE_SPEECH_SERVICE_NAME string = speechServiceName
-output AZURE_SPEECH_SERVICE_REGION string = location
-output AZURE_SPEECH_SERVICE_KEY string = useKeyVault ? storekeys.outputs.SPEECH_KEY_NAME : ''
-output AZURE_SPEECH_RECOGNIZER_LANGUAGES string = recognizedLanguages
-output AZURE_TENANT_ID string = tenant().tenantId
-output DOCUMENT_PROCESSING_QUEUE_NAME string = queueName
-output ORCHESTRATION_STRATEGY string = orchestrationStrategy
-output USE_KEY_VAULT bool = useKeyVault
-output FRONTEND_WEBSITE_NAME string = hostingModel == 'code'
+@description('The connection string of the application insights component.')
+output applicationInsightsConnectionString string = monitoring.outputs.applicationInsightsConnectionString
+
+@description('The app service hosting model.')
+output azureAppServiceHostingModel string = hostingModel
+
+@description('The Blob container name.')
+output azureBlobContainerName string = blobContainerName
+
+@description('The Storage account name.')
+output azureBlobAccountName string = storageAccountName
+
+@description('The storage account key.')
+output azureBlobAccountKey string = useKeyVault ? storekeys.outputs.STORAGE_ACCOUNT_KEY_NAME : ''
+
+@description('The computer vision endpoint.')
+output azureComputerVisionEndpoint string = useAdvancedImageProcessing ? computerVision.outputs.endpoint : ''
+
+@description('The omputer vision region.')
+output azureComputerVisionLocation string = useAdvancedImageProcessing ? computerVision.outputs.location : ''
+
+@description('The computer Vision Key.')
+output azureComputerVisionKey string = useKeyVault ? storekeys.outputs.COMPUTER_VISION_KEY_NAME : ''
+
+@description('The computer vision image vectorization API version.')
+output azureComputerVisionVectorizeImageApiVersion string = computerVisionVectorizeImageApiVersion
+
+@description('The computer vision image model version.')
+output azureComputerVisionVectorizeImageModelVersion string = computerVisionVectorizeImageModelVersion
+
+@description('The content safety endpoint.')
+output azureContentSafetyEndpoint string = contentsafety.outputs.endpoint
+
+@description('The content safety key name.')
+output azureContentSafetyKey string = useKeyVault ? storekeys.outputs.CONTENT_SAFETY_KEY_NAME : ''
+
+@description('The form recognizer endpoint.')
+output azureFormRecognizerEndpoint string = formrecognizer.outputs.endpoint
+
+@description('The form recognizer key.')
+output azureFormRecognizerKey string = useKeyVault ? storekeys.outputs.FORM_RECOGNIZER_KEY_NAME : ''
+
+@description('The key vault endpoint.')
+output azureKeyVaultEndpoint string = useKeyVault ? keyvault.outputs.endpoint : ''
+
+@description('The key vault name.')
+output azureKeyVaultName string = useKeyVault || authType == 'rbac' ? keyvault.outputs.name : ''
+
+@description('The deployment region.')
+output azureLocation string = location
+
+@description('The Open AI model name.')
+output azureOpenAIModelName string = azureOpenAIModelName
+
+@description('The Open AI model version.')
+output azureOpenAIModelVersion string = azureOpenAIModelVersion
+
+@description('The Open AI Stream name.')
+output azureOpenAIStream string = azureOpenAIStream
+
+@description('The Open AI system message.')
+output azureOpenAISystemMessage string = azureOpenAISystemMessage
+
+@description('The Open AI stop sequence.')
+output azureOpenAIStopSequence string = azureOpenAIStopSequence
+
+@description('The maximum number of tokens allowed for the Open AI model.')
+output azureOpenAIMaxTokens string = azureOpenAIMaxTokens
+
+@description('The Open AI top P setting.')
+output azureOpenAITopP string = azureOpenAITopP
+
+@description('The Open AI Stream name.')
+output azureOpenAITemperature string = azureOpenAITemperature
+
+@description('The Open AI API version.')
+output azureOpenAIApiVersion string = azureOpenAIApiVersion
+
+@description('The Open AI resource name.')
+output azureOpenAIResource string = azureOpenAIResourceName
+
+@description('The Open AI Embedding Model name.')
+output azureOpenAIEmbeddingModelName string = azureOpenAIEmbeddingModelName
+
+@description('The Open AI Embedding Model version.')
+output azureOpenAIEmbeddingModelVersion string = azureOpenAIEmbeddingModelVersion
+
+@description('The Open AI API key.')
+output azureOpenAIAPIKey string = useKeyVault ? storekeys.outputs.OPENAI_KEY_NAME : ''
+
+@description('The resource group name for the deployment.')
+output azureResourceGroup string = rgName
+
+@description('The search key name.')
+output azureSearchKey string = useKeyVault ? storekeys.outputs.SEARCH_KEY_NAME : ''
+
+@description('The name of your Azure AI Search resource.')
+output azureSearchService string = search.outputs.endpoint
+
+@description('The value that turns the semantic search on or off.')
+output azureSearchUseSemanticSearch bool = azureSearchUseSemanticSearch
+
+@description('The name of the semantic search configuration to use if using semantic search.')
+output azureSearchSemanticSearchConfig string = azureSearchSemanticSearchConfig
+
+@description('Value that determines if index is prechunked.')
+output azureSearchIndexIsPrechunked string = azureSearchIndexIsPrechunked
+
+@description('The number of documents that should be returned on a search.')
+output azureSearchTopK string = azureSearchTopK
+
+@description('Limits responses to only queries relating to your data.')
+output azureSearchEnableInDomain string = azureSearchEnableInDomain
+
+@description('List of fields in your search index that contains the text content of your documents to use when formulating a bot response. Represent these as a string joined with.')
+output azureSearchContentColumns string = azureSearchContentColumns
+
+@description('List of fields in your search index that contain vector embeddings of your documents to use when formulating a bot response. Represent these as a string joined with.')
+output azureSearchVectorColumns string = azureSearchVectorColumns
+
+@description('Field from your search index that gives a unique identifier of the source of your data to display in the UI.')
+output azureSearchFilenameColumn string = azureSearchFilenameColumn
+
+@description('The name of your Azure search filter.')
+output azureSearchFilter string = azureSearchFilter
+
+@description('The name of the search title column.')
+output azureSearchTitleColumn string = azureSearchTitleColumn
+
+@description('The name of the URL column.')
+output azureSearchUrlColumn string = azureSearchUrlColumn
+
+@description('Boolean to use integrated vectorization.')
+output azureSearchUseIntegratedVectorization bool = azureSearchUseIntegratedVectorization
+
+@description('The name of your Azure AI Search Index.')
+output azureSearchIndex string = azureSearchIndex
+
+@description('The name of your Azure AI Search Indexer.')
+output azureSearchIndexerName string = azureSearchIndexer
+
+@description('The name of your Azure AI data source.')
+output azureSearchDatasourceName string = azureSearchDatasource
+
+@description('The name of your Azure Speech Service.')
+output azureSpeechServiceName string = speechServiceName
+
+@description('The loccation of the Speech Service.')
+output azureSpeechServiceRegion string = location
+
+@description('The nspeech service key.')
+output azureSpeechServiceKey string = useKeyVault ? storekeys.outputs.SPEECH_KEY_NAME : ''
+
+@description('Languages the speech service will recognize.')
+output azureSpeechRecognizerLanguages string = recognizedLanguages
+
+@description('The tenant ID.')
+output azureTenantId string = tenant().tenantId
+
+@description('The name of the document processing queue.')
+output documentProcessingQueueName string = queueName
+
+@description('The strategy for Azure service orchestration.')
+output orchestrationStrategy string = orchestrationStrategy
+
+@description('Boolean for using the keyvault.')
+output useKeyVault bool = useKeyVault
+
+@description('The name of your frontend website.')
+output frontendWebsiteName string = hostingModel == 'code'
   ? web.outputs.FRONTEND_API_URI
   : web_docker.outputs.FRONTEND_API_URI
-output ADMIN_WEBSITE_NAME string = hostingModel == 'code'
+
+@description('The name of your admin website.')
+output adminWebsiteName string = hostingModel == 'code'
   ? adminweb.outputs.WEBSITE_ADMIN_URI
   : adminweb_docker.outputs.WEBSITE_ADMIN_URI
-output LOGLEVEL string = logLevel
-output CONVERSATION_FLOW string = conversationFlow
-output USE_ADVANCED_IMAGE_PROCESSING bool = useAdvancedImageProcessing
-output ADVANCED_IMAGE_PROCESSING_MAX_IMAGES int = advancedImageProcessingMaxImages
-output AZURE_ML_WORKSPACE_NAME string = orchestrationStrategy == 'prompt_flow'
-  ? machineLearning.outputs.workspaceName
-  : ''
-output RESOURCE_TOKEN string = resourceToken
+
+@description('The log level for application insights.')
+output logLevel string = logLevel
+
+@description('The name of the conversation flow.')
+output conversationFlow string = conversationFlow
+
+@description('Boolean that determines if advaced image processing is used.')
+output useAdvancedImageProcessing bool = useAdvancedImageProcessing
+
+@description('The maximum number of images to be processed.')
+output advancedImageProcessingMaxImages int = advancedImageProcessingMaxImages
+
+@description('The name of your Azure ML workspace.')
+output azureMLWorkspaceName string = orchestrationStrategy == 'prompt_flow' ? machineLearning.outputs.workspaceName : ''
+
+@description('The name of your resource token.')
+output resourceToken string = resourceToken

@@ -1,5 +1,7 @@
-#  `[Ai/ChatWithYourData]`
+# Chat with Your Data `[Ai/ChatWithYourData]`
 
+This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
+which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.
 
 ## Navigation
 
@@ -50,10 +52,13 @@ The following section provides usage examples for the module, which were used to
 
 >**Note**: To reference the module, please use the following syntax `br/public:avm/ptn/ai/chat-with-your-data:<version>`.
 
-- [Defaults](#example-1-defaults)
-- [Waf-Aligned](#example-2-waf-aligned)
+- [Using only defaults](#example-1-using-only-defaults)
+- [WAF-aligned](#example-2-waf-aligned)
 
-### Example 1: _Defaults_
+### Example 1: _Using only defaults_
+
+This instance deploys the module with the minimum set of required parameters.
+
 
 <details>
 
@@ -64,7 +69,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
-    environmentName: 'acwyddef001'
+    environmentName: 'acwydmin001'
     location: '<location>'
   }
 }
@@ -84,7 +89,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "parameters": {
     // Required parameters
     "environmentName": {
-      "value": "acwyddef001"
+      "value": "acwydmin001"
     },
     "location": {
       "value": "<location>"
@@ -96,7 +101,10 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 </details>
 <p>
 
-### Example 2: _Waf-Aligned_
+### Example 2: _WAF-aligned_
+
+This instance deploys the module in alignment with the best-practices of the Azure Well-Architected Framework.
+
 
 <details>
 
@@ -153,75 +161,78 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`adminWebsiteName`](#parameter-adminwebsitename) | string | Name of Admin Web App |
-| [`advancedImageProcessingMaxImages`](#parameter-advancedimageprocessingmaximages) | int | The maximum number of images to pass to the vision model in a single request |
-| [`applicationInsightsName`](#parameter-applicationinsightsname) | string | Name of Application Insights |
+| [`adminWebsiteName`](#parameter-adminwebsitename) | string | Name of Admin Web App. |
+| [`advancedImageProcessingMaxImages`](#parameter-advancedimageprocessingmaximages) | int | The maximum number of images to pass to the vision model in a single request. |
+| [`applicationInsightsName`](#parameter-applicationinsightsname) | string | Name of Application Insights. |
 | [`authType`](#parameter-authtype) | string | Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles. |
-| [`azureAISearchName`](#parameter-azureaisearchname) | string | Azure AI Search Resource |
-| [`azureMachineLearningName`](#parameter-azuremachinelearningname) | string | Azure Machine Learning Name |
-| [`azureOpenAIApiVersion`](#parameter-azureopenaiapiversion) | string | Azure OpenAI Api Version |
-| [`azureOpenAIEmbeddingModel`](#parameter-azureopenaiembeddingmodel) | string | Azure OpenAI Embedding Model Deployment Name |
-| [`azureOpenAIEmbeddingModelCapacity`](#parameter-azureopenaiembeddingmodelcapacity) | int | Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota |
-| [`azureOpenAIEmbeddingModelName`](#parameter-azureopenaiembeddingmodelname) | string | Azure OpenAI Embedding Model Name |
-| [`azureOpenAIEmbeddingModelVersion`](#parameter-azureopenaiembeddingmodelversion) | string | Azure OpenAI Embedding Model Version |
-| [`azureOpenAIMaxTokens`](#parameter-azureopenaimaxtokens) | string | Azure OpenAI Max Tokens |
-| [`azureOpenAIModel`](#parameter-azureopenaimodel) | string | Azure OpenAI Model Deployment Name |
-| [`azureOpenAIModelCapacity`](#parameter-azureopenaimodelcapacity) | int | Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota |
-| [`azureOpenAIModelName`](#parameter-azureopenaimodelname) | string | Azure OpenAI Model Name |
-| [`azureOpenAIModelVersion`](#parameter-azureopenaimodelversion) | string | Azure OpenAI Model Version |
-| [`azureOpenAIResourceName`](#parameter-azureopenairesourcename) | string | Name of Azure OpenAI Resource |
-| [`azureOpenAISkuName`](#parameter-azureopenaiskuname) | string | Name of Azure OpenAI Resource SKU |
-| [`azureOpenAIStopSequence`](#parameter-azureopenaistopsequence) | string | Azure OpenAI Stop Sequence |
-| [`azureOpenAIStream`](#parameter-azureopenaistream) | string | Whether or not to stream responses from Azure OpenAI |
-| [`azureOpenAISystemMessage`](#parameter-azureopenaisystemmessage) | string | Azure OpenAI System Message |
-| [`azureOpenAITemperature`](#parameter-azureopenaitemperature) | string | Azure OpenAI Temperature |
-| [`azureOpenAITopP`](#parameter-azureopenaitopp) | string | Azure OpenAI Top P |
-| [`azureOpenAIVisionModel`](#parameter-azureopenaivisionmodel) | string | Azure OpenAI Vision Model Deployment Name |
-| [`azureOpenAIVisionModelCapacity`](#parameter-azureopenaivisionmodelcapacity) | int | Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota |
-| [`azureOpenAIVisionModelName`](#parameter-azureopenaivisionmodelname) | string | Azure OpenAI Vision Model Name |
-| [`azureOpenAIVisionModelVersion`](#parameter-azureopenaivisionmodelversion) | string | Azure OpenAI Vision Model Version |
-| [`azureSearchContentColumns`](#parameter-azuresearchcontentcolumns) | string | Content columns |
-| [`azureSearchConversationLogIndex`](#parameter-azuresearchconversationlogindex) | string | Azure AI Search Conversation Log Index |
-| [`azureSearchDatasource`](#parameter-azuresearchdatasource) | string | Azure AI Search Datasource |
-| [`azureSearchEnableInDomain`](#parameter-azuresearchenableindomain) | string | Enable in domain |
-| [`azureSearchFilenameColumn`](#parameter-azuresearchfilenamecolumn) | string | Filename column |
-| [`azureSearchFilter`](#parameter-azuresearchfilter) | string | Search filter |
-| [`azureSearchIndex`](#parameter-azuresearchindex) | string | Azure AI Search Index |
-| [`azureSearchIndexer`](#parameter-azuresearchindexer) | string | Azure AI Search Indexer |
-| [`azureSearchIndexIsPrechunked`](#parameter-azuresearchindexisprechunked) | string | Is the index prechunked |
-| [`azureSearchSemanticSearchConfig`](#parameter-azuresearchsemanticsearchconfig) | string | Semantic search config |
-| [`azureSearchSku`](#parameter-azuresearchsku) | string | The SKU of the search service you want to create. E.g. free or standard |
-| [`azureSearchTitleColumn`](#parameter-azuresearchtitlecolumn) | string | Title column |
-| [`azureSearchTopK`](#parameter-azuresearchtopk) | string | Top K results |
-| [`azureSearchUrlColumn`](#parameter-azuresearchurlcolumn) | string | Url column |
-| [`azureSearchUseIntegratedVectorization`](#parameter-azuresearchuseintegratedvectorization) | bool | Use Azure Search Integrated Vectorization |
-| [`azureSearchUseSemanticSearch`](#parameter-azuresearchusesemanticsearch) | bool | Use semantic search |
-| [`azureSearchVectorColumns`](#parameter-azuresearchvectorcolumns) | string | Vector columns |
-| [`computerVisionLocation`](#parameter-computervisionlocation) | string | Location of Computer Vision Resource (if useAdvancedImageProcessing=true) |
-| [`computerVisionName`](#parameter-computervisionname) | string | Name of Computer Vision Resource (if useAdvancedImageProcessing=true) |
-| [`computerVisionSkuName`](#parameter-computervisionskuname) | string | Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true) |
-| [`computerVisionVectorizeImageApiVersion`](#parameter-computervisionvectorizeimageapiversion) | string | Azure Computer Vision Vectorize Image API Version |
-| [`computerVisionVectorizeImageModelVersion`](#parameter-computervisionvectorizeimagemodelversion) | string | Azure Computer Vision Vectorize Image Model Version |
-| [`contentSafetyName`](#parameter-contentsafetyname) | string | Azure Content Safety Name |
+| [`azureAISearchName`](#parameter-azureaisearchname) | string | Azure AI Search Resource. |
+| [`azureMachineLearningName`](#parameter-azuremachinelearningname) | string | Azure Machine Learning Name. |
+| [`azureOpenAIApiVersion`](#parameter-azureopenaiapiversion) | string | Azure OpenAI Api Version. |
+| [`azureOpenAIEmbeddingModel`](#parameter-azureopenaiembeddingmodel) | string | Azure OpenAI Embedding Model Deployment Name. |
+| [`azureOpenAIEmbeddingModelCapacity`](#parameter-azureopenaiembeddingmodelcapacity) | int | Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
+| [`azureOpenAIEmbeddingModelName`](#parameter-azureopenaiembeddingmodelname) | string | Azure OpenAI Embedding Model Name. |
+| [`azureOpenAIEmbeddingModelVersion`](#parameter-azureopenaiembeddingmodelversion) | string | Azure OpenAI Embedding Model Version. |
+| [`azureOpenAIMaxTokens`](#parameter-azureopenaimaxtokens) | string | Azure OpenAI Max Tokens. |
+| [`azureOpenAIModel`](#parameter-azureopenaimodel) | string | Azure OpenAI Model Deployment Name. |
+| [`azureOpenAIModelCapacity`](#parameter-azureopenaimodelcapacity) | int | Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
+| [`azureOpenAIModelName`](#parameter-azureopenaimodelname) | string | Azure OpenAI Model Name. |
+| [`azureOpenAIModelVersion`](#parameter-azureopenaimodelversion) | string | Azure OpenAI Model Version. |
+| [`azureOpenAIResourceName`](#parameter-azureopenairesourcename) | string | Name of Azure OpenAI Resource. |
+| [`azureOpenAISkuName`](#parameter-azureopenaiskuname) | string | Name of Azure OpenAI Resource SKU. |
+| [`azureOpenAIStopSequence`](#parameter-azureopenaistopsequence) | string | Azure OpenAI Stop Sequence. |
+| [`azureOpenAIStream`](#parameter-azureopenaistream) | string | Whether or not to stream responses from Azure OpenAI. |
+| [`azureOpenAISystemMessage`](#parameter-azureopenaisystemmessage) | string | Azure OpenAI System Message. |
+| [`azureOpenAITemperature`](#parameter-azureopenaitemperature) | string | Azure OpenAI Temperature. |
+| [`azureOpenAITopP`](#parameter-azureopenaitopp) | string | Azure OpenAI Top P. |
+| [`azureOpenAIVisionModel`](#parameter-azureopenaivisionmodel) | string | Azure OpenAI Vision Model Deployment Name. |
+| [`azureOpenAIVisionModelCapacity`](#parameter-azureopenaivisionmodelcapacity) | int | Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
+| [`azureOpenAIVisionModelName`](#parameter-azureopenaivisionmodelname) | string | Azure OpenAI Vision Model Name. |
+| [`azureOpenAIVisionModelVersion`](#parameter-azureopenaivisionmodelversion) | string | Azure OpenAI Vision Model Version. |
+| [`azureSearchContentColumns`](#parameter-azuresearchcontentcolumns) | string | Content columns. |
+| [`azureSearchConversationLogIndex`](#parameter-azuresearchconversationlogindex) | string | Azure AI Search Conversation Log Index. |
+| [`azureSearchDatasource`](#parameter-azuresearchdatasource) | string | Azure AI Search Datasource. |
+| [`azureSearchEnableInDomain`](#parameter-azuresearchenableindomain) | string | Enable in domain. |
+| [`azureSearchFilenameColumn`](#parameter-azuresearchfilenamecolumn) | string | Filename column. |
+| [`azureSearchFilter`](#parameter-azuresearchfilter) | string | Search filter. |
+| [`azureSearchIndex`](#parameter-azuresearchindex) | string | Azure AI Search Index. |
+| [`azureSearchIndexer`](#parameter-azuresearchindexer) | string | Azure AI Search Indexer. |
+| [`azureSearchIndexIsPrechunked`](#parameter-azuresearchindexisprechunked) | string | Is the index prechunked. |
+| [`azureSearchSemanticSearchConfig`](#parameter-azuresearchsemanticsearchconfig) | string | Semantic search config. |
+| [`azureSearchSku`](#parameter-azuresearchsku) | string | The SKU of the search service you want to create. E.g. free or standard. |
+| [`azureSearchTitleColumn`](#parameter-azuresearchtitlecolumn) | string | Title column. |
+| [`azureSearchTopK`](#parameter-azuresearchtopk) | string | Top K results. |
+| [`azureSearchUrlColumn`](#parameter-azuresearchurlcolumn) | string | Url column. |
+| [`azureSearchUseIntegratedVectorization`](#parameter-azuresearchuseintegratedvectorization) | bool | Use Azure Search Integrated Vectorization. |
+| [`azureSearchUseSemanticSearch`](#parameter-azuresearchusesemanticsearch) | bool | Use semantic search. |
+| [`azureSearchVectorColumns`](#parameter-azuresearchvectorcolumns) | string | Vector columns. |
+| [`computerVisionLocation`](#parameter-computervisionlocation) | string | Location of Computer Vision Resource (if useAdvancedImageProcessing=true). |
+| [`computerVisionName`](#parameter-computervisionname) | string | Name of Computer Vision Resource (if useAdvancedImageProcessing=true). |
+| [`computerVisionSkuName`](#parameter-computervisionskuname) | string | Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true). |
+| [`computerVisionVectorizeImageApiVersion`](#parameter-computervisionvectorizeimageapiversion) | string | Azure Computer Vision Vectorize Image API Version. |
+| [`computerVisionVectorizeImageModelVersion`](#parameter-computervisionvectorizeimagemodelversion) | string | Azure Computer Vision Vectorize Image Model Version. |
+| [`contentSafetyName`](#parameter-contentsafetyname) | string | Azure Content Safety Name. |
 | [`conversationFlow`](#parameter-conversationflow) | string | Chat conversation type: custom or byod. |
-| [`formRecognizerName`](#parameter-formrecognizername) | string | Azure Form Recognizer Name |
-| [`functionName`](#parameter-functionname) | string | Name of Function App for Batch document processing |
+| [`enableTelemetry`](#parameter-enabletelemetry) | bool | Enable/Disable usage telemetry for module. |
+| [`formRecognizerName`](#parameter-formrecognizername) | string | Azure Form Recognizer Name. |
+| [`functionName`](#parameter-functionname) | string | Name of Function App for Batch document processing. |
 | [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization. |
-| [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan |
-| [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan |
-| [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name |
-| [`newGuidString`](#parameter-newguidstring) | string | Guid |
-| [`orchestrationStrategy`](#parameter-orchestrationstrategy) | string | Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain |
-| [`principalId`](#parameter-principalid) | string | Id of the user or app to assign application roles |
-| [`recognizedLanguages`](#parameter-recognizedlanguages) | string | List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages |
+| [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
+| [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
+| [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name. |
+| [`logLevel`](#parameter-loglevel) | string | Log level web service. |
+| [`newGuidString`](#parameter-newguidstring) | string | Guid. |
+| [`orchestrationStrategy`](#parameter-orchestrationstrategy) | string | Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain. |
+| [`principalId`](#parameter-principalid) | string | Id of the user or app to assign application roles. |
+| [`recognizedLanguages`](#parameter-recognizedlanguages) | string | List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages . |
+| [`resourceToken`](#parameter-resourcetoken) | string | Resource Token. |
 | [`searchTag`](#parameter-searchtag) | string | Search Tag. |
-| [`skuTier`](#parameter-skutier) | string | The sku tier for the App Service plan |
-| [`speechServiceName`](#parameter-speechservicename) | string | Azure Speech Service Name |
-| [`storageAccountName`](#parameter-storageaccountname) | string | Name of Storage Account |
-| [`useAdvancedImageProcessing`](#parameter-useadvancedimageprocessing) | bool | Enables the use of a vision LLM and Computer Vision for embedding images |
+| [`skuTier`](#parameter-skutier) | string | The sku tier for the App Service plan. |
+| [`speechServiceName`](#parameter-speechservicename) | string | Azure Speech Service Name. |
+| [`storageAccountName`](#parameter-storageaccountname) | string | Name of Storage Account. |
+| [`useAdvancedImageProcessing`](#parameter-useadvancedimageprocessing) | bool | Enables the use of a vision LLM and Computer Vision for embedding images. |
 | [`useKeyVault`](#parameter-usekeyvault) | bool | Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false. |
-| [`websiteName`](#parameter-websitename) | string | Name of Web App |
-| [`workbookDisplayName`](#parameter-workbookdisplayname) | string | Name of the Workbook |
+| [`websiteName`](#parameter-websitename) | string | Name of Web App. |
+| [`workbookDisplayName`](#parameter-workbookdisplayname) | string | Name of the Workbook. |
 
 ### Parameter: `environmentName`
 
@@ -239,7 +250,7 @@ Location for all resources.
 
 ### Parameter: `adminWebsiteName`
 
-Name of Admin Web App
+Name of Admin Web App.
 
 - Required: No
 - Type: string
@@ -247,7 +258,7 @@ Name of Admin Web App
 
 ### Parameter: `advancedImageProcessingMaxImages`
 
-The maximum number of images to pass to the vision model in a single request
+The maximum number of images to pass to the vision model in a single request.
 
 - Required: No
 - Type: int
@@ -255,7 +266,7 @@ The maximum number of images to pass to the vision model in a single request
 
 ### Parameter: `applicationInsightsName`
 
-Name of Application Insights
+Name of Application Insights.
 
 - Required: No
 - Type: string
@@ -278,7 +289,7 @@ Whether the Azure services communicate with each other using RBAC or keys. RBAC 
 
 ### Parameter: `azureAISearchName`
 
-Azure AI Search Resource
+Azure AI Search Resource.
 
 - Required: No
 - Type: string
@@ -286,7 +297,7 @@ Azure AI Search Resource
 
 ### Parameter: `azureMachineLearningName`
 
-Azure Machine Learning Name
+Azure Machine Learning Name.
 
 - Required: No
 - Type: string
@@ -294,7 +305,7 @@ Azure Machine Learning Name
 
 ### Parameter: `azureOpenAIApiVersion`
 
-Azure OpenAI Api Version
+Azure OpenAI Api Version.
 
 - Required: No
 - Type: string
@@ -302,7 +313,7 @@ Azure OpenAI Api Version
 
 ### Parameter: `azureOpenAIEmbeddingModel`
 
-Azure OpenAI Embedding Model Deployment Name
+Azure OpenAI Embedding Model Deployment Name.
 
 - Required: No
 - Type: string
@@ -310,7 +321,7 @@ Azure OpenAI Embedding Model Deployment Name
 
 ### Parameter: `azureOpenAIEmbeddingModelCapacity`
 
-Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota
+Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .
 
 - Required: No
 - Type: int
@@ -318,7 +329,7 @@ Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.mi
 
 ### Parameter: `azureOpenAIEmbeddingModelName`
 
-Azure OpenAI Embedding Model Name
+Azure OpenAI Embedding Model Name.
 
 - Required: No
 - Type: string
@@ -326,7 +337,7 @@ Azure OpenAI Embedding Model Name
 
 ### Parameter: `azureOpenAIEmbeddingModelVersion`
 
-Azure OpenAI Embedding Model Version
+Azure OpenAI Embedding Model Version.
 
 - Required: No
 - Type: string
@@ -334,7 +345,7 @@ Azure OpenAI Embedding Model Version
 
 ### Parameter: `azureOpenAIMaxTokens`
 
-Azure OpenAI Max Tokens
+Azure OpenAI Max Tokens.
 
 - Required: No
 - Type: string
@@ -342,7 +353,7 @@ Azure OpenAI Max Tokens
 
 ### Parameter: `azureOpenAIModel`
 
-Azure OpenAI Model Deployment Name
+Azure OpenAI Model Deployment Name.
 
 - Required: No
 - Type: string
@@ -350,7 +361,7 @@ Azure OpenAI Model Deployment Name
 
 ### Parameter: `azureOpenAIModelCapacity`
 
-Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota
+Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .
 
 - Required: No
 - Type: int
@@ -358,7 +369,7 @@ Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.co
 
 ### Parameter: `azureOpenAIModelName`
 
-Azure OpenAI Model Name
+Azure OpenAI Model Name.
 
 - Required: No
 - Type: string
@@ -366,7 +377,7 @@ Azure OpenAI Model Name
 
 ### Parameter: `azureOpenAIModelVersion`
 
-Azure OpenAI Model Version
+Azure OpenAI Model Version.
 
 - Required: No
 - Type: string
@@ -374,7 +385,7 @@ Azure OpenAI Model Version
 
 ### Parameter: `azureOpenAIResourceName`
 
-Name of Azure OpenAI Resource
+Name of Azure OpenAI Resource.
 
 - Required: No
 - Type: string
@@ -382,7 +393,7 @@ Name of Azure OpenAI Resource
 
 ### Parameter: `azureOpenAISkuName`
 
-Name of Azure OpenAI Resource SKU
+Name of Azure OpenAI Resource SKU.
 
 - Required: No
 - Type: string
@@ -390,7 +401,7 @@ Name of Azure OpenAI Resource SKU
 
 ### Parameter: `azureOpenAIStopSequence`
 
-Azure OpenAI Stop Sequence
+Azure OpenAI Stop Sequence.
 
 - Required: No
 - Type: string
@@ -398,7 +409,7 @@ Azure OpenAI Stop Sequence
 
 ### Parameter: `azureOpenAIStream`
 
-Whether or not to stream responses from Azure OpenAI
+Whether or not to stream responses from Azure OpenAI.
 
 - Required: No
 - Type: string
@@ -406,7 +417,7 @@ Whether or not to stream responses from Azure OpenAI
 
 ### Parameter: `azureOpenAISystemMessage`
 
-Azure OpenAI System Message
+Azure OpenAI System Message.
 
 - Required: No
 - Type: string
@@ -414,7 +425,7 @@ Azure OpenAI System Message
 
 ### Parameter: `azureOpenAITemperature`
 
-Azure OpenAI Temperature
+Azure OpenAI Temperature.
 
 - Required: No
 - Type: string
@@ -422,7 +433,7 @@ Azure OpenAI Temperature
 
 ### Parameter: `azureOpenAITopP`
 
-Azure OpenAI Top P
+Azure OpenAI Top P.
 
 - Required: No
 - Type: string
@@ -430,7 +441,7 @@ Azure OpenAI Top P
 
 ### Parameter: `azureOpenAIVisionModel`
 
-Azure OpenAI Vision Model Deployment Name
+Azure OpenAI Vision Model Deployment Name.
 
 - Required: No
 - Type: string
@@ -438,7 +449,7 @@ Azure OpenAI Vision Model Deployment Name
 
 ### Parameter: `azureOpenAIVisionModelCapacity`
 
-Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota
+Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota .
 
 - Required: No
 - Type: int
@@ -446,7 +457,7 @@ Azure OpenAI Vision Model Capacity - See here for more info  https://learn.micro
 
 ### Parameter: `azureOpenAIVisionModelName`
 
-Azure OpenAI Vision Model Name
+Azure OpenAI Vision Model Name.
 
 - Required: No
 - Type: string
@@ -454,7 +465,7 @@ Azure OpenAI Vision Model Name
 
 ### Parameter: `azureOpenAIVisionModelVersion`
 
-Azure OpenAI Vision Model Version
+Azure OpenAI Vision Model Version.
 
 - Required: No
 - Type: string
@@ -462,7 +473,7 @@ Azure OpenAI Vision Model Version
 
 ### Parameter: `azureSearchContentColumns`
 
-Content columns
+Content columns.
 
 - Required: No
 - Type: string
@@ -470,7 +481,7 @@ Content columns
 
 ### Parameter: `azureSearchConversationLogIndex`
 
-Azure AI Search Conversation Log Index
+Azure AI Search Conversation Log Index.
 
 - Required: No
 - Type: string
@@ -478,7 +489,7 @@ Azure AI Search Conversation Log Index
 
 ### Parameter: `azureSearchDatasource`
 
-Azure AI Search Datasource
+Azure AI Search Datasource.
 
 - Required: No
 - Type: string
@@ -486,7 +497,7 @@ Azure AI Search Datasource
 
 ### Parameter: `azureSearchEnableInDomain`
 
-Enable in domain
+Enable in domain.
 
 - Required: No
 - Type: string
@@ -494,7 +505,7 @@ Enable in domain
 
 ### Parameter: `azureSearchFilenameColumn`
 
-Filename column
+Filename column.
 
 - Required: No
 - Type: string
@@ -502,7 +513,7 @@ Filename column
 
 ### Parameter: `azureSearchFilter`
 
-Search filter
+Search filter.
 
 - Required: No
 - Type: string
@@ -510,7 +521,7 @@ Search filter
 
 ### Parameter: `azureSearchIndex`
 
-Azure AI Search Index
+Azure AI Search Index.
 
 - Required: No
 - Type: string
@@ -518,7 +529,7 @@ Azure AI Search Index
 
 ### Parameter: `azureSearchIndexer`
 
-Azure AI Search Indexer
+Azure AI Search Indexer.
 
 - Required: No
 - Type: string
@@ -526,7 +537,7 @@ Azure AI Search Indexer
 
 ### Parameter: `azureSearchIndexIsPrechunked`
 
-Is the index prechunked
+Is the index prechunked.
 
 - Required: No
 - Type: string
@@ -534,7 +545,7 @@ Is the index prechunked
 
 ### Parameter: `azureSearchSemanticSearchConfig`
 
-Semantic search config
+Semantic search config.
 
 - Required: No
 - Type: string
@@ -542,7 +553,7 @@ Semantic search config
 
 ### Parameter: `azureSearchSku`
 
-The SKU of the search service you want to create. E.g. free or standard
+The SKU of the search service you want to create. E.g. free or standard.
 
 - Required: No
 - Type: string
@@ -560,7 +571,7 @@ The SKU of the search service you want to create. E.g. free or standard
 
 ### Parameter: `azureSearchTitleColumn`
 
-Title column
+Title column.
 
 - Required: No
 - Type: string
@@ -568,7 +579,7 @@ Title column
 
 ### Parameter: `azureSearchTopK`
 
-Top K results
+Top K results.
 
 - Required: No
 - Type: string
@@ -576,7 +587,7 @@ Top K results
 
 ### Parameter: `azureSearchUrlColumn`
 
-Url column
+Url column.
 
 - Required: No
 - Type: string
@@ -584,7 +595,7 @@ Url column
 
 ### Parameter: `azureSearchUseIntegratedVectorization`
 
-Use Azure Search Integrated Vectorization
+Use Azure Search Integrated Vectorization.
 
 - Required: No
 - Type: bool
@@ -592,7 +603,7 @@ Use Azure Search Integrated Vectorization
 
 ### Parameter: `azureSearchUseSemanticSearch`
 
-Use semantic search
+Use semantic search.
 
 - Required: No
 - Type: bool
@@ -600,7 +611,7 @@ Use semantic search
 
 ### Parameter: `azureSearchVectorColumns`
 
-Vector columns
+Vector columns.
 
 - Required: No
 - Type: string
@@ -608,7 +619,7 @@ Vector columns
 
 ### Parameter: `computerVisionLocation`
 
-Location of Computer Vision Resource (if useAdvancedImageProcessing=true)
+Location of Computer Vision Resource (if useAdvancedImageProcessing=true).
 
 - Required: No
 - Type: string
@@ -629,7 +640,7 @@ Location of Computer Vision Resource (if useAdvancedImageProcessing=true)
 
 ### Parameter: `computerVisionName`
 
-Name of Computer Vision Resource (if useAdvancedImageProcessing=true)
+Name of Computer Vision Resource (if useAdvancedImageProcessing=true).
 
 - Required: No
 - Type: string
@@ -637,7 +648,7 @@ Name of Computer Vision Resource (if useAdvancedImageProcessing=true)
 
 ### Parameter: `computerVisionSkuName`
 
-Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)
+Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true).
 
 - Required: No
 - Type: string
@@ -652,7 +663,7 @@ Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)
 
 ### Parameter: `computerVisionVectorizeImageApiVersion`
 
-Azure Computer Vision Vectorize Image API Version
+Azure Computer Vision Vectorize Image API Version.
 
 - Required: No
 - Type: string
@@ -660,7 +671,7 @@ Azure Computer Vision Vectorize Image API Version
 
 ### Parameter: `computerVisionVectorizeImageModelVersion`
 
-Azure Computer Vision Vectorize Image Model Version
+Azure Computer Vision Vectorize Image Model Version.
 
 - Required: No
 - Type: string
@@ -668,7 +679,7 @@ Azure Computer Vision Vectorize Image Model Version
 
 ### Parameter: `contentSafetyName`
 
-Azure Content Safety Name
+Azure Content Safety Name.
 
 - Required: No
 - Type: string
@@ -689,9 +700,17 @@ Chat conversation type: custom or byod.
   ]
   ```
 
+### Parameter: `enableTelemetry`
+
+Enable/Disable usage telemetry for module.
+
+- Required: No
+- Type: bool
+- Default: `True`
+
 ### Parameter: `formRecognizerName`
 
-Azure Form Recognizer Name
+Azure Form Recognizer Name.
 
 - Required: No
 - Type: string
@@ -699,7 +718,7 @@ Azure Form Recognizer Name
 
 ### Parameter: `functionName`
 
-Name of Function App for Batch document processing
+Name of Function App for Batch document processing.
 
 - Required: No
 - Type: string
@@ -722,7 +741,7 @@ Hosting model for the web apps. Containers are prebuilt and can be deployed fast
 
 ### Parameter: `hostingPlanName`
 
-Name of App Service plan
+Name of App Service plan.
 
 - Required: No
 - Type: string
@@ -730,7 +749,7 @@ Name of App Service plan
 
 ### Parameter: `hostingPlanSku`
 
-The pricing tier for the App Service plan
+The pricing tier for the App Service plan.
 
 - Required: No
 - Type: string
@@ -755,15 +774,33 @@ The pricing tier for the App Service plan
 
 ### Parameter: `logAnalyticsName`
 
-Log Analytics Name
+Log Analytics Name.
 
 - Required: No
 - Type: string
 - Default: `[format('la-{0}', parameters('resourceToken'))]`
 
+### Parameter: `logLevel`
+
+Log level web service.
+
+- Required: No
+- Type: string
+- Default: `'INFO'`
+- Allowed:
+  ```Bicep
+  [
+    'CRITICAL'
+    'DEBUG'
+    'ERROR'
+    'INFO'
+    'WARN'
+  ]
+  ```
+
 ### Parameter: `newGuidString`
 
-Guid
+Guid.
 
 - Required: No
 - Type: string
@@ -771,7 +808,7 @@ Guid
 
 ### Parameter: `orchestrationStrategy`
 
-Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain
+Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain.
 
 - Required: No
 - Type: string
@@ -788,7 +825,7 @@ Orchestration strategy: openai_function or semantic_kernel or langchain str. If 
 
 ### Parameter: `principalId`
 
-Id of the user or app to assign application roles
+Id of the user or app to assign application roles.
 
 - Required: No
 - Type: string
@@ -796,11 +833,19 @@ Id of the user or app to assign application roles
 
 ### Parameter: `recognizedLanguages`
 
-List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages
+List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages .
 
 - Required: No
 - Type: string
 - Default: `'en-US,fr-FR,de-DE,it-IT'`
+
+### Parameter: `resourceToken`
+
+Resource Token.
+
+- Required: No
+- Type: string
+- Default: `[toLower(uniqueString(subscription().id, parameters('environmentName'), parameters('location')))]`
 
 ### Parameter: `searchTag`
 
@@ -812,7 +857,7 @@ Search Tag.
 
 ### Parameter: `skuTier`
 
-The sku tier for the App Service plan
+The sku tier for the App Service plan.
 
 - Required: No
 - Type: string
@@ -832,7 +877,7 @@ The sku tier for the App Service plan
 
 ### Parameter: `speechServiceName`
 
-Azure Speech Service Name
+Azure Speech Service Name.
 
 - Required: No
 - Type: string
@@ -840,7 +885,7 @@ Azure Speech Service Name
 
 ### Parameter: `storageAccountName`
 
-Name of Storage Account
+Name of Storage Account.
 
 - Required: No
 - Type: string
@@ -848,7 +893,7 @@ Name of Storage Account
 
 ### Parameter: `useAdvancedImageProcessing`
 
-Enables the use of a vision LLM and Computer Vision for embedding images
+Enables the use of a vision LLM and Computer Vision for embedding images.
 
 - Required: No
 - Type: bool
@@ -864,7 +909,7 @@ Whether to use Key Vault to store secrets (best when using keys). If using RBAC,
 
 ### Parameter: `websiteName`
 
-Name of Web App
+Name of Web App.
 
 - Required: No
 - Type: string
@@ -872,7 +917,7 @@ Name of Web App
 
 ### Parameter: `workbookDisplayName`
 
-Name of the Workbook
+Name of the Workbook.
 
 - Required: No
 - Type: string
@@ -881,72 +926,72 @@ Name of the Workbook
 
 ## Outputs
 
-| Output | Type |
-| :-- | :-- |
-| `ADMIN_WEBSITE_NAME` | string |
-| `ADVANCED_IMAGE_PROCESSING_MAX_IMAGES` | int |
-| `APPLICATIONINSIGHTS_CONNECTION_STRING` | string |
-| `AZURE_APP_SERVICE_HOSTING_MODEL` | string |
-| `AZURE_BLOB_ACCOUNT_KEY` | string |
-| `AZURE_BLOB_ACCOUNT_NAME` | string |
-| `AZURE_BLOB_CONTAINER_NAME` | string |
-| `AZURE_COMPUTER_VISION_ENDPOINT` | string |
-| `AZURE_COMPUTER_VISION_KEY` | string |
-| `AZURE_COMPUTER_VISION_LOCATION` | string |
-| `AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_API_VERSION` | string |
-| `AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_MODEL_VERSION` | string |
-| `AZURE_CONTENT_SAFETY_ENDPOINT` | string |
-| `AZURE_CONTENT_SAFETY_KEY` | string |
-| `AZURE_FORM_RECOGNIZER_ENDPOINT` | string |
-| `AZURE_FORM_RECOGNIZER_KEY` | string |
-| `AZURE_KEY_VAULT_ENDPOINT` | string |
-| `AZURE_KEY_VAULT_NAME` | string |
-| `AZURE_LOCATION` | string |
-| `AZURE_ML_WORKSPACE_NAME` | string |
-| `AZURE_OPENAI_API_KEY` | string |
-| `AZURE_OPENAI_API_VERSION` | string |
-| `AZURE_OPENAI_EMBEDDING_MODEL_NAME` | string |
-| `AZURE_OPENAI_EMBEDDING_MODEL_VERSION` | string |
-| `AZURE_OPENAI_MAX_TOKENS` | string |
-| `AZURE_OPENAI_MODEL_NAME` | string |
-| `AZURE_OPENAI_MODEL_VERSION` | string |
-| `AZURE_OPENAI_RESOURCE` | string |
-| `AZURE_OPENAI_STOP_SEQUENCE` | string |
-| `AZURE_OPENAI_STREAM` | string |
-| `AZURE_OPENAI_SYSTEM_MESSAGE` | string |
-| `AZURE_OPENAI_TEMPERATURE` | string |
-| `AZURE_OPENAI_TOP_P` | string |
-| `AZURE_RESOURCE_GROUP` | string |
-| `AZURE_SEARCH_CONTENT_COLUMNS` | string |
-| `AZURE_SEARCH_CONTENT_VECTOR_COLUMNS` | string |
-| `AZURE_SEARCH_DATASOURCE_NAME` | string |
-| `AZURE_SEARCH_ENABLE_IN_DOMAIN` | string |
-| `AZURE_SEARCH_FILENAME_COLUMN` | string |
-| `AZURE_SEARCH_FILTER` | string |
-| `AZURE_SEARCH_INDEX` | string |
-| `AZURE_SEARCH_INDEX_IS_PRECHUNKED` | string |
-| `AZURE_SEARCH_INDEXER_NAME` | string |
-| `AZURE_SEARCH_KEY` | string |
-| `AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG` | string |
-| `AZURE_SEARCH_SERVICE` | string |
-| `AZURE_SEARCH_TITLE_COLUMN` | string |
-| `AZURE_SEARCH_TOP_K` | string |
-| `AZURE_SEARCH_URL_COLUMN` | string |
-| `AZURE_SEARCH_USE_INTEGRATED_VECTORIZATION` | bool |
-| `AZURE_SEARCH_USE_SEMANTIC_SEARCH` | bool |
-| `AZURE_SPEECH_RECOGNIZER_LANGUAGES` | string |
-| `AZURE_SPEECH_SERVICE_KEY` | string |
-| `AZURE_SPEECH_SERVICE_NAME` | string |
-| `AZURE_SPEECH_SERVICE_REGION` | string |
-| `AZURE_TENANT_ID` | string |
-| `CONVERSATION_FLOW` | string |
-| `DOCUMENT_PROCESSING_QUEUE_NAME` | string |
-| `FRONTEND_WEBSITE_NAME` | string |
-| `LOGLEVEL` | string |
-| `ORCHESTRATION_STRATEGY` | string |
-| `RESOURCE_TOKEN` | string |
-| `USE_ADVANCED_IMAGE_PROCESSING` | bool |
-| `USE_KEY_VAULT` | bool |
+| Output | Type | Description |
+| :-- | :-- | :-- |
+| `adminWebsiteName` | string | The name of your admin website. |
+| `advancedImageProcessingMaxImages` | int | The maximum number of images to be processed. |
+| `applicationInsightsConnectionString` | string | The connection string of the application insights component. |
+| `azureAppServiceHostingModel` | string | The app service hosting model. |
+| `azureBlobAccountKey` | string | The storage account key. |
+| `azureBlobAccountName` | string | The Storage account name. |
+| `azureBlobContainerName` | string | The Blob container name. |
+| `azureComputerVisionEndpoint` | string | The computer vision endpoint. |
+| `azureComputerVisionKey` | string | The computer Vision Key. |
+| `azureComputerVisionLocation` | string | The omputer vision region. |
+| `azureComputerVisionVectorizeImageApiVersion` | string | The computer vision image vectorization API version. |
+| `azureComputerVisionVectorizeImageModelVersion` | string | The computer vision image model version. |
+| `azureContentSafetyEndpoint` | string | The content safety endpoint. |
+| `azureContentSafetyKey` | string | The content safety key name. |
+| `azureFormRecognizerEndpoint` | string | The form recognizer endpoint. |
+| `azureFormRecognizerKey` | string | The form recognizer key. |
+| `azureKeyVaultEndpoint` | string | The key vault endpoint. |
+| `azureKeyVaultName` | string | The key vault name. |
+| `azureLocation` | string | The deployment region. |
+| `azureMLWorkspaceName` | string | The name of your Azure ML workspace. |
+| `azureOpenAIAPIKey` | string | The Open AI API key. |
+| `azureOpenAIApiVersion` | string | The Open AI API version. |
+| `azureOpenAIEmbeddingModelName` | string | The Open AI Embedding Model name. |
+| `azureOpenAIEmbeddingModelVersion` | string | The Open AI Embedding Model version. |
+| `azureOpenAIMaxTokens` | string | The maximum number of tokens allowed for the Open AI model. |
+| `azureOpenAIModelName` | string | The Open AI model name. |
+| `azureOpenAIModelVersion` | string | The Open AI model version. |
+| `azureOpenAIResource` | string | The Open AI resource name. |
+| `azureOpenAIStopSequence` | string | The Open AI stop sequence. |
+| `azureOpenAIStream` | string | The Open AI Stream name. |
+| `azureOpenAISystemMessage` | string | The Open AI system message. |
+| `azureOpenAITemperature` | string | The Open AI Stream name. |
+| `azureOpenAITopP` | string | The Open AI top P setting. |
+| `azureResourceGroup` | string | The resource group name for the deployment. |
+| `azureSearchContentColumns` | string | List of fields in your search index that contains the text content of your documents to use when formulating a bot response. Represent these as a string joined with. |
+| `azureSearchDatasourceName` | string | The name of your Azure AI data source. |
+| `azureSearchEnableInDomain` | string | Limits responses to only queries relating to your data. |
+| `azureSearchFilenameColumn` | string | Field from your search index that gives a unique identifier of the source of your data to display in the UI. |
+| `azureSearchFilter` | string | The name of your Azure search filter. |
+| `azureSearchIndex` | string | The name of your Azure AI Search Index. |
+| `azureSearchIndexerName` | string | The name of your Azure AI Search Indexer. |
+| `azureSearchIndexIsPrechunked` | string | Value that determines if index is prechunked. |
+| `azureSearchKey` | string | The search key name. |
+| `azureSearchSemanticSearchConfig` | string | The name of the semantic search configuration to use if using semantic search. |
+| `azureSearchService` | string | The name of your Azure AI Search resource. |
+| `azureSearchTitleColumn` | string | The name of the search title column. |
+| `azureSearchTopK` | string | The number of documents that should be returned on a search. |
+| `azureSearchUrlColumn` | string | The name of the URL column. |
+| `azureSearchUseIntegratedVectorization` | bool | Boolean to use integrated vectorization. |
+| `azureSearchUseSemanticSearch` | bool | The value that turns the semantic search on or off. |
+| `azureSearchVectorColumns` | string | List of fields in your search index that contain vector embeddings of your documents to use when formulating a bot response. Represent these as a string joined with. |
+| `azureSpeechRecognizerLanguages` | string | Languages the speech service will recognize. |
+| `azureSpeechServiceKey` | string | The nspeech service key. |
+| `azureSpeechServiceName` | string | The name of your Azure Speech Service. |
+| `azureSpeechServiceRegion` | string | The loccation of the Speech Service. |
+| `azureTenantId` | string | The tenant ID. |
+| `conversationFlow` | string | The name of the conversation flow. |
+| `documentProcessingQueueName` | string | The name of the document processing queue. |
+| `frontendWebsiteName` | string | The name of your frontend website. |
+| `logLevel` | string | The log level for application insights. |
+| `orchestrationStrategy` | string | The strategy for Azure service orchestration. |
+| `resourceToken` | string | The name of your resource token. |
+| `useAdvancedImageProcessing` | bool | Boolean that determines if advaced image processing is used. |
+| `useKeyVault` | bool | Boolean for using the keyvault. |
 
 ## Cross-referenced modules
 
