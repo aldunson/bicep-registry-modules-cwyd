@@ -29,7 +29,7 @@ on:
       - ".github/actions/templates/avm-**"
       - ".github/workflows/avm.template.module.yml"
       - ".github/workflows/avm.ptn.ai.chat-with-your-data.yml"
-      - "avm/ptn/ai-platform/baseline/**"
+      - "avm/ptn/ai/**"
       - "avm/utilities/pipelines/**"
       - "!avm/utilities/pipelines/platform/**"
       - "!*/**/README.md"
