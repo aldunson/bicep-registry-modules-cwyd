@@ -42,7 +42,7 @@ resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01
       model: deployment.model
       raiPolicyName: deployment.?raiPolicyName ?? null
     }
-    sku: deployment.?sku ?? {
+    sku: deployment.?sku1 ?? {
       name: 'Standard'
       capacity: 20
     }
