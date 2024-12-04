@@ -9,20 +9,10 @@ param kind string = 'OpenAI'
 param managedIdentity bool = false
 
 @allowed(['Enabled', 'Disabled'])
-param publicNetworkAccess string = 'Enabled'
+param publicNetworkAccess string = 'Disabled'
 param sku object = {
   name: 'S0'
 }
-
-param allowedIpRules array = []
-param networkAcls object = empty(allowedIpRules)
-  ? {
-      defaultAction: 'Allow'
-    }
-  : {
-      ipRules: allowedIpRules
-      defaultAction: 'Deny'
-    }
 
 resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: name
@@ -32,7 +22,10 @@ resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   properties: {
     customSubDomainName: customSubDomainName
     publicNetworkAccess: publicNetworkAccess
-    networkAcls: networkAcls
+    networkAcls: {
+      defaultAction: 'Deny'
+    }
+    disableLocalAuth: true
   }
   sku: sku
   identity: {

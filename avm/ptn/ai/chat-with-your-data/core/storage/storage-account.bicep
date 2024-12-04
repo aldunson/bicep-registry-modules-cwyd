@@ -23,7 +23,7 @@ param queues array = []
 param supportsHttpsTrafficOnly bool = true
 param networkAcls object = {
   bypass: 'AzureServices'
-  defaultAction: 'Allow'
+  defaultAction: 'Deny'
 }
 @allowed(['Enabled', 'Disabled'])
 param publicNetworkAccess string = 'Enabled'

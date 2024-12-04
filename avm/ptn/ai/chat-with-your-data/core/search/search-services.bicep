@@ -28,7 +28,7 @@ param partitionCount int = 1
   'disabled'
 ])
 param publicNetworkAccess string = 'enabled'
-param replicaCount int = 1
+param replicaCount int = 2
 @allowed([
   'disabled'
   'free'

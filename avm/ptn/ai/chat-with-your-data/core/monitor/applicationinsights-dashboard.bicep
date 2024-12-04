@@ -2,7 +2,7 @@ metadata description = 'Creates a dashboard for an Application Insights instance
 param name string
 param applicationInsightsName string
 param location string = resourceGroup().location
-param tags object = {}
+param tags object = { environment: environment().name }
 
 // 2020-09-01-preview because that is the latest valid version
 resource applicationInsightsDashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {

@@ -64,6 +64,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
       use32BitWorkerProcess: use32BitWorkerProcess
       functionAppScaleLimit: functionAppScaleLimit != -1 ? functionAppScaleLimit : null
       healthCheckPath: healthCheckPath
+      http20Enabled: true
       cors: {
         allowedOrigins: union(['https://portal.azure.com', 'https://ms.portal.azure.com'], allowedOrigins)
       }
