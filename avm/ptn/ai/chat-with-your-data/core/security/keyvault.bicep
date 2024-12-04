@@ -14,6 +14,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
     sku: { family: 'A', name: 'standard' }
     enableRbacAuthorization: true
     enableSoftDelete: true
+    softDeleteRetentionInDays: 90
     networkAcls: {
       bypass: 'AzureServices'
       defaultAction: 'Deny'
