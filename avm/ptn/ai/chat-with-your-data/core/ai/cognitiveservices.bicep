@@ -10,7 +10,7 @@ param managedIdentity bool = false
 
 @allowed(['Enabled', 'Disabled'])
 param publicNetworkAccess string = 'Disabled'
-param sku object = {
+param sku1 object = {
   name: 'S0'
 }
 
@@ -27,7 +27,7 @@ resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     }
     disableLocalAuth: true
   }
-  sku: sku
+  sku: sku1
   identity: {
     type: managedIdentity ? 'SystemAssigned' : 'None'
   }
