@@ -5,8 +5,13 @@ param tags object = {}
 
 param kind string = ''
 param reserved bool = true
-param sku object
-
+param sku object = {
+  name: 'P1v2'
+  tier: 'PremiumV2'
+  size: 'P1v2'
+  family: 'Pv2'
+  capacity: 3
+}
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: name
   location: location
@@ -15,6 +20,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   kind: kind
   properties: {
     reserved: reserved
+    zoneRedundant: false
   }
 }
 
