@@ -754,7 +754,7 @@ The pricing tier for the App Service plan.
 
 - Required: No
 - Type: string
-- Default: `'B3'`
+- Default: `'P3'`
 - Allowed:
   ```Bicep
   [
@@ -862,7 +862,7 @@ The sku tier for the App Service plan.
 
 - Required: No
 - Type: string
-- Default: `'Basic'`
+- Default: `'PremiumV3'`
 - Allowed:
   ```Bicep
   [

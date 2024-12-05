@@ -33,7 +33,7 @@ param hostingPlanName string = 'hosting-plan-${resourceToken}'
   'P3'
   'P4'
 ])
-param hostingPlanSku string = 'B3'
+param hostingPlanSku string = 'P3'
 
 @description('Optional. The sku tier for the App Service plan.')
 @allowed([
@@ -45,7 +45,7 @@ param hostingPlanSku string = 'B3'
   'PremiumV2'
   'PremiumV3'
 ])
-param skuTier string = 'Basic'
+param skuTier string = 'PremiumV3'
 
 @description('Optional. Name of Web App.')
 param websiteName string = 'web-${resourceToken}'
@@ -324,6 +324,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
       }
     }
   }
+  tags: tags
 }
 
 // Organize resources in a resource group

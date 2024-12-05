@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "16967332576137763416"
+      "templateHash": "9727596413600373933"
     },
     "name": "Chat with Your Data",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -42,7 +42,7 @@
     },
     "hostingPlanSku": {
       "type": "string",
-      "defaultValue": "B3",
+      "defaultValue": "P3",
       "allowedValues": [
         "F1",
         "D1",
@@ -63,7 +63,7 @@
     },
     "skuTier": {
       "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "PremiumV3",
       "allowedValues": [
         "Free",
         "Shared",
@@ -657,7 +657,8 @@
             }
           }
         }
-      }
+      },
+      "tags": "[variables('tags')]"
     },
     {
       "type": "Microsoft.Resources/resourceGroups",
@@ -1787,7 +1788,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "752666886492434203"
+              "templateHash": "12879017031752908705"
             },
             "description": "Creates an Azure AI Search instance."
           },
@@ -1856,7 +1857,7 @@
             },
             "replicaCount": {
               "type": "int",
-              "defaultValue": 2
+              "defaultValue": 3
             },
             "semanticSearch": {
               "type": "string",
