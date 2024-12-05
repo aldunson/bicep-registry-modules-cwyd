@@ -1,12 +1,15 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-  "contentVersion": "#_moduleVersion_#.0",
+  "contentVersion": "1.0.0.0",
   "metadata": {
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "1583460408963719851"
-    }
+      "templateHash": "16967332576137763416"
+    },
+    "name": "Chat with Your Data",
+    "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
+    "owner": "Azure/module-maintainers"
   },
   "parameters": {
     "environmentName": {
@@ -21,7 +24,7 @@
       "type": "string",
       "defaultValue": "[toLower(uniqueString(subscription().id, parameters('environmentName'), parameters('location')))]",
       "metadata": {
-        "description": "Optional."
+        "description": "Optional. Resource Token."
       }
     },
     "location": {
@@ -34,7 +37,7 @@
       "type": "string",
       "defaultValue": "[format('hosting-plan-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of App Service plan"
+        "description": "Optional. Name of App Service plan."
       }
     },
     "hostingPlanSku": {
@@ -55,7 +58,7 @@
         "P4"
       ],
       "metadata": {
-        "description": "Optional. The pricing tier for the App Service plan"
+        "description": "Optional. The pricing tier for the App Service plan."
       }
     },
     "skuTier": {
@@ -71,203 +74,203 @@
         "PremiumV3"
       ],
       "metadata": {
-        "description": "Optional. The sku tier for the App Service plan"
+        "description": "Optional. The sku tier for the App Service plan."
       }
     },
     "websiteName": {
       "type": "string",
       "defaultValue": "[format('web-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Web App"
+        "description": "Optional. Name of Web App."
       }
     },
     "adminWebsiteName": {
       "type": "string",
       "defaultValue": "[format('{0}-admin', parameters('websiteName'))]",
       "metadata": {
-        "description": "Optional. Name of Admin Web App"
+        "description": "Optional. Name of Admin Web App."
       }
     },
     "applicationInsightsName": {
       "type": "string",
       "defaultValue": "[format('appinsights-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Application Insights"
+        "description": "Optional. Name of Application Insights."
       }
     },
     "workbookDisplayName": {
       "type": "string",
       "defaultValue": "[format('workbook-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of the Workbook"
+        "description": "Optional. Name of the Workbook."
       }
     },
     "azureSearchUseSemanticSearch": {
       "type": "bool",
       "defaultValue": false,
       "metadata": {
-        "description": "Optional. Use semantic search"
+        "description": "Optional. Use semantic search."
       }
     },
     "azureSearchSemanticSearchConfig": {
       "type": "string",
       "defaultValue": "default",
       "metadata": {
-        "description": "Optional. Semantic search config"
+        "description": "Optional. Semantic search config."
       }
     },
     "azureSearchIndexIsPrechunked": {
       "type": "string",
       "defaultValue": "false",
       "metadata": {
-        "description": "Optional. Is the index prechunked"
+        "description": "Optional. Is the index prechunked."
       }
     },
     "azureSearchTopK": {
       "type": "string",
       "defaultValue": "5",
       "metadata": {
-        "description": "Optional. Top K results"
+        "description": "Optional. Top K results."
       }
     },
     "azureSearchEnableInDomain": {
       "type": "string",
       "defaultValue": "false",
       "metadata": {
-        "description": "Optional. Enable in domain"
+        "description": "Optional. Enable in domain."
       }
     },
     "azureSearchContentColumns": {
       "type": "string",
       "defaultValue": "content",
       "metadata": {
-        "description": "Optional. Content columns"
+        "description": "Optional. Content columns."
       }
     },
     "azureSearchVectorColumns": {
       "type": "string",
       "defaultValue": "content_vector",
       "metadata": {
-        "description": "Optional. Vector columns"
+        "description": "Optional. Vector columns."
       }
     },
     "azureSearchFilenameColumn": {
       "type": "string",
       "defaultValue": "filename",
       "metadata": {
-        "description": "Optional. Filename column"
+        "description": "Optional. Filename column."
       }
     },
     "azureSearchFilter": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Optional. Search filter"
+        "description": "Optional. Search filter."
       }
     },
     "azureSearchTitleColumn": {
       "type": "string",
       "defaultValue": "title",
       "metadata": {
-        "description": "Optional. Title column"
+        "description": "Optional. Title column."
       }
     },
     "azureSearchUrlColumn": {
       "type": "string",
       "defaultValue": "url",
       "metadata": {
-        "description": "Optional. Url column"
+        "description": "Optional. Url column."
       }
     },
     "azureSearchUseIntegratedVectorization": {
       "type": "bool",
       "defaultValue": false,
       "metadata": {
-        "description": "Optional. Use Azure Search Integrated Vectorization"
+        "description": "Optional. Use Azure Search Integrated Vectorization."
       }
     },
     "azureOpenAIResourceName": {
       "type": "string",
       "defaultValue": "[format('openai-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Azure OpenAI Resource"
+        "description": "Optional. Name of Azure OpenAI Resource."
       }
     },
     "azureOpenAISkuName": {
       "type": "string",
       "defaultValue": "S0",
       "metadata": {
-        "description": "Optional. Name of Azure OpenAI Resource SKU"
+        "description": "Optional. Name of Azure OpenAI Resource SKU."
       }
     },
     "azureOpenAIModel": {
       "type": "string",
       "defaultValue": "gpt-35-turbo-16k",
       "metadata": {
-        "description": "Optional. Azure OpenAI Model Deployment Name"
+        "description": "Optional. Azure OpenAI Model Deployment Name."
       }
     },
     "azureOpenAIModelName": {
       "type": "string",
       "defaultValue": "gpt-35-turbo-16k",
       "metadata": {
-        "description": "Optional. Azure OpenAI Model Name"
+        "description": "Optional. Azure OpenAI Model Name."
       }
     },
     "azureOpenAIModelVersion": {
       "type": "string",
       "defaultValue": "0613",
       "metadata": {
-        "description": "Optional. Azure OpenAI Model Version"
+        "description": "Optional. Azure OpenAI Model Version."
       }
     },
     "azureOpenAIModelCapacity": {
       "type": "int",
       "defaultValue": 30,
       "metadata": {
-        "description": "Optional. Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota"
+        "description": "Optional. Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota ."
       }
     },
     "useAdvancedImageProcessing": {
       "type": "bool",
       "defaultValue": false,
       "metadata": {
-        "description": "Optional. Enables the use of a vision LLM and Computer Vision for embedding images"
+        "description": "Optional. Enables the use of a vision LLM and Computer Vision for embedding images."
       }
     },
     "advancedImageProcessingMaxImages": {
       "type": "int",
       "defaultValue": 1,
       "metadata": {
-        "description": "Optional. The maximum number of images to pass to the vision model in a single request"
+        "description": "Optional. The maximum number of images to pass to the vision model in a single request."
       }
     },
     "azureOpenAIVisionModel": {
       "type": "string",
       "defaultValue": "gpt-4",
       "metadata": {
-        "description": "Optional. Azure OpenAI Vision Model Deployment Name"
+        "description": "Optional. Azure OpenAI Vision Model Deployment Name."
       }
     },
     "azureOpenAIVisionModelName": {
       "type": "string",
       "defaultValue": "gpt-4",
       "metadata": {
-        "description": "Optional. Azure OpenAI Vision Model Name"
+        "description": "Optional. Azure OpenAI Vision Model Name."
       }
     },
     "azureOpenAIVisionModelVersion": {
       "type": "string",
       "defaultValue": "vision-preview",
       "metadata": {
-        "description": "Optional. Azure OpenAI Vision Model Version"
+        "description": "Optional. Azure OpenAI Vision Model Version."
       }
     },
     "azureOpenAIVisionModelCapacity": {
       "type": "int",
       "defaultValue": 10,
       "metadata": {
-        "description": "Optional. Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota"
+        "description": "Optional. Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota ."
       }
     },
     "orchestrationStrategy": {
@@ -280,7 +283,7 @@
         "prompt_flow"
       ],
       "metadata": {
-        "description": "Optional. Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain"
+        "description": "Optional. Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain."
       }
     },
     "conversationFlow": {
@@ -298,84 +301,84 @@
       "type": "string",
       "defaultValue": "0",
       "metadata": {
-        "description": "Optional. Azure OpenAI Temperature"
+        "description": "Optional. Azure OpenAI Temperature."
       }
     },
     "azureOpenAITopP": {
       "type": "string",
       "defaultValue": "1",
       "metadata": {
-        "description": "Optional. Azure OpenAI Top P"
+        "description": "Optional. Azure OpenAI Top P."
       }
     },
     "azureOpenAIMaxTokens": {
       "type": "string",
       "defaultValue": "1000",
       "metadata": {
-        "description": "Optional. Azure OpenAI Max Tokens"
+        "description": "Optional. Azure OpenAI Max Tokens."
       }
     },
     "azureOpenAIStopSequence": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Optional. Azure OpenAI Stop Sequence"
+        "description": "Optional. Azure OpenAI Stop Sequence."
       }
     },
     "azureOpenAISystemMessage": {
       "type": "string",
       "defaultValue": "You are an AI assistant that helps people find information.",
       "metadata": {
-        "description": "Optional. Azure OpenAI System Message"
+        "description": "Optional. Azure OpenAI System Message."
       }
     },
     "azureOpenAIApiVersion": {
       "type": "string",
       "defaultValue": "2024-02-01",
       "metadata": {
-        "description": "Optional. Azure OpenAI Api Version"
+        "description": "Optional. Azure OpenAI Api Version."
       }
     },
     "azureOpenAIStream": {
       "type": "string",
       "defaultValue": "true",
       "metadata": {
-        "description": "Optional. Whether or not to stream responses from Azure OpenAI"
+        "description": "Optional. Whether or not to stream responses from Azure OpenAI."
       }
     },
     "azureOpenAIEmbeddingModel": {
       "type": "string",
       "defaultValue": "text-embedding-ada-002",
       "metadata": {
-        "description": "Optional. Azure OpenAI Embedding Model Deployment Name"
+        "description": "Optional. Azure OpenAI Embedding Model Deployment Name."
       }
     },
     "azureOpenAIEmbeddingModelName": {
       "type": "string",
       "defaultValue": "text-embedding-ada-002",
       "metadata": {
-        "description": "Optional. Azure OpenAI Embedding Model Name"
+        "description": "Optional. Azure OpenAI Embedding Model Name."
       }
     },
     "azureOpenAIEmbeddingModelVersion": {
       "type": "string",
       "defaultValue": "2",
       "metadata": {
-        "description": "Optional. Azure OpenAI Embedding Model Version"
+        "description": "Optional. Azure OpenAI Embedding Model Version."
       }
     },
     "azureOpenAIEmbeddingModelCapacity": {
       "type": "int",
       "defaultValue": 30,
       "metadata": {
-        "description": "Optional. Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota"
+        "description": "Optional. Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota ."
       }
     },
     "computerVisionName": {
       "type": "string",
       "defaultValue": "[format('computer-vision-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true)"
+        "description": "Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true)."
       }
     },
     "computerVisionSkuName": {
@@ -386,7 +389,7 @@
         "S1"
       ],
       "metadata": {
-        "description": "Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)"
+        "description": "Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true)."
       }
     },
     "computerVisionLocation": {
@@ -403,28 +406,28 @@
         ""
       ],
       "metadata": {
-        "description": "Optional. Location of Computer Vision Resource (if useAdvancedImageProcessing=true)"
+        "description": "Optional. Location of Computer Vision Resource (if useAdvancedImageProcessing=true)."
       }
     },
     "computerVisionVectorizeImageApiVersion": {
       "type": "string",
       "defaultValue": "2024-02-01",
       "metadata": {
-        "description": "Optional. Azure Computer Vision Vectorize Image API Version"
+        "description": "Optional. Azure Computer Vision Vectorize Image API Version."
       }
     },
     "computerVisionVectorizeImageModelVersion": {
       "type": "string",
       "defaultValue": "2023-04-15",
       "metadata": {
-        "description": "Optional. Azure Computer Vision Vectorize Image Model Version"
+        "description": "Optional. Azure Computer Vision Vectorize Image Model Version."
       }
     },
     "azureAISearchName": {
       "type": "string",
       "defaultValue": "[format('search-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure AI Search Resource"
+        "description": "Optional. Azure AI Search Resource."
       }
     },
     "azureSearchSku": {
@@ -438,84 +441,84 @@
         "standard3"
       ],
       "metadata": {
-        "description": "Optional. The SKU of the search service you want to create. E.g. free or standard"
+        "description": "Optional. The SKU of the search service you want to create. E.g. free or standard."
       }
     },
     "azureSearchIndex": {
       "type": "string",
       "defaultValue": "[format('index-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure AI Search Index"
+        "description": "Optional. Azure AI Search Index."
       }
     },
     "azureSearchIndexer": {
       "type": "string",
       "defaultValue": "[format('indexer-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure AI Search Indexer"
+        "description": "Optional. Azure AI Search Indexer."
       }
     },
     "azureSearchDatasource": {
       "type": "string",
       "defaultValue": "[format('datasource-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure AI Search Datasource"
+        "description": "Optional. Azure AI Search Datasource."
       }
     },
     "azureSearchConversationLogIndex": {
       "type": "string",
       "defaultValue": "conversations",
       "metadata": {
-        "description": "Optional. Azure AI Search Conversation Log Index"
+        "description": "Optional. Azure AI Search Conversation Log Index."
       }
     },
     "storageAccountName": {
       "type": "string",
       "defaultValue": "[format('str{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Storage Account"
+        "description": "Optional. Name of Storage Account."
       }
     },
     "functionName": {
       "type": "string",
       "defaultValue": "[format('backend-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Name of Function App for Batch document processing"
+        "description": "Optional. Name of Function App for Batch document processing."
       }
     },
     "formRecognizerName": {
       "type": "string",
       "defaultValue": "[format('formrecog-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure Form Recognizer Name"
+        "description": "Optional. Azure Form Recognizer Name."
       }
     },
     "contentSafetyName": {
       "type": "string",
       "defaultValue": "[format('contentsafety-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure Content Safety Name"
+        "description": "Optional. Azure Content Safety Name."
       }
     },
     "speechServiceName": {
       "type": "string",
       "defaultValue": "[format('speech-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure Speech Service Name"
+        "description": "Optional. Azure Speech Service Name."
       }
     },
     "logAnalyticsName": {
       "type": "string",
       "defaultValue": "[format('la-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Log Analytics Name"
+        "description": "Optional. Log Analytics Name."
       }
     },
     "newGuidString": {
       "type": "string",
       "defaultValue": "[newGuid()]",
       "metadata": {
-        "description": "Optional. Guid"
+        "description": "Optional. Guid."
       }
     },
     "searchTag": {
@@ -536,7 +539,7 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Optional. Id of the user or app to assign application roles"
+        "description": "Optional. Id of the user or app to assign application roles."
       }
     },
     "authType": {
@@ -572,21 +575,28 @@
         "DEBUG"
       ],
       "metadata": {
-        "description": "Optional."
+        "description": "Optional. Log level web service."
       }
     },
     "recognizedLanguages": {
       "type": "string",
       "defaultValue": "en-US,fr-FR,de-DE,it-IT",
       "metadata": {
-        "description": "Optional. List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages"
+        "description": "Optional. List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages ."
       }
     },
     "azureMachineLearningName": {
       "type": "string",
       "defaultValue": "[format('aml-{0}', parameters('resourceToken'))]",
       "metadata": {
-        "description": "Optional. Azure Machine Learning Name"
+        "description": "Optional. Azure Machine Learning Name."
+      }
+    },
+    "enableTelemetry": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Optional. Enable/Disable usage telemetry for module."
       }
     }
   },
@@ -630,6 +640,26 @@
   },
   "resources": [
     {
+      "condition": "[parameters('enableTelemetry')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
+      "name": "[format('46d3xbcp.ptn.ai-chatwithyourdata.{0}.{1}', replace('-..--..-', '.', '-'), substring(uniqueString(deployment().name, parameters('location')), 0, 4))]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [],
+          "outputs": {
+            "telemetry": {
+              "type": "String",
+              "value": "For more information, see https://aka.ms/avm/TelemetryInfo"
+            }
+          }
+        }
+      }
+    },
+    {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2021-04-01",
       "name": "[variables('rgName')]",
@@ -663,12 +693,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17778708028830863146"
+              "templateHash": "8121110480271062266"
             },
             "description": "Creates an Azure Key Vault."
           },
@@ -702,8 +732,33 @@
                   "family": "A",
                   "name": "standard"
                 },
+                "enableRbacAuthorization": true,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": 90,
+                "networkAcls": {
+                  "bypass": "AzureServices",
+                  "defaultAction": "Deny"
+                },
                 "accessPolicies": "[if(not(empty(parameters('principalId'))), createArray(createObject('objectId', parameters('principalId'), 'permissions', createObject('secrets', createArray('get', 'list')), 'tenantId', subscription().tenantId)), createArray())]"
               }
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.KeyVault/vaults/{0}', parameters('name'))]",
+              "name": "logs",
+              "properties": {
+                "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', 'logAnalytics')]",
+                "logs": [
+                  {
+                    "category": "AuditEvent",
+                    "enabled": true
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('name'))]"
+              ]
             }
           ],
           "outputs": {
@@ -760,12 +815,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17627995896125563105"
+              "templateHash": "9618251263604591208"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -802,7 +857,7 @@
             },
             "publicNetworkAccess": {
               "type": "string",
-              "defaultValue": "Enabled",
+              "defaultValue": "Disabled",
               "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -813,14 +868,6 @@
               "defaultValue": {
                 "name": "S0"
               }
-            },
-            "allowedIpRules": {
-              "type": "array",
-              "defaultValue": []
-            },
-            "networkAcls": {
-              "type": "object",
-              "defaultValue": "[if(empty(parameters('allowedIpRules')), createObject('defaultAction', 'Allow'), createObject('ipRules', parameters('allowedIpRules'), 'defaultAction', 'Deny'))]"
             }
           },
           "resources": [
@@ -834,7 +881,10 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": {
+                  "defaultAction": "Deny"
+                },
+                "disableLocalAuth": true
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -855,7 +905,7 @@
                 "model": "[parameters('deployments')[copyIndex()].model]",
                 "raiPolicyName": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'raiPolicyName'), null())]"
               },
-              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku'), createObject('name', 'Standard', 'capacity', 20))]",
+              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku1'), createObject('name', 'Standard', 'capacity', 20))]",
               "dependsOn": [
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('name'))]"
               ]
@@ -919,12 +969,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17627995896125563105"
+              "templateHash": "9618251263604591208"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -961,7 +1011,7 @@
             },
             "publicNetworkAccess": {
               "type": "string",
-              "defaultValue": "Enabled",
+              "defaultValue": "Disabled",
               "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -972,14 +1022,6 @@
               "defaultValue": {
                 "name": "S0"
               }
-            },
-            "allowedIpRules": {
-              "type": "array",
-              "defaultValue": []
-            },
-            "networkAcls": {
-              "type": "object",
-              "defaultValue": "[if(empty(parameters('allowedIpRules')), createObject('defaultAction', 'Allow'), createObject('ipRules', parameters('allowedIpRules'), 'defaultAction', 'Deny'))]"
             }
           },
           "resources": [
@@ -993,7 +1035,10 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": {
+                  "defaultAction": "Deny"
+                },
+                "disableLocalAuth": true
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -1014,7 +1059,7 @@
                 "model": "[parameters('deployments')[copyIndex()].model]",
                 "raiPolicyName": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'raiPolicyName'), null())]"
               },
-              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku'), createObject('name', 'Standard', 'capacity', 20))]",
+              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku1'), createObject('name', 'Standard', 'capacity', 20))]",
               "dependsOn": [
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('name'))]"
               ]
@@ -1072,7 +1117,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1143,7 +1188,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1214,7 +1259,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1285,7 +1330,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1360,12 +1405,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17627995896125563105"
+              "templateHash": "9618251263604591208"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -1402,7 +1447,7 @@
             },
             "publicNetworkAccess": {
               "type": "string",
-              "defaultValue": "Enabled",
+              "defaultValue": "Disabled",
               "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -1413,14 +1458,6 @@
               "defaultValue": {
                 "name": "S0"
               }
-            },
-            "allowedIpRules": {
-              "type": "array",
-              "defaultValue": []
-            },
-            "networkAcls": {
-              "type": "object",
-              "defaultValue": "[if(empty(parameters('allowedIpRules')), createObject('defaultAction', 'Allow'), createObject('ipRules', parameters('allowedIpRules'), 'defaultAction', 'Deny'))]"
             }
           },
           "resources": [
@@ -1434,7 +1471,10 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": {
+                  "defaultAction": "Deny"
+                },
+                "disableLocalAuth": true
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -1455,7 +1495,7 @@
                 "model": "[parameters('deployments')[copyIndex()].model]",
                 "raiPolicyName": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'raiPolicyName'), null())]"
               },
-              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku'), createObject('name', 'Standard', 'capacity', 20))]",
+              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku1'), createObject('name', 'Standard', 'capacity', 20))]",
               "dependsOn": [
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('name'))]"
               ]
@@ -1529,7 +1569,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -1742,12 +1782,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "3186814620975722299"
+              "templateHash": "752666886492434203"
             },
             "description": "Creates an Azure AI Search instance."
           },
@@ -1816,7 +1856,7 @@
             },
             "replicaCount": {
               "type": "int",
-              "defaultValue": 1
+              "defaultValue": 2
             },
             "semanticSearch": {
               "type": "string",
@@ -1911,12 +1951,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "11910849835579950339"
+              "templateHash": "7046593475606059861"
             },
             "description": "Creates an Azure App Service plan."
           },
@@ -1941,7 +1981,14 @@
               "defaultValue": true
             },
             "sku": {
-              "type": "object"
+              "type": "object",
+              "defaultValue": {
+                "name": "P1v3",
+                "tier": "PremiumV3",
+                "size": "P1v3",
+                "family": "Pv3",
+                "capacity": 3
+              }
             }
           },
           "resources": [
@@ -1954,7 +2001,8 @@
               "sku": "[parameters('sku')]",
               "kind": "[parameters('kind')]",
               "properties": {
-                "reserved": "[parameters('reserved')]"
+                "reserved": "[parameters('reserved')]",
+                "zoneRedundant": true
               }
             }
           ],
@@ -2094,12 +2142,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "5485382991637458925"
+              "templateHash": "18183974970989916448"
             }
           },
           "parameters": {
@@ -2272,12 +2320,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "16756175373379165193"
+                      "templateHash": "18242206882553735860"
                     },
                     "description": "Creates an Azure App Service in an existing Azure App Service plan."
                   },
@@ -2440,6 +2488,7 @@
                           "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                           "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                           "healthCheckPath": "[parameters('healthCheckPath')]",
+                          "http20Enabled": true,
                           "cors": {
                             "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                           }
@@ -2499,7 +2548,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -2577,7 +2626,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2646,7 +2695,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2715,7 +2764,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2784,7 +2833,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -2850,7 +2899,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3051,12 +3100,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "5485382991637458925"
+              "templateHash": "18183974970989916448"
             }
           },
           "parameters": {
@@ -3229,12 +3278,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "16756175373379165193"
+                      "templateHash": "18242206882553735860"
                     },
                     "description": "Creates an Azure App Service in an existing Azure App Service plan."
                   },
@@ -3397,6 +3446,7 @@
                           "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                           "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                           "healthCheckPath": "[parameters('healthCheckPath')]",
+                          "http20Enabled": true,
                           "cors": {
                             "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                           }
@@ -3456,7 +3506,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -3534,7 +3584,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3603,7 +3653,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3672,7 +3722,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3741,7 +3791,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -3807,7 +3857,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4007,12 +4057,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "6570295036306112853"
+              "templateHash": "16883945213010818148"
             }
           },
           "parameters": {
@@ -4178,12 +4228,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "16756175373379165193"
+                      "templateHash": "18242206882553735860"
                     },
                     "description": "Creates an Azure App Service in an existing Azure App Service plan."
                   },
@@ -4346,6 +4396,7 @@
                           "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                           "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                           "healthCheckPath": "[parameters('healthCheckPath')]",
+                          "http20Enabled": true,
                           "cors": {
                             "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                           }
@@ -4405,7 +4456,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -4483,7 +4534,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4552,7 +4603,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4621,7 +4672,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4690,7 +4741,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4756,7 +4807,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -4953,12 +5004,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "6570295036306112853"
+              "templateHash": "16883945213010818148"
             }
           },
           "parameters": {
@@ -5124,12 +5175,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "16756175373379165193"
+                      "templateHash": "18242206882553735860"
                     },
                     "description": "Creates an Azure App Service in an existing Azure App Service plan."
                   },
@@ -5292,6 +5343,7 @@
                           "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                           "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                           "healthCheckPath": "[parameters('healthCheckPath')]",
+                          "http20Enabled": true,
                           "cors": {
                             "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                           }
@@ -5351,7 +5403,7 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
@@ -5429,7 +5481,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5498,7 +5550,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5567,7 +5619,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5636,7 +5688,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5702,7 +5754,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5817,12 +5869,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "14824672405902859193"
+              "templateHash": "10544460967597427951"
             },
             "description": "Creates an Application Insights instance and a Log Analytics workspace."
           },
@@ -5869,7 +5921,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -5950,12 +6002,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "53484624287673645"
+                      "templateHash": "9000167602164653439"
                     },
                     "description": "Creates an Application Insights instance based on an existing Log Analytics workspace."
                   },
@@ -6015,12 +6067,12 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
                               "version": "0.29.47.4906",
-                              "templateHash": "14911212182563532861"
+                              "templateHash": "8448321884518588518"
                             },
                             "description": "Creates a dashboard for an Application Insights instance."
                           },
@@ -6037,7 +6089,9 @@
                             },
                             "tags": {
                               "type": "object",
-                              "defaultValue": {}
+                              "defaultValue": {
+                                "environment": "[environment().name]"
+                              }
                             }
                           },
                           "resources": [
@@ -7354,7 +7408,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -7437,7 +7491,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -7629,12 +7683,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "12877519659291791235"
+              "templateHash": "5241906692635867471"
             }
           },
           "parameters": {
@@ -7818,12 +7872,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "15094851132007588437"
+                      "templateHash": "71549122644324267"
                     },
                     "description": "Creates an Azure Function in an existing Azure App Service plan."
                   },
@@ -8026,12 +8080,12 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
                               "version": "0.29.47.4906",
-                              "templateHash": "16756175373379165193"
+                              "templateHash": "18242206882553735860"
                             },
                             "description": "Creates an Azure App Service in an existing Azure App Service plan."
                           },
@@ -8194,6 +8248,7 @@
                                   "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                                   "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                                   "healthCheckPath": "[parameters('healthCheckPath')]",
+                                  "http20Enabled": true,
                                   "cors": {
                                     "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                                   }
@@ -8253,7 +8308,7 @@
                                 },
                                 "template": {
                                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                                  "contentVersion": "#_moduleVersion_#.0",
+                                  "contentVersion": "1.0.0.0",
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
@@ -8349,7 +8404,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8418,7 +8473,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8487,7 +8542,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8556,7 +8611,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8625,7 +8680,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8691,7 +8746,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -8870,12 +8925,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "12877519659291791235"
+              "templateHash": "5241906692635867471"
             }
           },
           "parameters": {
@@ -9059,12 +9114,12 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "15094851132007588437"
+                      "templateHash": "71549122644324267"
                     },
                     "description": "Creates an Azure Function in an existing Azure App Service plan."
                   },
@@ -9267,12 +9322,12 @@
                         },
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                          "contentVersion": "#_moduleVersion_#.0",
+                          "contentVersion": "1.0.0.0",
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
                               "version": "0.29.47.4906",
-                              "templateHash": "16756175373379165193"
+                              "templateHash": "18242206882553735860"
                             },
                             "description": "Creates an Azure App Service in an existing Azure App Service plan."
                           },
@@ -9435,6 +9490,7 @@
                                   "use32BitWorkerProcess": "[parameters('use32BitWorkerProcess')]",
                                   "functionAppScaleLimit": "[if(not(equals(parameters('functionAppScaleLimit'), -1)), parameters('functionAppScaleLimit'), null())]",
                                   "healthCheckPath": "[parameters('healthCheckPath')]",
+                                  "http20Enabled": true,
                                   "cors": {
                                     "allowedOrigins": "[union(createArray('https://portal.azure.com', 'https://ms.portal.azure.com'), parameters('allowedOrigins'))]"
                                   }
@@ -9494,7 +9550,7 @@
                                 },
                                 "template": {
                                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                                  "contentVersion": "#_moduleVersion_#.0",
+                                  "contentVersion": "1.0.0.0",
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
@@ -9590,7 +9646,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9659,7 +9715,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9728,7 +9784,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9797,7 +9853,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9866,7 +9922,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -9932,7 +9988,7 @@
                 },
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "#_moduleVersion_#.0",
+                  "contentVersion": "1.0.0.0",
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
@@ -10038,12 +10094,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17627995896125563105"
+              "templateHash": "9618251263604591208"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -10080,7 +10136,7 @@
             },
             "publicNetworkAccess": {
               "type": "string",
-              "defaultValue": "Enabled",
+              "defaultValue": "Disabled",
               "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -10091,14 +10147,6 @@
               "defaultValue": {
                 "name": "S0"
               }
-            },
-            "allowedIpRules": {
-              "type": "array",
-              "defaultValue": []
-            },
-            "networkAcls": {
-              "type": "object",
-              "defaultValue": "[if(empty(parameters('allowedIpRules')), createObject('defaultAction', 'Allow'), createObject('ipRules', parameters('allowedIpRules'), 'defaultAction', 'Deny'))]"
             }
           },
           "resources": [
@@ -10112,7 +10160,10 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": {
+                  "defaultAction": "Deny"
+                },
+                "disableLocalAuth": true
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -10133,7 +10184,7 @@
                 "model": "[parameters('deployments')[copyIndex()].model]",
                 "raiPolicyName": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'raiPolicyName'), null())]"
               },
-              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku'), createObject('name', 'Standard', 'capacity', 20))]",
+              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku1'), createObject('name', 'Standard', 'capacity', 20))]",
               "dependsOn": [
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('name'))]"
               ]
@@ -10193,12 +10244,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "17627995896125563105"
+              "templateHash": "9618251263604591208"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -10235,7 +10286,7 @@
             },
             "publicNetworkAccess": {
               "type": "string",
-              "defaultValue": "Enabled",
+              "defaultValue": "Disabled",
               "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -10246,14 +10297,6 @@
               "defaultValue": {
                 "name": "S0"
               }
-            },
-            "allowedIpRules": {
-              "type": "array",
-              "defaultValue": []
-            },
-            "networkAcls": {
-              "type": "object",
-              "defaultValue": "[if(empty(parameters('allowedIpRules')), createObject('defaultAction', 'Allow'), createObject('ipRules', parameters('allowedIpRules'), 'defaultAction', 'Deny'))]"
             }
           },
           "resources": [
@@ -10267,7 +10310,10 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": {
+                  "defaultAction": "Deny"
+                },
+                "disableLocalAuth": true
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -10288,7 +10334,7 @@
                 "model": "[parameters('deployments')[copyIndex()].model]",
                 "raiPolicyName": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'raiPolicyName'), null())]"
               },
-              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku'), createObject('name', 'Standard', 'capacity', 20))]",
+              "sku": "[coalesce(tryGet(parameters('deployments')[copyIndex()], 'sku1'), createObject('name', 'Standard', 'capacity', 20))]",
               "dependsOn": [
                 "[resourceId('Microsoft.CognitiveServices/accounts', parameters('name'))]"
               ]
@@ -10351,12 +10397,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "10992796846575118308"
+              "templateHash": "14508851763784395475"
             }
           },
           "parameters": {
@@ -10382,6 +10428,9 @@
               "apiVersion": "2021-12-01",
               "name": "[parameters('name')]",
               "location": "[parameters('location')]",
+              "identity": {
+                "type": "SystemAssigned"
+              },
               "properties": {
                 "source": "[parameters('storageAccountId')]",
                 "topicType": "Microsoft.Storage.StorageAccounts"
@@ -10481,12 +10530,12 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "14338344074447008784"
+              "templateHash": "8960262958147400138"
             },
             "description": "Creates an Azure storage account."
           },
@@ -10533,7 +10582,10 @@
             },
             "deleteRetentionPolicy": {
               "type": "object",
-              "defaultValue": {}
+              "defaultValue": {
+                "enabled": true,
+                "days": 7
+              }
             },
             "dnsEndpointType": {
               "type": "string",
@@ -10563,7 +10615,7 @@
               "type": "object",
               "defaultValue": {
                 "bypass": "AzureServices",
-                "defaultAction": "Allow"
+                "defaultAction": "Deny"
               }
             },
             "publicNetworkAccess": {
@@ -10706,7 +10758,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10776,7 +10828,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10846,7 +10898,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -10916,7 +10968,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -11002,7 +11054,7 @@
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "#_moduleVersion_#.0",
+          "contentVersion": "1.0.0.0",
           "metadata": {
             "_generator": {
               "name": "bicep",
@@ -11113,260 +11165,452 @@
     }
   ],
   "outputs": {
-    "APPLICATIONINSIGHTS_CONNECTION_STRING": {
+    "applicationInsightsConnectionString": {
       "type": "string",
+      "metadata": {
+        "description": "The connection string of the application insights component."
+      },
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'monitoring'), '2022-09-01').outputs.applicationInsightsConnectionString.value]"
     },
-    "AZURE_APP_SERVICE_HOSTING_MODEL": {
+    "azureAppServiceHostingModel": {
       "type": "string",
+      "metadata": {
+        "description": "The app service hosting model."
+      },
       "value": "[parameters('hostingModel')]"
     },
-    "AZURE_BLOB_CONTAINER_NAME": {
+    "azureBlobContainerName": {
       "type": "string",
+      "metadata": {
+        "description": "The Blob container name."
+      },
       "value": "[variables('blobContainerName')]"
     },
-    "AZURE_BLOB_ACCOUNT_NAME": {
+    "azureBlobAccountName": {
       "type": "string",
+      "metadata": {
+        "description": "The Storage account name."
+      },
       "value": "[parameters('storageAccountName')]"
     },
-    "AZURE_BLOB_ACCOUNT_KEY": {
+    "azureBlobAccountKey": {
       "type": "string",
+      "metadata": {
+        "description": "The storage account key."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.STORAGE_ACCOUNT_KEY_NAME.value, '')]"
     },
-    "AZURE_COMPUTER_VISION_ENDPOINT": {
+    "azureComputerVisionEndpoint": {
       "type": "string",
+      "metadata": {
+        "description": "The computer vision endpoint."
+      },
       "value": "[if(parameters('useAdvancedImageProcessing'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'computerVision'), '2022-09-01').outputs.endpoint.value, '')]"
     },
-    "AZURE_COMPUTER_VISION_LOCATION": {
+    "azureComputerVisionLocation": {
       "type": "string",
+      "metadata": {
+        "description": "The omputer vision region."
+      },
       "value": "[if(parameters('useAdvancedImageProcessing'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'computerVision'), '2022-09-01').outputs.location.value, '')]"
     },
-    "AZURE_COMPUTER_VISION_KEY": {
+    "azureComputerVisionKey": {
       "type": "string",
+      "metadata": {
+        "description": "The computer Vision Key."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.COMPUTER_VISION_KEY_NAME.value, '')]"
     },
-    "AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_API_VERSION": {
+    "azureComputerVisionVectorizeImageApiVersion": {
       "type": "string",
+      "metadata": {
+        "description": "The computer vision image vectorization API version."
+      },
       "value": "[parameters('computerVisionVectorizeImageApiVersion')]"
     },
-    "AZURE_COMPUTER_VISION_VECTORIZE_IMAGE_MODEL_VERSION": {
+    "azureComputerVisionVectorizeImageModelVersion": {
       "type": "string",
+      "metadata": {
+        "description": "The computer vision image model version."
+      },
       "value": "[parameters('computerVisionVectorizeImageModelVersion')]"
     },
-    "AZURE_CONTENT_SAFETY_ENDPOINT": {
+    "azureContentSafetyEndpoint": {
       "type": "string",
+      "metadata": {
+        "description": "The content safety endpoint."
+      },
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('contentSafetyName')), '2022-09-01').outputs.endpoint.value]"
     },
-    "AZURE_CONTENT_SAFETY_KEY": {
+    "azureContentSafetyKey": {
       "type": "string",
+      "metadata": {
+        "description": "The content safety key name."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.CONTENT_SAFETY_KEY_NAME.value, '')]"
     },
-    "AZURE_FORM_RECOGNIZER_ENDPOINT": {
+    "azureFormRecognizerEndpoint": {
       "type": "string",
+      "metadata": {
+        "description": "The form recognizer endpoint."
+      },
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('formRecognizerName')), '2022-09-01').outputs.endpoint.value]"
     },
-    "AZURE_FORM_RECOGNIZER_KEY": {
+    "azureFormRecognizerKey": {
       "type": "string",
+      "metadata": {
+        "description": "The form recognizer key."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.FORM_RECOGNIZER_KEY_NAME.value, '')]"
     },
-    "AZURE_KEY_VAULT_ENDPOINT": {
+    "azureKeyVaultEndpoint": {
       "type": "string",
+      "metadata": {
+        "description": "The key vault endpoint."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault'), '2022-09-01').outputs.endpoint.value, '')]"
     },
-    "AZURE_KEY_VAULT_NAME": {
+    "azureKeyVaultName": {
       "type": "string",
+      "metadata": {
+        "description": "The key vault name."
+      },
       "value": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault'), '2022-09-01').outputs.name.value, '')]"
     },
-    "AZURE_LOCATION": {
+    "azureLocation": {
       "type": "string",
+      "metadata": {
+        "description": "The deployment region."
+      },
       "value": "[parameters('location')]"
     },
-    "AZURE_OPENAI_MODEL_NAME": {
+    "azureOpenAIModelName": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI model name."
+      },
       "value": "[parameters('azureOpenAIModelName')]"
     },
-    "AZURE_OPENAI_MODEL_VERSION": {
+    "azureOpenAIModelVersion": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI model version."
+      },
       "value": "[parameters('azureOpenAIModelVersion')]"
     },
-    "AZURE_OPENAI_STREAM": {
+    "azureOpenAIStream": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI Stream name."
+      },
       "value": "[parameters('azureOpenAIStream')]"
     },
-    "AZURE_OPENAI_SYSTEM_MESSAGE": {
+    "azureOpenAISystemMessage": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI system message."
+      },
       "value": "[parameters('azureOpenAISystemMessage')]"
     },
-    "AZURE_OPENAI_STOP_SEQUENCE": {
+    "azureOpenAIStopSequence": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI stop sequence."
+      },
       "value": "[parameters('azureOpenAIStopSequence')]"
     },
-    "AZURE_OPENAI_MAX_TOKENS": {
+    "azureOpenAIMaxTokens": {
       "type": "string",
+      "metadata": {
+        "description": "The maximum number of tokens allowed for the Open AI model."
+      },
       "value": "[parameters('azureOpenAIMaxTokens')]"
     },
-    "AZURE_OPENAI_TOP_P": {
+    "azureOpenAITopP": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI top P setting."
+      },
       "value": "[parameters('azureOpenAITopP')]"
     },
-    "AZURE_OPENAI_TEMPERATURE": {
+    "azureOpenAITemperature": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI Stream name."
+      },
       "value": "[parameters('azureOpenAITemperature')]"
     },
-    "AZURE_OPENAI_API_VERSION": {
+    "azureOpenAIApiVersion": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI API version."
+      },
       "value": "[parameters('azureOpenAIApiVersion')]"
     },
-    "AZURE_OPENAI_RESOURCE": {
+    "azureOpenAIResource": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI resource name."
+      },
       "value": "[parameters('azureOpenAIResourceName')]"
     },
-    "AZURE_OPENAI_EMBEDDING_MODEL_NAME": {
+    "azureOpenAIEmbeddingModelName": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI Embedding Model name."
+      },
       "value": "[parameters('azureOpenAIEmbeddingModelName')]"
     },
-    "AZURE_OPENAI_EMBEDDING_MODEL_VERSION": {
+    "azureOpenAIEmbeddingModelVersion": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI Embedding Model version."
+      },
       "value": "[parameters('azureOpenAIEmbeddingModelVersion')]"
     },
-    "AZURE_OPENAI_API_KEY": {
+    "azureOpenAIAPIKey": {
       "type": "string",
+      "metadata": {
+        "description": "The Open AI API key."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.OPENAI_KEY_NAME.value, '')]"
     },
-    "AZURE_RESOURCE_GROUP": {
+    "azureResourceGroup": {
       "type": "string",
+      "metadata": {
+        "description": "The resource group name for the deployment."
+      },
       "value": "[variables('rgName')]"
     },
-    "AZURE_SEARCH_KEY": {
+    "azureSearchKey": {
       "type": "string",
+      "metadata": {
+        "description": "The search key name."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.SEARCH_KEY_NAME.value, '')]"
     },
-    "AZURE_SEARCH_SERVICE": {
+    "azureSearchService": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure AI Search resource."
+      },
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureAISearchName')), '2022-09-01').outputs.endpoint.value]"
     },
-    "AZURE_SEARCH_USE_SEMANTIC_SEARCH": {
+    "azureSearchUseSemanticSearch": {
       "type": "bool",
+      "metadata": {
+        "description": "The value that turns the semantic search on or off."
+      },
       "value": "[parameters('azureSearchUseSemanticSearch')]"
     },
-    "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG": {
+    "azureSearchSemanticSearchConfig": {
       "type": "string",
+      "metadata": {
+        "description": "The name of the semantic search configuration to use if using semantic search."
+      },
       "value": "[parameters('azureSearchSemanticSearchConfig')]"
     },
-    "AZURE_SEARCH_INDEX_IS_PRECHUNKED": {
+    "azureSearchIndexIsPrechunked": {
       "type": "string",
+      "metadata": {
+        "description": "Value that determines if index is prechunked."
+      },
       "value": "[parameters('azureSearchIndexIsPrechunked')]"
     },
-    "AZURE_SEARCH_TOP_K": {
+    "azureSearchTopK": {
       "type": "string",
+      "metadata": {
+        "description": "The number of documents that should be returned on a search."
+      },
       "value": "[parameters('azureSearchTopK')]"
     },
-    "AZURE_SEARCH_ENABLE_IN_DOMAIN": {
+    "azureSearchEnableInDomain": {
       "type": "string",
+      "metadata": {
+        "description": "Limits responses to only queries relating to your data."
+      },
       "value": "[parameters('azureSearchEnableInDomain')]"
     },
-    "AZURE_SEARCH_CONTENT_COLUMNS": {
+    "azureSearchContentColumns": {
       "type": "string",
+      "metadata": {
+        "description": "List of fields in your search index that contains the text content of your documents to use when formulating a bot response. Represent these as a string joined with."
+      },
       "value": "[parameters('azureSearchContentColumns')]"
     },
-    "AZURE_SEARCH_CONTENT_VECTOR_COLUMNS": {
+    "azureSearchVectorColumns": {
       "type": "string",
+      "metadata": {
+        "description": "List of fields in your search index that contain vector embeddings of your documents to use when formulating a bot response. Represent these as a string joined with."
+      },
       "value": "[parameters('azureSearchVectorColumns')]"
     },
-    "AZURE_SEARCH_FILENAME_COLUMN": {
+    "azureSearchFilenameColumn": {
       "type": "string",
+      "metadata": {
+        "description": "Field from your search index that gives a unique identifier of the source of your data to display in the UI."
+      },
       "value": "[parameters('azureSearchFilenameColumn')]"
     },
-    "AZURE_SEARCH_FILTER": {
+    "azureSearchFilter": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure search filter."
+      },
       "value": "[parameters('azureSearchFilter')]"
     },
-    "AZURE_SEARCH_TITLE_COLUMN": {
+    "azureSearchTitleColumn": {
       "type": "string",
+      "metadata": {
+        "description": "The name of the search title column."
+      },
       "value": "[parameters('azureSearchTitleColumn')]"
     },
-    "AZURE_SEARCH_URL_COLUMN": {
+    "azureSearchUrlColumn": {
       "type": "string",
+      "metadata": {
+        "description": "The name of the URL column."
+      },
       "value": "[parameters('azureSearchUrlColumn')]"
     },
-    "AZURE_SEARCH_USE_INTEGRATED_VECTORIZATION": {
+    "azureSearchUseIntegratedVectorization": {
       "type": "bool",
+      "metadata": {
+        "description": "Boolean to use integrated vectorization."
+      },
       "value": "[parameters('azureSearchUseIntegratedVectorization')]"
     },
-    "AZURE_SEARCH_INDEX": {
+    "azureSearchIndex": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure AI Search Index."
+      },
       "value": "[parameters('azureSearchIndex')]"
     },
-    "AZURE_SEARCH_INDEXER_NAME": {
+    "azureSearchIndexerName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure AI Search Indexer."
+      },
       "value": "[parameters('azureSearchIndexer')]"
     },
-    "AZURE_SEARCH_DATASOURCE_NAME": {
+    "azureSearchDatasourceName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure AI data source."
+      },
       "value": "[parameters('azureSearchDatasource')]"
     },
-    "AZURE_SPEECH_SERVICE_NAME": {
+    "azureSpeechServiceName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure Speech Service."
+      },
       "value": "[parameters('speechServiceName')]"
     },
-    "AZURE_SPEECH_SERVICE_REGION": {
+    "azureSpeechServiceRegion": {
       "type": "string",
+      "metadata": {
+        "description": "The loccation of the Speech Service."
+      },
       "value": "[parameters('location')]"
     },
-    "AZURE_SPEECH_SERVICE_KEY": {
+    "azureSpeechServiceKey": {
       "type": "string",
+      "metadata": {
+        "description": "The nspeech service key."
+      },
       "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.SPEECH_KEY_NAME.value, '')]"
     },
-    "AZURE_SPEECH_RECOGNIZER_LANGUAGES": {
+    "azureSpeechRecognizerLanguages": {
       "type": "string",
+      "metadata": {
+        "description": "Languages the speech service will recognize."
+      },
       "value": "[parameters('recognizedLanguages')]"
     },
-    "AZURE_TENANT_ID": {
+    "azureTenantId": {
       "type": "string",
+      "metadata": {
+        "description": "The tenant ID."
+      },
       "value": "[tenant().tenantId]"
     },
-    "DOCUMENT_PROCESSING_QUEUE_NAME": {
+    "documentProcessingQueueName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of the document processing queue."
+      },
       "value": "[variables('queueName')]"
     },
-    "ORCHESTRATION_STRATEGY": {
+    "orchestrationStrategy": {
       "type": "string",
+      "metadata": {
+        "description": "The strategy for Azure service orchestration."
+      },
       "value": "[parameters('orchestrationStrategy')]"
     },
-    "USE_KEY_VAULT": {
+    "useKeyVault": {
       "type": "bool",
+      "metadata": {
+        "description": "Boolean for using the keyvault."
+      },
       "value": "[parameters('useKeyVault')]"
     },
-    "FRONTEND_WEBSITE_NAME": {
+    "frontendWebsiteName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your frontend website."
+      },
       "value": "[if(equals(parameters('hostingModel'), 'code'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('websiteName')), '2022-09-01').outputs.FRONTEND_API_URI.value, reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('websiteName'))), '2022-09-01').outputs.FRONTEND_API_URI.value)]"
     },
-    "ADMIN_WEBSITE_NAME": {
+    "adminWebsiteName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your admin website."
+      },
       "value": "[if(equals(parameters('hostingModel'), 'code'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('adminWebsiteName')), '2022-09-01').outputs.WEBSITE_ADMIN_URI.value, reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('adminWebsiteName'))), '2022-09-01').outputs.WEBSITE_ADMIN_URI.value)]"
     },
-    "LOGLEVEL": {
+    "logLevel": {
       "type": "string",
+      "metadata": {
+        "description": "The log level for application insights."
+      },
       "value": "[parameters('logLevel')]"
     },
-    "CONVERSATION_FLOW": {
+    "conversationFlow": {
       "type": "string",
+      "metadata": {
+        "description": "The name of the conversation flow."
+      },
       "value": "[parameters('conversationFlow')]"
     },
-    "USE_ADVANCED_IMAGE_PROCESSING": {
+    "useAdvancedImageProcessing": {
       "type": "bool",
+      "metadata": {
+        "description": "Boolean that determines if advaced image processing is used."
+      },
       "value": "[parameters('useAdvancedImageProcessing')]"
     },
-    "ADVANCED_IMAGE_PROCESSING_MAX_IMAGES": {
+    "advancedImageProcessingMaxImages": {
       "type": "int",
+      "metadata": {
+        "description": "The maximum number of images to be processed."
+      },
       "value": "[parameters('advancedImageProcessingMaxImages')]"
     },
-    "AZURE_ML_WORKSPACE_NAME": {
+    "azureMLWorkspaceName": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your Azure ML workspace."
+      },
       "value": "[if(equals(parameters('orchestrationStrategy'), 'prompt_flow'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureMachineLearningName')), '2022-09-01').outputs.workspaceName.value, '')]"
     },
-    "RESOURCE_TOKEN": {
+    "resourceToken": {
       "type": "string",
+      "metadata": {
+        "description": "The name of your resource token."
+      },
       "value": "[parameters('resourceToken')]"
     }
   }
