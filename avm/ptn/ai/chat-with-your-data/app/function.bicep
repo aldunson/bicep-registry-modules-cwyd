@@ -143,6 +143,9 @@ resource waitFunctionDeploymentSection 'Microsoft.Resources/deploymentScripts@20
   kind: 'AzurePowerShell'
   name: 'WaitFunctionDeploymentSection'
   location: location
+  tags: {
+    purpose: 'Wait for function deployment'
+  }
   properties: {
     azPowerShellVersion: '3.0'
     scriptContent: 'start-sleep -Seconds 300'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "9055523972088872689"
+      "templateHash": "6121721318657891438"
     },
     "name": "Chat with Your Data",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -1578,7 +1578,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "9495380229825050901"
+              "templateHash": "12684510657123056213"
             }
           },
           "parameters": {
@@ -1619,7 +1619,7 @@
               "defaultValue": ""
             },
             "storageAccountKeyName": {
-              "type": "securestring",
+              "type": "string",
               "defaultValue": "AZURE-STORAGE-ACCOUNT-KEY"
             },
             "openAIKeyName": {
@@ -7693,7 +7693,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "5241906692635867471"
+              "templateHash": "17394153134149320584"
             }
           },
           "parameters": {
@@ -7821,6 +7821,9 @@
               "name": "WaitFunctionDeploymentSection",
               "kind": "AzurePowerShell",
               "location": "[parameters('location')]",
+              "tags": {
+                "purpose": "Wait for function deployment"
+              },
               "properties": {
                 "azPowerShellVersion": "3.0",
                 "scriptContent": "start-sleep -Seconds 300",
@@ -8935,7 +8938,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "5241906692635867471"
+              "templateHash": "17394153134149320584"
             }
           },
           "parameters": {
@@ -9063,6 +9066,9 @@
               "name": "WaitFunctionDeploymentSection",
               "kind": "AzurePowerShell",
               "location": "[parameters('location')]",
+              "tags": {
+                "purpose": "Wait for function deployment"
+              },
               "properties": {
                 "azPowerShellVersion": "3.0",
                 "scriptContent": "start-sleep -Seconds 300",
@@ -10407,7 +10413,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "14508851763784395475"
+              "templateHash": "5147203530364121097"
             }
           },
           "parameters": {
@@ -10433,6 +10439,9 @@
               "apiVersion": "2021-12-01",
               "name": "[parameters('name')]",
               "location": "[parameters('location')]",
+              "tags": {
+                "name": "[parameters('blobContainerName')]"
+              },
               "identity": {
                 "type": "SystemAssigned"
               },

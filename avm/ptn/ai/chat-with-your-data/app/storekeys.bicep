@@ -7,7 +7,6 @@ param formRecognizerName string = ''
 param contentSafetyName string = ''
 param speechServiceName string = ''
 param computerVisionName string = ''
-@secure()
 param storageAccountKeyName string = 'AZURE-STORAGE-ACCOUNT-KEY'
 param openAIKeyName string = 'AZURE-OPENAI-API-KEY'
 param searchKeyName string = 'AZURE-SEARCH-KEY'

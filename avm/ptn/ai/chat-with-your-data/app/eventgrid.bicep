@@ -7,6 +7,7 @@ param blobContainerName string
 resource eventGridSystemTopic 'Microsoft.EventGrid/systemTopics@2021-12-01' = {
   name: name
   location: location
+  tags: { name: blobContainerName }
   identity: {
     type: 'SystemAssigned'
   }
