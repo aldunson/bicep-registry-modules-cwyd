@@ -9,14 +9,14 @@ metadata owner = 'Azure/module-maintainers'
 @description('Required. Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
 
-@description('Optional. Resource Token.')
-param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
+@description('Optional. Resource Name.')
+param resourceName string = toLower(uniqueString(subscription().id, environmentName, location))
 
 @description('Required. Location for all resources.')
 param location string
 
 @description('Optional. Name of App Service plan.')
-param hostingPlanName string = 'hosting-plan-${resourceToken}'
+param hostingPlanName string = 'hosting-plan-${resourceName}'
 
 @description('Optional. The pricing tier for the App Service plan.')
 @allowed([
@@ -48,16 +48,16 @@ param hostingPlanSku string = 'P3'
 param skuTier string = 'PremiumV3'
 
 @description('Optional. Name of Web App.')
-param websiteName string = 'web-${resourceToken}'
+param websiteName string = 'web-${resourceName}'
 
 @description('Optional. Name of Admin Web App.')
 param adminWebsiteName string = '${websiteName}-admin'
 
 @description('Optional. Name of Application Insights.')
-param applicationInsightsName string = 'appinsights-${resourceToken}'
+param applicationInsightsName string = 'appinsights-${resourceName}'
 
 @description('Optional. Name of the Workbook.')
-param workbookDisplayName string = 'workbook-${resourceToken}'
+param workbookDisplayName string = 'workbook-${resourceName}'
 
 @description('Optional. Use semantic search.')
 param azureSearchUseSemanticSearch bool = false
@@ -96,7 +96,7 @@ param azureSearchUrlColumn string = 'url'
 param azureSearchUseIntegratedVectorization bool = false
 
 @description('Optional. Name of Azure OpenAI Resource.')
-param azureOpenAIResourceName string = 'openai-${resourceToken}'
+param azureOpenAIResourceName string = 'openai-${resourceName}'
 
 @description('Optional. Name of Azure OpenAI Resource SKU.')
 param azureOpenAISkuName string = 'S0'
@@ -154,7 +154,7 @@ param azureOpenAITemperature string = '0'
 param azureOpenAITopP string = '1'
 
 @description('Optional. Azure OpenAI Max Tokens.')
-param azureOpenAIMaxTokens string = '1000'
+param azureOpenAIMaxToks string = '1000'
 
 @description('Optional. Azure OpenAI Stop Sequence.')
 param azureOpenAIStopSequence string = ''
@@ -181,7 +181,7 @@ param azureOpenAIEmbeddingModelVersion string = '2'
 param azureOpenAIEmbeddingModelCapacity int = 30
 
 @description('Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true).')
-param computerVisionName string = 'computer-vision-${resourceToken}'
+param computerVisionName string = 'computer-vision-${resourceName}'
 
 @description('Optional. Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true).')
 @allowed([
@@ -211,7 +211,7 @@ param computerVisionVectorizeImageApiVersion string = '2024-02-01'
 param computerVisionVectorizeImageModelVersion string = '2023-04-15'
 
 @description('Optional. Azure AI Search Resource.')
-param azureAISearchName string = 'search-${resourceToken}'
+param azureAISearchName string = 'search-${resourceName}'
 
 @description('Optional. The SKU of the search service you want to create. E.g. free or standard.')
 @allowed([
@@ -224,34 +224,34 @@ param azureAISearchName string = 'search-${resourceToken}'
 param azureSearchSku string = 'standard'
 
 @description('Optional. Azure AI Search Index.')
-param azureSearchIndex string = 'index-${resourceToken}'
+param azureSearchIndex string = 'index-${resourceName}'
 
 @description('Optional. Azure AI Search Indexer.')
-param azureSearchIndexer string = 'indexer-${resourceToken}'
+param azureSearchIndexer string = 'indexer-${resourceName}'
 
 @description('Optional. Azure AI Search Datasource.')
-param azureSearchDatasource string = 'datasource-${resourceToken}'
+param azureSearchDatasource string = 'datasource-${resourceName}'
 
 @description('Optional. Azure AI Search Conversation Log Index.')
 param azureSearchConversationLogIndex string = 'conversations'
 
 @description('Optional. Name of Storage Account.')
-param storageAccountName string = 'str${resourceToken}'
+param storageAccountName string = 'str${resourceName}'
 
 @description('Optional. Name of Function App for Batch document processing.')
-param functionName string = 'backend-${resourceToken}'
+param functionName string = 'backend-${resourceName}'
 
 @description('Optional. Azure Form Recognizer Name.')
-param formRecognizerName string = 'formrecog-${resourceToken}'
+param formRecognizerName string = 'formrecog-${resourceName}'
 
 @description('Optional. Azure Content Safety Name.')
-param contentSafetyName string = 'contentsafety-${resourceToken}'
+param contentSafetyName string = 'contentsafety-${resourceName}'
 
 @description('Optional. Azure Speech Service Name.')
-param speechServiceName string = 'speech-${resourceToken}'
+param speechServiceName string = 'speech-${resourceName}'
 
 @description('Optional. Log Analytics Name.')
-param logAnalyticsName string = 'la-${resourceToken}'
+param logAnalyticsName string = 'la-${resourceName}'
 
 @description('Optional. Guid.')
 param newGuidString string = newGuid()
@@ -293,7 +293,7 @@ param logLevel string = 'INFO'
 param recognizedLanguages string = 'en-US,fr-FR,de-DE,it-IT'
 
 @description('Optional. Azure Machine Learning Name.')
-param azureMachineLearningName string = 'aml-${resourceToken}'
+param azureMachineLearningName string = 'aml-${resourceName}'
 
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
@@ -304,7 +304,7 @@ var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${ne
 var eventGridSystemTopicName = 'doc-processing'
 var tags = { 'azd-env-name': environmentName }
 var rgName = 'rg-${environmentName}'
-var keyVaultName = 'kv-${resourceToken}'
+var keyVaultName = 'kv-${resourceName}'
 
 //resources
 #disable-next-line no-deployments-resources
@@ -476,6 +476,7 @@ module speechService 'core/ai/cognitiveservices.bicep' = {
       name: 'S0'
     }
     kind: 'SpeechServices'
+    tags: tags
   }
 }
 
@@ -525,6 +526,7 @@ module hostingplan './core/host/appserviceplan.bicep' = {
     sku: {
       name: hostingPlanSku
       tier: skuTier
+      capacity: 3
     }
     reserved: true
     tags: { CostControl: 'Ignore' }
@@ -574,7 +576,7 @@ module web './app/web.bicep' = if (hostingModel == 'code') {
       AZURE_OPENAI_MODEL_VERSION: azureOpenAIModelVersion
       AZURE_OPENAI_TEMPERATURE: azureOpenAITemperature
       AZURE_OPENAI_TOP_P: azureOpenAITopP
-      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxTokens
+      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxToks
       AZURE_OPENAI_STOP_SEQUENCE: azureOpenAIStopSequence
       AZURE_OPENAI_SYSTEM_MESSAGE: azureOpenAISystemMessage
       AZURE_OPENAI_API_VERSION: azureOpenAIApiVersion
@@ -651,7 +653,7 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
       AZURE_OPENAI_MODEL_VERSION: azureOpenAIModelVersion
       AZURE_OPENAI_TEMPERATURE: azureOpenAITemperature
       AZURE_OPENAI_TOP_P: azureOpenAITopP
-      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxTokens
+      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxToks
       AZURE_OPENAI_STOP_SEQUENCE: azureOpenAIStopSequence
       AZURE_OPENAI_SYSTEM_MESSAGE: azureOpenAISystemMessage
       AZURE_OPENAI_API_VERSION: azureOpenAIApiVersion
@@ -728,7 +730,7 @@ module adminweb './app/adminweb.bicep' = if (hostingModel == 'code') {
       AZURE_OPENAI_MODEL_VERSION: azureOpenAIModelVersion
       AZURE_OPENAI_TEMPERATURE: azureOpenAITemperature
       AZURE_OPENAI_TOP_P: azureOpenAITopP
-      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxTokens
+      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxToks
       AZURE_OPENAI_STOP_SEQUENCE: azureOpenAIStopSequence
       AZURE_OPENAI_SYSTEM_MESSAGE: azureOpenAISystemMessage
       AZURE_OPENAI_API_VERSION: azureOpenAIApiVersion
@@ -803,7 +805,7 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
       AZURE_OPENAI_MODEL_VERSION: azureOpenAIModelVersion
       AZURE_OPENAI_TEMPERATURE: azureOpenAITemperature
       AZURE_OPENAI_TOP_P: azureOpenAITopP
-      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxTokens
+      AZURE_OPENAI_MAX_TOKENS: azureOpenAIMaxToks
       AZURE_OPENAI_STOP_SEQUENCE: azureOpenAIStopSequence
       AZURE_OPENAI_SYSTEM_MESSAGE: azureOpenAISystemMessage
       AZURE_OPENAI_API_VERSION: azureOpenAIApiVersion
@@ -1029,16 +1031,15 @@ module storage 'core/storage/storage-account.bicep' = {
   scope: rg
   params: {
     name: storageAccountName
+    tags: tags
     location: location
     sku: {
       name: 'Standard_GRS'
     }
-    deleteRetentionPolicy: azureSearchUseIntegratedVectorization
-      ? {
-          enabled: true
-          days: 7
-        }
-      : {}
+    deleteRetentionPolicy: {
+      enabled: true
+      days: 7
+    }
     containers: [
       {
         name: blobContainerName
@@ -1052,6 +1053,9 @@ module storage 'core/storage/storage-account.bicep' = {
     queues: [
       {
         name: 'doc-processing'
+        tags: {
+          'azd-service-name': 'doc-processing'
+        }
       }
       {
         name: 'doc-processing-poison'
@@ -1133,9 +1137,6 @@ output azureBlobContainerName string = blobContainerName
 @description('The Storage account name.')
 output azureBlobAccountName string = storageAccountName
 
-@description('The storage account key.')
-output azureBlobAccountKey string = useKeyVault ? storekeys.outputs.STORAGE_ACCOUNT_KEY_NAME : ''
-
 @description('The computer vision endpoint.')
 output azureComputerVisionEndpoint string = useAdvancedImageProcessing ? computerVision.outputs.endpoint : ''
 
@@ -1188,7 +1189,7 @@ output azureOpenAISystemMessage string = azureOpenAISystemMessage
 output azureOpenAIStopSequence string = azureOpenAIStopSequence
 
 @description('The maximum number of tokens allowed for the Open AI model.')
-output azureOpenAIMaxTokens string = azureOpenAIMaxTokens
+output azureOpenAIMaxToks string = azureOpenAIMaxToks
 
 @description('The Open AI top P setting.')
 output azureOpenAITopP string = azureOpenAITopP
@@ -1315,4 +1316,4 @@ output advancedImageProcessingMaxImages int = advancedImageProcessingMaxImages
 output azureMLWorkspaceName string = orchestrationStrategy == 'prompt_flow' ? machineLearning.outputs.workspaceName : ''
 
 @description('The name of your resource token.')
-output resourceToken string = resourceToken
+output resourceName string = resourceName

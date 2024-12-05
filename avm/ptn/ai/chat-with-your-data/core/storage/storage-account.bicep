@@ -52,6 +52,10 @@ resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
     name: 'default'
     properties: {
       deleteRetentionPolicy: deleteRetentionPolicy
+      containerDeleteRetentionPolicy: {
+        enabled: true
+        days: 7
+      }
     }
     resource container 'containers' = [
       for container in containers: {
