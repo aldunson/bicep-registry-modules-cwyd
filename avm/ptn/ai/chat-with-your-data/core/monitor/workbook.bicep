@@ -19,6 +19,9 @@ resource workbook_resource 'microsoft.insights/workbooks@2023-06-01' = {
   name: workbookId
   location: location
   kind: 'shared'
+  tags: {
+    displayName: workbookDisplayName
+  }
   properties: {
     displayName: workbookDisplayName
     serializedData: workbookContents
