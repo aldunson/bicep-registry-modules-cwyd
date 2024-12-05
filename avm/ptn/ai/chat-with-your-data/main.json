@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "9727596413600373933"
+      "templateHash": "9055523972088872689"
     },
     "name": "Chat with Your Data",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -20,11 +20,11 @@
         "description": "Required. Name of the the environment which is used to generate a short unique hash used in all resources."
       }
     },
-    "resourceToken": {
+    "resourceName": {
       "type": "string",
       "defaultValue": "[toLower(uniqueString(subscription().id, parameters('environmentName'), parameters('location')))]",
       "metadata": {
-        "description": "Optional. Resource Token."
+        "description": "Optional. Resource Name."
       }
     },
     "location": {
@@ -35,7 +35,7 @@
     },
     "hostingPlanName": {
       "type": "string",
-      "defaultValue": "[format('hosting-plan-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('hosting-plan-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of App Service plan."
       }
@@ -79,7 +79,7 @@
     },
     "websiteName": {
       "type": "string",
-      "defaultValue": "[format('web-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('web-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Web App."
       }
@@ -93,14 +93,14 @@
     },
     "applicationInsightsName": {
       "type": "string",
-      "defaultValue": "[format('appinsights-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('appinsights-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Application Insights."
       }
     },
     "workbookDisplayName": {
       "type": "string",
-      "defaultValue": "[format('workbook-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('workbook-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of the Workbook."
       }
@@ -191,7 +191,7 @@
     },
     "azureOpenAIResourceName": {
       "type": "string",
-      "defaultValue": "[format('openai-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('openai-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Azure OpenAI Resource."
       }
@@ -311,7 +311,7 @@
         "description": "Optional. Azure OpenAI Top P."
       }
     },
-    "azureOpenAIMaxTokens": {
+    "azureOpenAIMaxToks": {
       "type": "string",
       "defaultValue": "1000",
       "metadata": {
@@ -376,7 +376,7 @@
     },
     "computerVisionName": {
       "type": "string",
-      "defaultValue": "[format('computer-vision-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('computer-vision-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Computer Vision Resource (if useAdvancedImageProcessing=true)."
       }
@@ -425,7 +425,7 @@
     },
     "azureAISearchName": {
       "type": "string",
-      "defaultValue": "[format('search-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('search-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure AI Search Resource."
       }
@@ -446,21 +446,21 @@
     },
     "azureSearchIndex": {
       "type": "string",
-      "defaultValue": "[format('index-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('index-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure AI Search Index."
       }
     },
     "azureSearchIndexer": {
       "type": "string",
-      "defaultValue": "[format('indexer-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('indexer-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure AI Search Indexer."
       }
     },
     "azureSearchDatasource": {
       "type": "string",
-      "defaultValue": "[format('datasource-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('datasource-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure AI Search Datasource."
       }
@@ -474,42 +474,42 @@
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "[format('str{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('str{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Storage Account."
       }
     },
     "functionName": {
       "type": "string",
-      "defaultValue": "[format('backend-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('backend-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of Function App for Batch document processing."
       }
     },
     "formRecognizerName": {
       "type": "string",
-      "defaultValue": "[format('formrecog-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('formrecog-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure Form Recognizer Name."
       }
     },
     "contentSafetyName": {
       "type": "string",
-      "defaultValue": "[format('contentsafety-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('contentsafety-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure Content Safety Name."
       }
     },
     "speechServiceName": {
       "type": "string",
-      "defaultValue": "[format('speech-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('speech-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure Speech Service Name."
       }
     },
     "logAnalyticsName": {
       "type": "string",
-      "defaultValue": "[format('la-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('la-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Log Analytics Name."
       }
@@ -587,7 +587,7 @@
     },
     "azureMachineLearningName": {
       "type": "string",
-      "defaultValue": "[format('aml-{0}', parameters('resourceToken'))]",
+      "defaultValue": "[format('aml-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Azure Machine Learning Name."
       }
@@ -609,7 +609,7 @@
       "azd-env-name": "[parameters('environmentName')]"
     },
     "rgName": "[format('rg-{0}', parameters('environmentName'))]",
-    "keyVaultName": "[format('kv-{0}', parameters('resourceToken'))]",
+    "keyVaultName": "[format('kv-{0}', parameters('resourceName'))]",
     "defaultOpenAiDeployments": [
       {
         "name": "[parameters('azureOpenAIModel')]",
@@ -1402,6 +1402,9 @@
           },
           "kind": {
             "value": "SpeechServices"
+          },
+          "tags": {
+            "value": "[variables('tags')]"
           }
         },
         "template": {
@@ -1938,7 +1941,8 @@
           "sku": {
             "value": {
               "name": "[parameters('hostingPlanSku')]",
-              "tier": "[parameters('skuTier')]"
+              "tier": "[parameters('skuTier')]",
+              "capacity": 3
             }
           },
           "reserved": {
@@ -2107,7 +2111,7 @@
               "AZURE_OPENAI_MODEL_VERSION": "[parameters('azureOpenAIModelVersion')]",
               "AZURE_OPENAI_TEMPERATURE": "[parameters('azureOpenAITemperature')]",
               "AZURE_OPENAI_TOP_P": "[parameters('azureOpenAITopP')]",
-              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxTokens')]",
+              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxToks')]",
               "AZURE_OPENAI_STOP_SEQUENCE": "[parameters('azureOpenAIStopSequence')]",
               "AZURE_OPENAI_SYSTEM_MESSAGE": "[parameters('azureOpenAISystemMessage')]",
               "AZURE_OPENAI_API_VERSION": "[parameters('azureOpenAIApiVersion')]",
@@ -3065,7 +3069,7 @@
               "AZURE_OPENAI_MODEL_VERSION": "[parameters('azureOpenAIModelVersion')]",
               "AZURE_OPENAI_TEMPERATURE": "[parameters('azureOpenAITemperature')]",
               "AZURE_OPENAI_TOP_P": "[parameters('azureOpenAITopP')]",
-              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxTokens')]",
+              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxToks')]",
               "AZURE_OPENAI_STOP_SEQUENCE": "[parameters('azureOpenAIStopSequence')]",
               "AZURE_OPENAI_SYSTEM_MESSAGE": "[parameters('azureOpenAISystemMessage')]",
               "AZURE_OPENAI_API_VERSION": "[parameters('azureOpenAIApiVersion')]",
@@ -4023,7 +4027,7 @@
               "AZURE_OPENAI_MODEL_VERSION": "[parameters('azureOpenAIModelVersion')]",
               "AZURE_OPENAI_TEMPERATURE": "[parameters('azureOpenAITemperature')]",
               "AZURE_OPENAI_TOP_P": "[parameters('azureOpenAITopP')]",
-              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxTokens')]",
+              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxToks')]",
               "AZURE_OPENAI_STOP_SEQUENCE": "[parameters('azureOpenAIStopSequence')]",
               "AZURE_OPENAI_SYSTEM_MESSAGE": "[parameters('azureOpenAISystemMessage')]",
               "AZURE_OPENAI_API_VERSION": "[parameters('azureOpenAIApiVersion')]",
@@ -4970,7 +4974,7 @@
               "AZURE_OPENAI_MODEL_VERSION": "[parameters('azureOpenAIModelVersion')]",
               "AZURE_OPENAI_TEMPERATURE": "[parameters('azureOpenAITemperature')]",
               "AZURE_OPENAI_TOP_P": "[parameters('azureOpenAITopP')]",
-              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxTokens')]",
+              "AZURE_OPENAI_MAX_TOKENS": "[parameters('azureOpenAIMaxToks')]",
               "AZURE_OPENAI_STOP_SEQUENCE": "[parameters('azureOpenAIStopSequence')]",
               "AZURE_OPENAI_SYSTEM_MESSAGE": "[parameters('azureOpenAISystemMessage')]",
               "AZURE_OPENAI_API_VERSION": "[parameters('azureOpenAIApiVersion')]",
@@ -10497,6 +10501,9 @@
           "name": {
             "value": "[parameters('storageAccountName')]"
           },
+          "tags": {
+            "value": "[variables('tags')]"
+          },
           "location": {
             "value": "[parameters('location')]"
           },
@@ -10505,7 +10512,12 @@
               "name": "Standard_GRS"
             }
           },
-          "deleteRetentionPolicy": "[if(parameters('azureSearchUseIntegratedVectorization'), createObject('value', createObject('enabled', true(), 'days', 7)), createObject('value', createObject()))]",
+          "deleteRetentionPolicy": {
+            "value": {
+              "enabled": true,
+              "days": 7
+            }
+          },
           "containers": {
             "value": [
               {
@@ -10521,7 +10533,10 @@
           "queues": {
             "value": [
               {
-                "name": "doc-processing"
+                "name": "doc-processing",
+                "tags": {
+                  "azd-service-name": "doc-processing"
+                }
               },
               {
                 "name": "doc-processing-poison"
@@ -10536,7 +10551,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "8960262958147400138"
+              "templateHash": "10132387503491683081"
             },
             "description": "Creates an Azure storage account."
           },
@@ -10673,7 +10688,11 @@
               "apiVersion": "2022-05-01",
               "name": "[format('{0}/{1}', parameters('name'), 'default')]",
               "properties": {
-                "deleteRetentionPolicy": "[parameters('deleteRetentionPolicy')]"
+                "deleteRetentionPolicy": "[parameters('deleteRetentionPolicy')]",
+                "containerDeleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 7
+                }
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('name'))]"
@@ -11194,13 +11213,6 @@
       },
       "value": "[parameters('storageAccountName')]"
     },
-    "azureBlobAccountKey": {
-      "type": "string",
-      "metadata": {
-        "description": "The storage account key."
-      },
-      "value": "[if(parameters('useKeyVault'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'storekeys'), '2022-09-01').outputs.STORAGE_ACCOUNT_KEY_NAME.value, '')]"
-    },
     "azureComputerVisionEndpoint": {
       "type": "string",
       "metadata": {
@@ -11320,12 +11332,12 @@
       },
       "value": "[parameters('azureOpenAIStopSequence')]"
     },
-    "azureOpenAIMaxTokens": {
+    "azureOpenAIMaxToks": {
       "type": "string",
       "metadata": {
         "description": "The maximum number of tokens allowed for the Open AI model."
       },
-      "value": "[parameters('azureOpenAIMaxTokens')]"
+      "value": "[parameters('azureOpenAIMaxToks')]"
     },
     "azureOpenAITopP": {
       "type": "string",
@@ -11607,12 +11619,12 @@
       },
       "value": "[if(equals(parameters('orchestrationStrategy'), 'prompt_flow'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureMachineLearningName')), '2022-09-01').outputs.workspaceName.value, '')]"
     },
-    "resourceToken": {
+    "resourceName": {
       "type": "string",
       "metadata": {
         "description": "The name of your resource token."
       },
-      "value": "[parameters('resourceToken')]"
+      "value": "[parameters('resourceName')]"
     }
   }
 }

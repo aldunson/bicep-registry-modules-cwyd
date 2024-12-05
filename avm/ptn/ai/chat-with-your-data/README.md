@@ -173,7 +173,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 | [`azureOpenAIEmbeddingModelCapacity`](#parameter-azureopenaiembeddingmodelcapacity) | int | Azure OpenAI Embedding Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
 | [`azureOpenAIEmbeddingModelName`](#parameter-azureopenaiembeddingmodelname) | string | Azure OpenAI Embedding Model Name. |
 | [`azureOpenAIEmbeddingModelVersion`](#parameter-azureopenaiembeddingmodelversion) | string | Azure OpenAI Embedding Model Version. |
-| [`azureOpenAIMaxTokens`](#parameter-azureopenaimaxtokens) | string | Azure OpenAI Max Tokens. |
+| [`azureOpenAIMaxToks`](#parameter-azureopenaimaxtoks) | string | Azure OpenAI Max Tokens. |
 | [`azureOpenAIModel`](#parameter-azureopenaimodel) | string | Azure OpenAI Model Deployment Name. |
 | [`azureOpenAIModelCapacity`](#parameter-azureopenaimodelcapacity) | int | Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
 | [`azureOpenAIModelName`](#parameter-azureopenaimodelname) | string | Azure OpenAI Model Name. |
@@ -225,7 +225,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 | [`orchestrationStrategy`](#parameter-orchestrationstrategy) | string | Orchestration strategy: openai_function or semantic_kernel or langchain str. If you use a old version of turbo (0301), please select langchain. |
 | [`principalId`](#parameter-principalid) | string | Id of the user or app to assign application roles. |
 | [`recognizedLanguages`](#parameter-recognizedlanguages) | string | List of comma-separated languages to recognize from the speech input. Supported languages are listed here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=stt#supported-languages . |
-| [`resourceToken`](#parameter-resourcetoken) | string | Resource Token. |
+| [`resourceName`](#parameter-resourcename) | string | Resource Name. |
 | [`searchTag`](#parameter-searchtag) | string | Search Tag. |
 | [`skuTier`](#parameter-skutier) | string | The sku tier for the App Service plan. |
 | [`speechServiceName`](#parameter-speechservicename) | string | Azure Speech Service Name. |
@@ -271,7 +271,7 @@ Name of Application Insights.
 
 - Required: No
 - Type: string
-- Default: `[format('appinsights-{0}', parameters('resourceToken'))]`
+- Default: `[format('appinsights-{0}', parameters('resourceName'))]`
 
 ### Parameter: `authType`
 
@@ -294,7 +294,7 @@ Azure AI Search Resource.
 
 - Required: No
 - Type: string
-- Default: `[format('search-{0}', parameters('resourceToken'))]`
+- Default: `[format('search-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureMachineLearningName`
 
@@ -302,7 +302,7 @@ Azure Machine Learning Name.
 
 - Required: No
 - Type: string
-- Default: `[format('aml-{0}', parameters('resourceToken'))]`
+- Default: `[format('aml-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureOpenAIApiVersion`
 
@@ -344,7 +344,7 @@ Azure OpenAI Embedding Model Version.
 - Type: string
 - Default: `'2'`
 
-### Parameter: `azureOpenAIMaxTokens`
+### Parameter: `azureOpenAIMaxToks`
 
 Azure OpenAI Max Tokens.
 
@@ -390,7 +390,7 @@ Name of Azure OpenAI Resource.
 
 - Required: No
 - Type: string
-- Default: `[format('openai-{0}', parameters('resourceToken'))]`
+- Default: `[format('openai-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureOpenAISkuName`
 
@@ -494,7 +494,7 @@ Azure AI Search Datasource.
 
 - Required: No
 - Type: string
-- Default: `[format('datasource-{0}', parameters('resourceToken'))]`
+- Default: `[format('datasource-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureSearchEnableInDomain`
 
@@ -526,7 +526,7 @@ Azure AI Search Index.
 
 - Required: No
 - Type: string
-- Default: `[format('index-{0}', parameters('resourceToken'))]`
+- Default: `[format('index-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureSearchIndexer`
 
@@ -534,7 +534,7 @@ Azure AI Search Indexer.
 
 - Required: No
 - Type: string
-- Default: `[format('indexer-{0}', parameters('resourceToken'))]`
+- Default: `[format('indexer-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureSearchIndexIsPrechunked`
 
@@ -645,7 +645,7 @@ Name of Computer Vision Resource (if useAdvancedImageProcessing=true).
 
 - Required: No
 - Type: string
-- Default: `[format('computer-vision-{0}', parameters('resourceToken'))]`
+- Default: `[format('computer-vision-{0}', parameters('resourceName'))]`
 
 ### Parameter: `computerVisionSkuName`
 
@@ -684,7 +684,7 @@ Azure Content Safety Name.
 
 - Required: No
 - Type: string
-- Default: `[format('contentsafety-{0}', parameters('resourceToken'))]`
+- Default: `[format('contentsafety-{0}', parameters('resourceName'))]`
 
 ### Parameter: `conversationFlow`
 
@@ -715,7 +715,7 @@ Azure Form Recognizer Name.
 
 - Required: No
 - Type: string
-- Default: `[format('formrecog-{0}', parameters('resourceToken'))]`
+- Default: `[format('formrecog-{0}', parameters('resourceName'))]`
 
 ### Parameter: `functionName`
 
@@ -723,7 +723,7 @@ Name of Function App for Batch document processing.
 
 - Required: No
 - Type: string
-- Default: `[format('backend-{0}', parameters('resourceToken'))]`
+- Default: `[format('backend-{0}', parameters('resourceName'))]`
 
 ### Parameter: `hostingModel`
 
@@ -746,7 +746,7 @@ Name of App Service plan.
 
 - Required: No
 - Type: string
-- Default: `[format('hosting-plan-{0}', parameters('resourceToken'))]`
+- Default: `[format('hosting-plan-{0}', parameters('resourceName'))]`
 
 ### Parameter: `hostingPlanSku`
 
@@ -779,7 +779,7 @@ Log Analytics Name.
 
 - Required: No
 - Type: string
-- Default: `[format('la-{0}', parameters('resourceToken'))]`
+- Default: `[format('la-{0}', parameters('resourceName'))]`
 
 ### Parameter: `logLevel`
 
@@ -840,9 +840,9 @@ List of comma-separated languages to recognize from the speech input. Supported 
 - Type: string
 - Default: `'en-US,fr-FR,de-DE,it-IT'`
 
-### Parameter: `resourceToken`
+### Parameter: `resourceName`
 
-Resource Token.
+Resource Name.
 
 - Required: No
 - Type: string
@@ -882,7 +882,7 @@ Azure Speech Service Name.
 
 - Required: No
 - Type: string
-- Default: `[format('speech-{0}', parameters('resourceToken'))]`
+- Default: `[format('speech-{0}', parameters('resourceName'))]`
 
 ### Parameter: `storageAccountName`
 
@@ -890,7 +890,7 @@ Name of Storage Account.
 
 - Required: No
 - Type: string
-- Default: `[format('str{0}', parameters('resourceToken'))]`
+- Default: `[format('str{0}', parameters('resourceName'))]`
 
 ### Parameter: `useAdvancedImageProcessing`
 
@@ -914,7 +914,7 @@ Name of Web App.
 
 - Required: No
 - Type: string
-- Default: `[format('web-{0}', parameters('resourceToken'))]`
+- Default: `[format('web-{0}', parameters('resourceName'))]`
 
 ### Parameter: `workbookDisplayName`
 
@@ -922,7 +922,7 @@ Name of the Workbook.
 
 - Required: No
 - Type: string
-- Default: `[format('workbook-{0}', parameters('resourceToken'))]`
+- Default: `[format('workbook-{0}', parameters('resourceName'))]`
 
 
 ## Outputs
@@ -933,7 +933,6 @@ Name of the Workbook.
 | `advancedImageProcessingMaxImages` | int | The maximum number of images to be processed. |
 | `applicationInsightsConnectionString` | string | The connection string of the application insights component. |
 | `azureAppServiceHostingModel` | string | The app service hosting model. |
-| `azureBlobAccountKey` | string | The storage account key. |
 | `azureBlobAccountName` | string | The Storage account name. |
 | `azureBlobContainerName` | string | The Blob container name. |
 | `azureComputerVisionEndpoint` | string | The computer vision endpoint. |
@@ -953,7 +952,7 @@ Name of the Workbook.
 | `azureOpenAIApiVersion` | string | The Open AI API version. |
 | `azureOpenAIEmbeddingModelName` | string | The Open AI Embedding Model name. |
 | `azureOpenAIEmbeddingModelVersion` | string | The Open AI Embedding Model version. |
-| `azureOpenAIMaxTokens` | string | The maximum number of tokens allowed for the Open AI model. |
+| `azureOpenAIMaxToks` | string | The maximum number of tokens allowed for the Open AI model. |
 | `azureOpenAIModelName` | string | The Open AI model name. |
 | `azureOpenAIModelVersion` | string | The Open AI model version. |
 | `azureOpenAIResource` | string | The Open AI resource name. |
@@ -990,7 +989,7 @@ Name of the Workbook.
 | `frontendWebsiteName` | string | The name of your frontend website. |
 | `logLevel` | string | The log level for application insights. |
 | `orchestrationStrategy` | string | The strategy for Azure service orchestration. |
-| `resourceToken` | string | The name of your resource token. |
+| `resourceName` | string | The name of your resource token. |
 | `useAdvancedImageProcessing` | bool | Boolean that determines if advaced image processing is used. |
 | `useKeyVault` | bool | Boolean for using the keyvault. |
 
