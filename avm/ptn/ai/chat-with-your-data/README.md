@@ -52,10 +52,10 @@ The following section provides usage examples for the module, which were used to
 
 >**Note**: To reference the module, please use the following syntax `br/public:avm/ptn/ai/chat-with-your-data:<version>`.
 
-- [Defaults](#example-1-defaults)
+- [Using only defaults](#example-1-using-only-defaults)
 - [WAF-aligned](#example-2-waf-aligned)
 
-### Example 1: _Defaults_
+### Example 1: _Using only defaults_
 
 This instance deploys the module with the minimum set of required parameters.
 

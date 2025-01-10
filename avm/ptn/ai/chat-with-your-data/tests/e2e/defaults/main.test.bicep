@@ -1,3 +1,4 @@
+metadata name = 'Using only defaults'
 metadata description = 'This instance deploys the module with the minimum set of required parameters.'
 
 // ========== //
@@ -17,7 +18,7 @@ param resourceLocation string = 'deployment().location'
 param serviceShort string = 'acwydmin'
 
 @description('Optional. A token to inject into the name of each resource. This value can be automatically injected by the CI.')
-param namePrefix string = 'CWYD'
+param namePrefix string = 'cto'
 
 //@description('Optional. Subscription ID of the subscription to assign the RBAC role to. If no Resource Group name is provided, the module deploys at subscription level, therefore assigns the provided RBAC role to the subscription.')
 //param subscriptionId string = '#_subscriptionId_#'
