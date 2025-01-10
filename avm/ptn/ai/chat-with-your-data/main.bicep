@@ -1,4 +1,4 @@
-metadata name = 'Chat with Your Data'
+metadata name = 'CWYD'
 metadata description = '''This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
 which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.'''
 metadata owner = 'Azure/module-maintainers'

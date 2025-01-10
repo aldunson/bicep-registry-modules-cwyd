@@ -1,4 +1,4 @@
-# Chat with Your Data `[Ai/ChatWithYourData]`
+# CWYD `[Ai/ChatWithYourData]`
 
 This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
 which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.
@@ -22,6 +22,7 @@ which is integrated into a web application to provide a natural language interfa
 | `Microsoft.EventGrid/systemTopics` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics) |
 | `Microsoft.EventGrid/systemTopics/eventSubscriptions` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics/eventSubscriptions) |
 | `Microsoft.Insights/components` | [2020-02-02](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2020-02-02/components) |
+| `Microsoft.Insights/diagnosticSettings` | [2021-05-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2021-05-01-preview/diagnosticSettings) |
 | `Microsoft.Insights/workbooks` | [2023-06-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2023-06-01/workbooks) |
 | `Microsoft.KeyVault/vaults` | [2022-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.KeyVault/2022-07-01/vaults) |
 | `Microsoft.KeyVault/vaults/accessPolicies` | [2022-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.KeyVault/2022-07-01/vaults/accessPolicies) |
@@ -51,10 +52,10 @@ The following section provides usage examples for the module, which were used to
 
 >**Note**: To reference the module, please use the following syntax `br/public:avm/ptn/ai/chat-with-your-data:<version>`.
 
-- [Chat with Your Data](#example-1-chat-with-your-data)
+- [Defaults](#example-1-defaults)
 - [WAF-aligned](#example-2-waf-aligned)
 
-### Example 1: _Chat with Your Data_
+### Example 1: _Defaults_
 
 This instance deploys the module with the minimum set of required parameters.
 
