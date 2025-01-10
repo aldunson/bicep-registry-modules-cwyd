@@ -1315,5 +1315,8 @@ output advancedImageProcessingMaxImages int = advancedImageProcessingMaxImages
 @description('The name of your Azure ML workspace.')
 output azureMLWorkspaceName string = orchestrationStrategy == 'prompt_flow' ? machineLearning.outputs.workspaceName : ''
 
+@description('The name of your resource group.')
+output resourceGroupName string = rgName
+
 @description('The name of your resource token.')
 output resourceName string = resourceName

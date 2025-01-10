@@ -993,6 +993,7 @@ Name of the Workbook.
 | `frontendWebsiteName` | string | The name of your frontend website. |
 | `logLevel` | string | The log level for application insights. |
 | `orchestrationStrategy` | string | The strategy for Azure service orchestration. |
+| `resourceGroupName` | string | The name of your resource group. |
 | `resourceName` | string | The name of your resource token. |
 | `useAdvancedImageProcessing` | bool | Boolean that determines if advaced image processing is used. |
 | `useKeyVault` | bool | Boolean for using the keyvault. |

@@ -67,4 +67,3 @@ resource openai_connection 'Microsoft.MachineLearningServices/workspaces/connect
 }
 
 output workspaceName string = machineLearningWorkspace.name
-output resourceGroup string = resourceGroup().name
