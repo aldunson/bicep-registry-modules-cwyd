@@ -1,4 +1,4 @@
-targetScope = 'subscription'
+//targetScope = 'subscription'
 metadata name = 'Chat with Your Data'
 metadata description = '''This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
 which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.'''
@@ -13,7 +13,7 @@ param environmentName string
 param resourceName string = toLower(uniqueString(subscription().id, environmentName, location))
 
 @description('Required. Location for all resources.')
-param location string
+param location string = resourceGroup().location
 
 @description('Optional. Name of App Service plan.')
 param hostingPlanName string = 'hosting-plan-${resourceName}'
@@ -33,7 +33,7 @@ param hostingPlanName string = 'hosting-plan-${resourceName}'
   'P3'
   'P4'
 ])
-param hostingPlanSku string = 'P3'
+param hostingPlanSku string = 'S1'
 
 @description('Optional. The sku tier for the App Service plan.')
 @allowed([
@@ -45,7 +45,7 @@ param hostingPlanSku string = 'P3'
   'PremiumV2'
   'PremiumV3'
 ])
-param skuTier string = 'PremiumV3'
+param skuTier string = 'Standard'
 
 @description('Optional. Name of Web App.')
 param websiteName string = 'web-${resourceName}'
@@ -303,7 +303,8 @@ var queueName = 'doc-processing'
 var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${newGuidString}'
 var eventGridSystemTopicName = 'doc-processing'
 var tags = { 'azd-env-name': environmentName }
-var rgName = 'rg-${environmentName}'
+// var rgName = 'rg-${environmentName}'
+var rgName = resourceGroup().name
 var keyVaultName = 'kv-${resourceName}'
 
 //resources
@@ -328,16 +329,16 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 }
 
 // Organize resources in a resource group
-resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: rgName
-  location: location
-  tags: tags
-}
+// resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+//   name: rgName
+//   location: location
+//   tags: tags
+// }
 
 // Store secrets in a keyvault
 module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
   name: 'keyvault'
-  scope: rg
+  // scope: rg
   params: {
     name: keyVaultName
     location: location
@@ -395,7 +396,7 @@ var openAiDeployments = concat(
 
 module openai 'core/ai/cognitiveservices.bicep' = {
   name: azureOpenAIResourceName
-  scope: rg
+  // //  scope: rg
   params: {
     name: azureOpenAIResourceName
     location: location
@@ -410,7 +411,7 @@ module openai 'core/ai/cognitiveservices.bicep' = {
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImageProcessing) {
   name: 'computerVision'
-  scope: rg
+  // //  scope: rg
   params: {
     name: computerVisionName
     kind: 'ComputerVision'
@@ -424,7 +425,7 @@ module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImagePr
 
 // Search Index Data Reader
 module searchIndexRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'search-index-role-openai'
   params: {
     principalId: openai.outputs.identityPrincipalId
@@ -435,7 +436,7 @@ module searchIndexRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac'
 
 // Search Service Contributor
 module searchServiceRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'search-service-role-openai'
   params: {
     principalId: openai.outputs.identityPrincipalId
@@ -446,7 +447,7 @@ module searchServiceRoleOpenai 'core/security/role.bicep' = if (authType == 'rba
 
 // Storage Blob Data Reader
 module blobDataReaderRoleSearch 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'blob-data-reader-role-search'
   params: {
     principalId: search.outputs.identityPrincipalId
@@ -457,7 +458,7 @@ module blobDataReaderRoleSearch 'core/security/role.bicep' = if (authType == 'rb
 
 // Cognitive Services OpenAI User
 module openAiRoleSearchService 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'openai-role-searchservice'
   params: {
     principalId: search.outputs.identityPrincipalId
@@ -467,7 +468,7 @@ module openAiRoleSearchService 'core/security/role.bicep' = if (authType == 'rba
 }
 
 module speechService 'core/ai/cognitiveservices.bicep' = {
-  scope: rg
+  //  scope: rg
   name: speechServiceName
   params: {
     name: speechServiceName
@@ -482,7 +483,7 @@ module speechService 'core/ai/cognitiveservices.bicep' = {
 
 module storekeys './app/storekeys.bicep' = if (useKeyVault) {
   name: 'storekeys'
-  scope: rg
+  //  scope: rg
   params: {
     keyVaultName: keyVaultName
     azureOpenAIName: openai.outputs.name
@@ -498,7 +499,7 @@ module storekeys './app/storekeys.bicep' = if (useKeyVault) {
 
 module search './core/search/search-services.bicep' = {
   name: azureAISearchName
-  scope: rg
+  //  scope: rg
   params: {
     name: azureAISearchName
     location: location
@@ -519,7 +520,7 @@ module search './core/search/search-services.bicep' = {
 
 module hostingplan './core/host/appserviceplan.bicep' = {
   name: hostingPlanName
-  scope: rg
+  //  scope: rg
   params: {
     name: hostingPlanName
     location: location
@@ -535,7 +536,7 @@ module hostingplan './core/host/appserviceplan.bicep' = {
 
 module web './app/web.bicep' = if (hostingModel == 'code') {
   name: websiteName
-  scope: rg
+  //  scope: rg
   params: {
     name: websiteName
     location: location
@@ -613,7 +614,7 @@ module web './app/web.bicep' = if (hostingModel == 'code') {
 
 module web_docker './app/web.bicep' = if (hostingModel == 'container') {
   name: '${websiteName}-docker'
-  scope: rg
+  //  scope: rg
   params: {
     name: '${websiteName}-docker'
     location: location
@@ -690,7 +691,7 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
 
 module adminweb './app/adminweb.bicep' = if (hostingModel == 'code') {
   name: adminWebsiteName
-  scope: rg
+  //  scope: rg
   params: {
     name: adminWebsiteName
     location: location
@@ -766,7 +767,7 @@ module adminweb './app/adminweb.bicep' = if (hostingModel == 'code') {
 
 module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container') {
   name: '${adminWebsiteName}-docker'
-  scope: rg
+  //  scope: rg
   params: {
     name: '${adminWebsiteName}-docker'
     location: location
@@ -841,7 +842,7 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
 
 module monitoring './core/monitor/monitoring.bicep' = {
   name: 'monitoring'
-  scope: rg
+  //  scope: rg
   params: {
     applicationInsightsName: applicationInsightsName
     location: location
@@ -855,7 +856,7 @@ module monitoring './core/monitor/monitoring.bicep' = {
 
 module workbook './app/workbook.bicep' = {
   name: 'workbook'
-  scope: rg
+  //  scope: rg
   params: {
     workbookDisplayName: workbookDisplayName
     location: location
@@ -875,7 +876,7 @@ module workbook './app/workbook.bicep' = {
 
 module function './app/function.bicep' = if (hostingModel == 'code') {
   name: functionName
-  scope: rg
+  //  scope: rg
   params: {
     name: functionName
     location: location
@@ -935,7 +936,7 @@ module function './app/function.bicep' = if (hostingModel == 'code') {
 
 module function_docker './app/function.bicep' = if (hostingModel == 'container') {
   name: '${functionName}-docker'
-  scope: rg
+  //  scope: rg
   params: {
     name: '${functionName}-docker'
     location: location
@@ -994,7 +995,7 @@ module function_docker './app/function.bicep' = if (hostingModel == 'container')
 
 module formrecognizer 'core/ai/cognitiveservices.bicep' = {
   name: formRecognizerName
-  scope: rg
+  //  scope: rg
   params: {
     name: formRecognizerName
     location: location
@@ -1005,7 +1006,7 @@ module formrecognizer 'core/ai/cognitiveservices.bicep' = {
 
 module contentsafety 'core/ai/cognitiveservices.bicep' = {
   name: contentSafetyName
-  scope: rg
+  //  scope: rg
   params: {
     name: contentSafetyName
     location: location
@@ -1016,7 +1017,7 @@ module contentsafety 'core/ai/cognitiveservices.bicep' = {
 
 module eventgrid 'app/eventgrid.bicep' = {
   name: eventGridSystemTopicName
-  scope: rg
+  //  scope: rg
   params: {
     name: eventGridSystemTopicName
     location: location
@@ -1028,7 +1029,7 @@ module eventgrid 'app/eventgrid.bicep' = {
 
 module storage 'core/storage/storage-account.bicep' = {
   name: storageAccountName
-  scope: rg
+  //  scope: rg
   params: {
     name: storageAccountName
     tags: tags
@@ -1067,7 +1068,7 @@ module storage 'core/storage/storage-account.bicep' = {
 // USER ROLES
 // Storage Blob Data Contributor
 module storageRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'storage-role-user'
   params: {
     principalId: principalId
@@ -1078,7 +1079,7 @@ module storageRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
 
 // Cognitive Services User
 module openaiRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'openai-role-user'
   params: {
     principalId: principalId
@@ -1089,7 +1090,7 @@ module openaiRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
 
 // Contributor
 module openaiRoleUserContributor 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'openai-role-user-contributor'
   params: {
     principalId: principalId
@@ -1100,7 +1101,7 @@ module openaiRoleUserContributor 'core/security/role.bicep' = if (authType == 'r
 
 // Search Index Data Contributor
 module searchRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
-  scope: rg
+  //  scope: rg
   name: 'search-role-user'
   params: {
     principalId: principalId
@@ -1110,7 +1111,7 @@ module searchRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
 }
 
 module machineLearning 'app/machinelearning.bicep' = if (orchestrationStrategy == 'prompt_flow') {
-  scope: rg
+  //  scope: rg
   name: azureMachineLearningName
   params: {
     location: location

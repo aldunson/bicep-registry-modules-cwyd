@@ -22,7 +22,6 @@ which is integrated into a web application to provide a natural language interfa
 | `Microsoft.EventGrid/systemTopics` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics) |
 | `Microsoft.EventGrid/systemTopics/eventSubscriptions` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics/eventSubscriptions) |
 | `Microsoft.Insights/components` | [2020-02-02](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2020-02-02/components) |
-| `Microsoft.Insights/diagnosticSettings` | [2021-05-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2021-05-01-preview/diagnosticSettings) |
 | `Microsoft.Insights/workbooks` | [2023-06-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2023-06-01/workbooks) |
 | `Microsoft.KeyVault/vaults` | [2022-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.KeyVault/2022-07-01/vaults) |
 | `Microsoft.KeyVault/vaults/accessPolicies` | [2022-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.KeyVault/2022-07-01/vaults/accessPolicies) |
@@ -32,7 +31,6 @@ which is integrated into a web application to provide a natural language interfa
 | `Microsoft.OperationalInsights/workspaces` | [2021-12-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.OperationalInsights/2021-12-01-preview/workspaces) |
 | `Microsoft.Portal/dashboards` | [2020-09-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Portal/2020-09-01-preview/dashboards) |
 | `Microsoft.Resources/deploymentScripts` | [2020-10-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Resources/2020-10-01/deploymentScripts) |
-| `Microsoft.Resources/resourceGroups` | [2021-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Resources/2021-04-01/resourceGroups) |
 | `Microsoft.Search/searchServices` | [2021-04-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Search/2021-04-01-preview/searchServices) |
 | `Microsoft.Storage/storageAccounts` | [2022-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Storage/2022-05-01/storageAccounts) |
 | `Microsoft.Storage/storageAccounts/blobServices` | [2022-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Storage/2022-05-01/storageAccounts/blobServices) |
@@ -71,6 +69,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   params: {
     // Required parameters
     environmentName: 'acwydmin001'
+    // Non-required parameters
     location: '<location>'
   }
 }
@@ -92,6 +91,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
     "environmentName": {
       "value": "acwydmin001"
     },
+    // Non-required parameters
     "location": {
       "value": "<location>"
     }
@@ -117,6 +117,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   params: {
     // Required parameters
     environmentName: 'acwydwaf001'
+    // Non-required parameters
     location: '<location>'
   }
 }
@@ -138,6 +139,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
     "environmentName": {
       "value": "acwydwaf001"
     },
+    // Non-required parameters
     "location": {
       "value": "<location>"
     }
@@ -246,8 +248,9 @@ Name of the the environment which is used to generate a short unique hash used i
 
 Location for all resources.
 
-- Required: Yes
+- Required: No
 - Type: string
+- Default: `[resourceGroup().location]`
 
 ### Parameter: `adminWebsiteName`
 
@@ -754,7 +757,7 @@ The pricing tier for the App Service plan.
 
 - Required: No
 - Type: string
-- Default: `'P3'`
+- Default: `'S1'`
 - Allowed:
   ```Bicep
   [
@@ -862,7 +865,7 @@ The sku tier for the App Service plan.
 
 - Required: No
 - Type: string
-- Default: `'PremiumV3'`
+- Default: `'Standard'`
 - Allowed:
   ```Bicep
   [
