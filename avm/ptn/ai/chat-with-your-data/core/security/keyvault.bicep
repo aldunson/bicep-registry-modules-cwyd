@@ -31,18 +31,19 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   }
 }
 
-resource logs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: 'logs'
-  scope: keyVault
-  properties: {
-    logs: [
-      {
-        category: 'AuditEvent'
-        enabled: true
-      }
-    ]
-  }
-}
+// resource logs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+//   name: 'logs'
+//   scope: keyVault
+//   workspaceId: applicationInsightsId
+//   properties: {
+//     logs: [
+//       {
+//         category: 'AuditEvent'
+//         enabled: true
+//       }
+//     ]
+//   }
+// }
 
 output endpoint string = keyVault.properties.vaultUri
 output name string = keyVault.name

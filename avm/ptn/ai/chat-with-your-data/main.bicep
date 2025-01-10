@@ -334,15 +334,25 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 //   tags: tags
 // }
 
+// // Store secrets in a keyvault
+// module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
+//   name: 'keyvault'
+//   // scope: rg
+//   params: {
+//     name: keyVaultName
+//     location: location
+//     tags: tags
+//     principalId: principalId
+//   }
+// }
+
 // Store secrets in a keyvault
-module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
-  name: 'keyvault'
-  // scope: rg
+module keyvault 'br/public:avm/res/key-vault/vault:0.11.1' = {
+  name: keyVaultName
   params: {
     name: keyVaultName
     location: location
     tags: tags
-    principalId: principalId
   }
 }
 
@@ -1116,7 +1126,7 @@ module machineLearning 'app/machinelearning.bicep' = if (orchestrationStrategy =
     location: location
     workspaceName: azureMachineLearningName
     storageAccountId: storage.outputs.id
-    keyVaultId: useKeyVault ? keyvault.outputs.id : ''
+    keyVaultId: useKeyVault ? keyvault.outputs.resourceId : ''
     applicationInsightsId: monitoring.outputs.applicationInsightsId
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
@@ -1165,7 +1175,7 @@ output azureFormRecognizerEndpoint string = formrecognizer.outputs.endpoint
 output azureFormRecognizerKey string = useKeyVault ? storekeys.outputs.FORM_RECOGNIZER_KEY_NAME : ''
 
 @description('The key vault endpoint.')
-output azureKeyVaultEndpoint string = useKeyVault ? keyvault.outputs.endpoint : ''
+output azureKeyVaultEndpoint string = useKeyVault ? keyvault.outputs.uri : ''
 
 @description('The key vault name.')
 output azureKeyVaultName string = useKeyVault || authType == 'rbac' ? keyvault.outputs.name : ''

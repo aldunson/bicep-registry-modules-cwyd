@@ -52,13 +52,10 @@ The following section provides usage examples for the module, which were used to
 
 >**Note**: To reference the module, please use the following syntax `br/public:avm/ptn/ai/chat-with-your-data:<version>`.
 
-- [Using only defaults](#example-1-using-only-defaults)
-- [WAF-aligned](#example-2-waf-aligned)
+- [Defaults](#example-1-defaults)
+- [Waf-Aligned](#example-2-waf-aligned)
 
-### Example 1: _Using only defaults_
-
-This instance deploys the module with the minimum set of required parameters.
-
+### Example 1: _Defaults_
 
 <details>
 
@@ -103,10 +100,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 </details>
 <p>
 
-### Example 2: _WAF-aligned_
-
-This instance deploys the module in alignment with the best-practices of the Azure Well-Architected Framework.
-
+### Example 2: _Waf-Aligned_
 
 <details>
 
@@ -1000,7 +994,11 @@ Name of the Workbook.
 
 ## Cross-referenced modules
 
-_None_
+This section gives you an overview of all local-referenced module files (i.e., other modules that are referenced in this module) and all remote-referenced files (i.e., Bicep modules that are referenced from a Bicep Registry or Template Specs).
+
+| Reference | Type |
+| :-- | :-- |
+| `br/public:avm/res/key-vault/vault:0.11.1` | Remote reference |
 
 ## Data Collection
 
