@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "823544983405696188"
+      "templateHash": "5379780023051156775"
     },
     "name": "Using only defaults",
     "description": "This instance deploys the module with the minimum set of required parameters."
@@ -72,7 +72,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "6058453866344335378"
+              "templateHash": "16656036024767412252"
             },
             "name": "Chat with Your Data",
             "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -110,7 +110,7 @@
             },
             "hostingPlanSku": {
               "type": "string",
-              "defaultValue": "P3",
+              "defaultValue": "S1",
               "allowedValues": [
                 "F1",
                 "D1",
@@ -131,7 +131,7 @@
             },
             "skuTier": {
               "type": "string",
-              "defaultValue": "PremiumV3",
+              "defaultValue": "Standard",
               "allowedValues": [
                 "Free",
                 "Shared",
@@ -712,7 +712,6 @@
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2023-07-01",
               "name": "[format('46d3xbcp.ptn.ai-chatwithyourdata.{0}.{1}', replace('-..--..-', '.', '-'), substring(uniqueString(deployment().name, parameters('location')), 0, 4))]",
-              "location": "[parameters('location')]",
               "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -760,7 +759,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "8121110480271062266"
+                      "templateHash": "15678420744416968937"
                     },
                     "description": "Creates an Azure Key Vault."
                   },
@@ -803,24 +802,6 @@
                         },
                         "accessPolicies": "[if(not(empty(parameters('principalId'))), createArray(createObject('objectId', parameters('principalId'), 'permissions', createObject('secrets', createArray('get', 'list')), 'tenantId', subscription().tenantId)), createArray())]"
                       }
-                    },
-                    {
-                      "type": "Microsoft.Insights/diagnosticSettings",
-                      "apiVersion": "2021-05-01-preview",
-                      "scope": "[format('Microsoft.KeyVault/vaults/{0}', parameters('name'))]",
-                      "name": "logs",
-                      "properties": {
-                        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', 'logAnalytics')]",
-                        "logs": [
-                          {
-                            "category": "AuditEvent",
-                            "enabled": true
-                          }
-                        ]
-                      },
-                      "dependsOn": [
-                        "[resourceId('Microsoft.KeyVault/vaults', parameters('name'))]"
-                      ]
                     }
                   ],
                   "outputs": {
@@ -1992,7 +1973,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.29.47.4906",
-                      "templateHash": "7046593475606059861"
+                      "templateHash": "5881024418885501022"
                     },
                     "description": "Creates an Azure App Service plan."
                   },
@@ -2019,10 +2000,8 @@
                     "sku": {
                       "type": "object",
                       "defaultValue": {
-                        "name": "P1v3",
-                        "tier": "PremiumV3",
-                        "size": "P1v3",
-                        "family": "Pv3",
+                        "name": "S1",
+                        "tier": "Standard",
                         "capacity": 3
                       }
                     }
@@ -2038,7 +2017,7 @@
                       "kind": "[parameters('kind')]",
                       "properties": {
                         "reserved": "[parameters('reserved')]",
-                        "zoneRedundant": true
+                        "zoneRedundant": false
                       }
                     }
                   ],

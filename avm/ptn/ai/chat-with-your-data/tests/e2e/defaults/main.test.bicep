@@ -1,4 +1,4 @@
-targetScope = 'subscription'
+//targetScope = 'subscription'
 metadata name = 'Using only defaults'
 metadata description = 'This instance deploys the module with the minimum set of required parameters.'
 
@@ -30,10 +30,10 @@ param namePrefix string = 'cto'
 
 // General resources
 // =================
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: resourceGroupName
-  location: resourceLocation
-}
+// resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+//   name: resourceGroupName
+//   location: resourceLocation
+// }
 
 // ============== //
 // Test Execution //
@@ -42,7 +42,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 @batchSize(1)
 module testDeployment '../../../main.bicep' = [
   for iteration in ['init', 'idem']: {
-    scope: resourceGroup
+    //scope: resourceGroup
     name: '${uniqueString(deployment().name, resourceLocation)}-test-${serviceShort}-${iteration}'
     params: {
       // You parameters go here
