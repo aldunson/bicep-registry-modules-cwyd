@@ -42,7 +42,12 @@ resource aisearch_connection 'Microsoft.MachineLearningServices/workspaces/conne
   }
 }
 
-var azureOpenAIId = resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.CognitiveServices/accounts', azureOpenAIName)
+var azureOpenAIId = resourceId(
+  subscription().subscriptionId,
+  resourceGroup().name,
+  'Microsoft.CognitiveServices/accounts',
+  azureOpenAIName
+)
 
 resource openai_connection 'Microsoft.MachineLearningServices/workspaces/connections@2024-01-01-preview' = {
   parent: machineLearningWorkspace
@@ -62,3 +67,4 @@ resource openai_connection 'Microsoft.MachineLearningServices/workspaces/connect
 }
 
 output workspaceName string = machineLearningWorkspace.name
+output resourceGroup string = resourceGroup().name
