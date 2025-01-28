@@ -85,7 +85,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -102,6 +102,22 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
     }
   }
 }
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
+
+// Required parameters
+param environmentName = 'acwydmin001'
+// Non-required parameters
+param location = '<location>'
 ```
 
 </details>
@@ -133,7 +149,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -155,6 +171,21 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 </details>
 <p>
 
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
+
+// Required parameters
+param environmentName = 'acwydwaf001'
+// Non-required parameters
+param location = '<location>'
+```
+
+</details>
+<p>
 
 ## Parameters
 
@@ -931,7 +962,6 @@ Name of the Workbook.
 - Required: No
 - Type: string
 - Default: `[format('workbook-{0}', parameters('resourceName'))]`
-
 
 ## Outputs
 
