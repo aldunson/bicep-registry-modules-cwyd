@@ -38,8 +38,8 @@
 | `Microsoft.Storage/storageAccounts/queueServices/queues` | [2022-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Storage/2022-05-01/storageAccounts/queueServices/queues) |
 | `Microsoft.Web/serverfarms` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/2022-03-01/serverfarms) |
 | `Microsoft.Web/sites` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/2022-03-01/sites) |
-| `Microsoft.Web/sites/basicPublishingCredentialsPolicies` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/sites) |
-| `Microsoft.Web/sites/config` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/sites) |
+| `Microsoft.Web/sites/basicPublishingCredentialsPolicies` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/2022-03-01/sites/basicPublishingCredentialsPolicies) |
+| `Microsoft.Web/sites/config` | [2022-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/2022-03-01/sites/config) |
 | `Microsoft.Web/sites/host/functionKeys` | [2018-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Web/sites) |
 
 ## Usage examples
