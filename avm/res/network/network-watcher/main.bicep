@@ -1,6 +1,5 @@
 metadata name = 'Network Watchers'
 metadata description = 'This module deploys a Network Watcher.'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Optional. Name of the Network Watcher resource (hidden).')
 @minLength(1)
@@ -35,7 +34,7 @@ var builtInRoleNames = {
   )
   Owner: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8e3af657-a8ff-443c-a75c-2fe8c4bcb635')
   Reader: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')
-  'Role Based Access Control Administrator (Preview)': subscriptionResourceId(
+  'Role Based Access Control Administrator': subscriptionResourceId(
     'Microsoft.Authorization/roleDefinitions',
     'f58310d9-a9f6-439a-9e8d-f62e7b41a168'
   )
@@ -44,6 +43,17 @@ var builtInRoleNames = {
     '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
   )
 }
+
+var formattedRoleAssignments = [
+  for (roleAssignment, index) in (roleAssignments ?? []): union(roleAssignment, {
+    roleDefinitionId: builtInRoleNames[?roleAssignment.roleDefinitionIdOrName] ?? (contains(
+        roleAssignment.roleDefinitionIdOrName,
+        '/providers/Microsoft.Authorization/roleDefinitions/'
+      )
+      ? roleAssignment.roleDefinitionIdOrName
+      : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName))
+  })
+]
 
 #disable-next-line no-deployments-resources
 resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableTelemetry) {
@@ -64,7 +74,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-resource networkWatcher 'Microsoft.Network/networkWatchers@2023-04-01' = {
+resource networkWatcher 'Microsoft.Network/networkWatchers@2024-05-01' = {
   name: name
   location: location
   tags: tags
@@ -83,14 +93,10 @@ resource networkWatcher_lock 'Microsoft.Authorization/locks@2020-05-01' = if (!e
 }
 
 resource networkWatcher_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-  for (roleAssignment, index) in (roleAssignments ?? []): {
-    name: guid(networkWatcher.id, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName)
+  for (roleAssignment, index) in (formattedRoleAssignments ?? []): {
+    name: roleAssignment.?name ?? guid(networkWatcher.id, roleAssignment.principalId, roleAssignment.roleDefinitionId)
     properties: {
-      roleDefinitionId: contains(builtInRoleNames, roleAssignment.roleDefinitionIdOrName)
-        ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
-        : contains(roleAssignment.roleDefinitionIdOrName, '/providers/Microsoft.Authorization/roleDefinitions/')
-            ? roleAssignment.roleDefinitionIdOrName
-            : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName)
+      roleDefinitionId: roleAssignment.roleDefinitionId
       principalId: roleAssignment.principalId
       description: roleAssignment.?description
       principalType: roleAssignment.?principalType
@@ -106,15 +112,14 @@ module networkWatcher_connectionMonitors 'connection-monitor/main.bicep' = [
   for (connectionMonitor, index) in connectionMonitors: {
     name: '${uniqueString(deployment().name, location)}-NW-ConnectionMonitor-${index}'
     params: {
-      endpoints: contains(connectionMonitor, 'endpoints') ? connectionMonitor.endpoints : []
+      tags: tags
+      endpoints: connectionMonitor.?endpoints ?? []
       name: connectionMonitor.name
       location: location
       networkWatcherName: networkWatcher.name
-      testConfigurations: contains(connectionMonitor, 'testConfigurations') ? connectionMonitor.testConfigurations : []
-      testGroups: contains(connectionMonitor, 'testGroups') ? connectionMonitor.testGroups : []
-      workspaceResourceId: contains(connectionMonitor, 'workspaceResourceId')
-        ? connectionMonitor.workspaceResourceId
-        : ''
+      testConfigurations: connectionMonitor.?testConfigurations ?? []
+      testGroups: connectionMonitor.?testGroups ?? []
+      workspaceResourceId: connectionMonitor.?workspaceResourceId ?? ''
     }
   }
 ]
@@ -123,18 +128,17 @@ module networkWatcher_flowLogs 'flow-log/main.bicep' = [
   for (flowLog, index) in flowLogs: {
     name: '${uniqueString(deployment().name, location)}-NW-FlowLog-${index}'
     params: {
-      enabled: contains(flowLog, 'enabled') ? flowLog.enabled : true
-      formatVersion: contains(flowLog, 'formatVersion') ? flowLog.formatVersion : 2
-      location: contains(flowLog, 'location') ? flowLog.location : location
-      name: contains(flowLog, 'name')
-        ? flowLog.name
-        : '${last(split(flowLog.targetResourceId, '/'))}-${split(flowLog.targetResourceId, '/')[4]}-flowlog'
+      tags: tags
+      enabled: flowLog.?enabled ?? true
+      formatVersion: flowLog.?formatVersion ?? 2
+      location: flowLog.?location ?? location
+      name: flowLog.?name ?? '${last(split(flowLog.targetResourceId, '/'))}-${split(flowLog.targetResourceId, '/')[4]}-flowlog'
       networkWatcherName: networkWatcher.name
-      retentionInDays: contains(flowLog, 'retentionInDays') ? flowLog.retentionInDays : 365
+      retentionInDays: flowLog.?retentionInDays ?? 365
       storageId: flowLog.storageId
       targetResourceId: flowLog.targetResourceId
-      trafficAnalyticsInterval: contains(flowLog, 'trafficAnalyticsInterval') ? flowLog.trafficAnalyticsInterval : 60
-      workspaceResourceId: contains(flowLog, 'workspaceResourceId') ? flowLog.workspaceResourceId : ''
+      trafficAnalyticsInterval: flowLog.?trafficAnalyticsInterval ?? 60
+      workspaceResourceId: flowLog.?workspaceResourceId ?? ''
     }
   }
 ]
@@ -164,6 +168,9 @@ type lockType = {
 }?
 
 type roleAssignmentType = {
+  @description('Optional. The name (as GUID) of the role assignment. If not provided, a GUID will be generated.')
+  name: string?
+
   @description('Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
   roleDefinitionIdOrName: string
 

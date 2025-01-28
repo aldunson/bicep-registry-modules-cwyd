@@ -1,6 +1,5 @@
 metadata name = 'CDN Profiles Secret'
 metadata description = 'This module deploys a CDN Profile Secret.'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Required. The name of the secrect.')
 param name string
@@ -14,7 +13,7 @@ param profileName string
   'ManagedCertificate'
   'UrlSigningKey'
 ])
-@description('Required. The type of the secrect.')
+@description('Optional. The type of the secrect.')
 param type string = 'AzureFirstPartyManagedCertificate'
 
 @description('Conditional. The resource ID of the secret source. Required if the `type` is "CustomerCertificate".')

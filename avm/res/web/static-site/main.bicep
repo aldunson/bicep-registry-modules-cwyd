@@ -1,6 +1,5 @@
 metadata name = 'Static Web Apps'
 metadata description = 'This module deploys a Static Web App.'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Required. The name of the static site.')
 @minLength(1)
@@ -55,14 +54,17 @@ param repositoryUrl string?
 @description('Optional. The branch name of the GitHub repository.')
 param branch string?
 
+import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The managed identity definition for this resource.')
-param managedIdentities managedIdentitiesType
+param managedIdentities managedIdentityAllType?
 
+import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The lock settings of the service.')
-param lock lockType
+param lock lockType?
 
+import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible. Note, requires the \'sku\' to be \'Standard\'.')
-param privateEndpoints privateEndpointType
+param privateEndpoints privateEndpointSingleServiceType[]?
 
 @description('Optional. Tags of the resource.')
 param tags object?
@@ -70,8 +72,9 @@ param tags object?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
+import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. Array of role assignments to create.')
-param roleAssignments roleAssignmentType
+param roleAssignments roleAssignmentType[]?
 
 @description('Optional. Object with "resourceId" and "location" of the a user defined function app.')
 param linkedBackend object = {}
@@ -94,7 +97,7 @@ var formattedUserAssignedIdentities = reduce(
 var identity = !empty(managedIdentities)
   ? {
       type: (managedIdentities.?systemAssigned ?? false)
-        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned')
+        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned, UserAssigned' : 'SystemAssigned')
         : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : null)
       userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
     }
@@ -104,7 +107,7 @@ var builtInRoleNames = {
   Contributor: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
   Owner: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8e3af657-a8ff-443c-a75c-2fe8c4bcb635')
   Reader: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')
-  'Role Based Access Control Administrator (Preview)': subscriptionResourceId(
+  'Role Based Access Control Administrator': subscriptionResourceId(
     'Microsoft.Authorization/roleDefinitions',
     'f58310d9-a9f6-439a-9e8d-f62e7b41a168'
   )
@@ -121,6 +124,17 @@ var builtInRoleNames = {
     'de139f84-1756-47ae-9be6-808fbbe84772'
   )
 }
+
+var formattedRoleAssignments = [
+  for (roleAssignment, index) in (roleAssignments ?? []): union(roleAssignment, {
+    roleDefinitionId: builtInRoleNames[?roleAssignment.roleDefinitionIdOrName] ?? (contains(
+        roleAssignment.roleDefinitionIdOrName,
+        '/providers/Microsoft.Authorization/roleDefinitions/'
+      )
+      ? roleAssignment.roleDefinitionIdOrName
+      : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName))
+  })
+]
 
 #disable-next-line no-deployments-resources
 resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableTelemetry) {
@@ -168,7 +182,7 @@ module staticSite_linkedBackend 'linked-backend/main.bicep' = if (!empty(linkedB
   params: {
     staticSiteName: staticSite.name
     backendResourceId: linkedBackend.resourceId
-    region: contains(linkedBackend, 'location') ? linkedBackend.location : location
+    region: linkedBackend.?location ?? location
   }
 }
 
@@ -215,14 +229,10 @@ resource staticSite_lock 'Microsoft.Authorization/locks@2020-05-01' = if (!empty
 }
 
 resource staticSite_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-  for (roleAssignment, index) in (roleAssignments ?? []): {
-    name: guid(staticSite.id, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName)
+  for (roleAssignment, index) in (formattedRoleAssignments ?? []): {
+    name: roleAssignment.?name ?? guid(staticSite.id, roleAssignment.principalId, roleAssignment.roleDefinitionId)
     properties: {
-      roleDefinitionId: contains(builtInRoleNames, roleAssignment.roleDefinitionIdOrName)
-        ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
-        : contains(roleAssignment.roleDefinitionIdOrName, '/providers/Microsoft.Authorization/roleDefinitions/')
-            ? roleAssignment.roleDefinitionIdOrName
-            : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName)
+      roleDefinitionId: roleAssignment.roleDefinitionId
       principalId: roleAssignment.principalId
       description: roleAssignment.?description
       principalType: roleAssignment.?principalType
@@ -234,10 +244,18 @@ resource staticSite_roleAssignments 'Microsoft.Authorization/roleAssignments@202
   }
 ]
 
-module staticSite_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.4.1' = [
+module staticSite_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.7.1' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-staticSite-PrivateEndpoint-${index}'
-    scope: resourceGroup(privateEndpoint.?resourceGroupName ?? '')
+    scope: !empty(privateEndpoint.?resourceGroupResourceId)
+      ? resourceGroup(
+          split((privateEndpoint.?resourceGroupResourceId ?? '//'), '/')[2],
+          split((privateEndpoint.?resourceGroupResourceId ?? '////'), '/')[4]
+        )
+      : resourceGroup(
+          split((privateEndpoint.?subnetResourceId ?? '//'), '/')[2],
+          split((privateEndpoint.?subnetResourceId ?? '////'), '/')[4]
+        )
     params: {
       name: privateEndpoint.?name ?? 'pep-${last(split(staticSite.id, '/'))}-${privateEndpoint.?service ?? 'staticSites'}-${index}'
       privateLinkServiceConnections: privateEndpoint.?isManualConnection != true
@@ -275,8 +293,7 @@ module staticSite_privateEndpoints 'br/public:avm/res/network/private-endpoint:0
         'Full'
       ).location
       lock: privateEndpoint.?lock ?? lock
-      privateDnsZoneGroupName: privateEndpoint.?privateDnsZoneGroupName
-      privateDnsZoneResourceIds: privateEndpoint.?privateDnsZoneResourceIds
+      privateDnsZoneGroup: privateEndpoint.?privateDnsZoneGroup
       roleAssignments: privateEndpoint.?roleAssignments
       tags: privateEndpoint.?tags ?? tags
       customDnsConfigs: privateEndpoint.?customDnsConfigs
@@ -297,7 +314,7 @@ output resourceId string = staticSite.id
 output resourceGroupName string = resourceGroup().name
 
 @description('The principal ID of the system assigned identity.')
-output systemAssignedMIPrincipalId string = staticSite.?identity.?principalId ?? ''
+output systemAssignedMIPrincipalId string? = staticSite.?identity.?principalId
 
 @description('The location the resource was deployed into.')
 output location string = staticSite.location
@@ -305,120 +322,13 @@ output location string = staticSite.location
 @description('The default autogenerated hostname for the static site.')
 output defaultHostname string = staticSite.properties.defaultHostname
 
-// =============== //
-//   Definitions   //
-// =============== //
-
-type managedIdentitiesType = {
-  @description('Optional. Enables system assigned managed identity on the resource.')
-  systemAssigned: bool?
-
-  @description('Optional. The resource ID(s) to assign to the resource.')
-  userAssignedResourceIds: string[]?
-}?
-
-type lockType = {
-  @description('Optional. Specify the name of lock.')
-  name: string?
-
-  @description('Optional. Specify the type of lock.')
-  kind: ('CanNotDelete' | 'ReadOnly' | 'None')?
-}?
-
-type roleAssignmentType = {
-  @description('Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
-  roleDefinitionIdOrName: string
-
-  @description('Required. The principal ID of the principal (user/group/identity) to assign the role to.')
-  principalId: string
-
-  @description('Optional. The principal type of the assigned principal ID.')
-  principalType: ('ServicePrincipal' | 'Group' | 'User' | 'ForeignGroup' | 'Device')?
-
-  @description('Optional. The description of the role assignment.')
-  description: string?
-
-  @description('Optional. The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container".')
-  condition: string?
-
-  @description('Optional. Version of the condition.')
-  conditionVersion: '2.0'?
-
-  @description('Optional. The Resource Id of the delegated managed identity resource.')
-  delegatedManagedIdentityResourceId: string?
-}[]?
-
-type privateEndpointType = {
-  @description('Optional. The name of the private endpoint.')
-  name: string?
-
-  @description('Optional. The location to deploy the private endpoint to.')
-  location: string?
-
-  @description('Optional. The subresource to deploy the private endpoint for. For example "vault", "mysqlServer" or "dataFactory".')
-  service: string?
-
-  @description('Required. Resource ID of the subnet where the endpoint needs to be created.')
-  subnetResourceId: string
-
-  @description('Optional. The name of the private DNS zone group to create if `privateDnsZoneResourceIds` were provided.')
-  privateDnsZoneGroupName: string?
-
-  @description('Optional. The private DNS zone groups to associate the private endpoint with. A DNS zone group can support up to 5 DNS zones.')
-  privateDnsZoneResourceIds: string[]?
-
-  @description('Optional. If Manual Private Link Connection is required.')
-  isManualConnection: bool?
-
-  @description('Optional. A message passed to the owner of the remote resource with the manual connection request.')
-  @maxLength(140)
-  manualConnectionRequestMessage: string?
-
-  @description('Optional. Custom DNS configurations.')
-  customDnsConfigs: {
-    @description('Required. Fqdn that resolves to private endpoint IP address.')
-    fqdn: string?
-
-    @description('Required. A list of private IP addresses of the private endpoint.')
-    ipAddresses: string[]
-  }[]?
-
-  @description('Optional. A list of IP configurations of the private endpoint. This will be used to map to the First Party Service endpoints.')
-  ipConfigurations: {
-    @description('Required. The name of the resource that is unique within a resource group.')
-    name: string
-
-    @description('Required. Properties of private endpoint IP configurations.')
-    properties: {
-      @description('Required. The ID of a group obtained from the remote resource that this private endpoint should connect to.')
-      groupId: string
-
-      @description('Required. The member name of a group obtained from the remote resource that this private endpoint should connect to.')
-      memberName: string
-
-      @description('Required. A private IP address obtained from the private endpoint\'s subnet.')
-      privateIPAddress: string
-    }
-  }[]?
-
-  @description('Optional. Application security groups in which the private endpoint IP configuration is included.')
-  applicationSecurityGroupResourceIds: string[]?
-
-  @description('Optional. The custom name of the network interface attached to the private endpoint.')
-  customNetworkInterfaceName: string?
-
-  @description('Optional. Specify the type of lock.')
-  lock: lockType
-
-  @description('Optional. Array of role assignments to create.')
-  roleAssignments: roleAssignmentType
-
-  @description('Optional. Tags to be applied on all resources/resource groups in this deployment.')
-  tags: object?
-
-  @description('Optional. Enable/Disable usage telemetry for module.')
-  enableTelemetry: bool?
-
-  @description('Optional. Specify if you want to deploy the Private Endpoint into a different resource group than the main resource.')
-  resourceGroupName: string?
-}[]?
+@description('The private endpoints of the static site.')
+output privateEndpoints array = [
+  for (pe, i) in (!empty(privateEndpoints) ? array(privateEndpoints) : []): {
+    name: staticSite_privateEndpoints[i].outputs.name
+    resourceId: staticSite_privateEndpoints[i].outputs.resourceId
+    groupId: staticSite_privateEndpoints[i].outputs.groupId
+    customDnsConfig: staticSite_privateEndpoints[i].outputs.customDnsConfig
+    networkInterfaceIds: staticSite_privateEndpoints[i].outputs.networkInterfaceIds
+  }
+]

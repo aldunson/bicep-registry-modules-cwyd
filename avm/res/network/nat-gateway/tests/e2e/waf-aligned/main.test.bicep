@@ -33,7 +33,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 
 // Diagnostics
 // ===========
-module diagnosticDependencies '../../../../../../utilities/e2e-template-assets/templates/diagnostic.dependencies.bicep' = {
+module diagnosticDependencies '../../../../../../../utilities/e2e-template-assets/templates/diagnostic.dependencies.bicep' = {
   scope: resourceGroup
   name: '${uniqueString(deployment().name, resourceLocation)}-diagnosticDependencies'
   params: {
@@ -66,11 +66,7 @@ module testDeployment '../../../main.bicep' = [
         {
           name: '${namePrefix}${serviceShort}001-pip'
           skuTier: 'Regional'
-          zones: [
-            '1'
-            '2'
-            '3'
-          ]
+          zones: [1, 2, 3]
           diagnosticSettings: [
             {
               name: 'customSetting'

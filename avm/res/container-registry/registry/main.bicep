@@ -1,6 +1,5 @@
 metadata name = 'Azure Container Registries (ACR)'
 metadata description = 'This module deploys an Azure Container Registry (ACR).'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Required. Name of your Azure Container Registry.')
 @minLength(5)
@@ -13,8 +12,9 @@ param acrAdminUserEnabled bool = false
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
+import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. Array of role assignments to create.')
-param roleAssignments roleAssignmentType
+param roleAssignments roleAssignmentType[]?
 
 @description('Optional. Tier of your Azure container registry.')
 @allowed([
@@ -22,7 +22,7 @@ param roleAssignments roleAssignmentType
   'Premium'
   'Standard'
 ])
-param acrSku string = 'Basic'
+param acrSku string = 'Premium'
 
 @allowed([
   'disabled'
@@ -99,15 +99,16 @@ param networkRuleSetDefaultAction string = 'Deny'
 @description('Optional. The IP ACL rules. Note, requires the \'acrSku\' to be \'Premium\'.')
 param networkRuleSetIpRules array?
 
+import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible. Note, requires the \'acrSku\' to be \'Premium\'.')
-param privateEndpoints privateEndpointType
+param privateEndpoints privateEndpointSingleServiceType[]?
 
 @allowed([
   'Disabled'
   'Enabled'
 ])
 @description('Optional. Whether or not zone redundancy is enabled for this container registry.')
-param zoneRedundancy string = 'Disabled'
+param zoneRedundancy string = 'Enabled'
 
 @description('Optional. All replications to create.')
 param replications array?
@@ -115,11 +116,13 @@ param replications array?
 @description('Optional. All webhooks to create.')
 param webhooks array?
 
+import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The lock settings of the service.')
-param lock lockType
+param lock lockType?
 
+import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The managed identity definition for this resource.')
-param managedIdentities managedIdentitiesType
+param managedIdentities managedIdentityAllType?
 
 @description('Optional. Tags of the resource.')
 param tags object?
@@ -127,20 +130,25 @@ param tags object?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
+import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The diagnostic settings of the service.')
-param diagnosticSettings diagnosticSettingType
+param diagnosticSettings diagnosticSettingFullType[]?
 
 @description('Optional. Enables registry-wide pull from unauthenticated clients. It\'s in preview and available in the Standard and Premium service tiers.')
 param anonymousPullEnabled bool = false
 
+import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
 @description('Optional. The customer managed key definition.')
-param customerManagedKey customerManagedKeyType
+param customerManagedKey customerManagedKeyWithAutoRotateType?
 
-@description('Optional. Array of Cache Rules. Note: This is a preview feature ([ref](https://learn.microsoft.com/en-us/azure/container-registry/tutorial-registry-cache#cache-for-acr-preview)).')
+@description('Optional. Array of Cache Rules.')
 param cacheRules array?
 
+@description('Optional. Array of Credential Sets.')
+param credentialSets array = []
+
 @description('Optional. Scope maps setting.')
-param scopeMaps scopeMapsType
+param scopeMaps scopeMapsType[]?
 
 var formattedUserAssignedIdentities = reduce(
   map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
@@ -176,7 +184,7 @@ var builtInRoleNames = {
   Contributor: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
   Owner: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8e3af657-a8ff-443c-a75c-2fe8c4bcb635')
   Reader: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')
-  'Role Based Access Control Administrator (Preview)': subscriptionResourceId(
+  'Role Based Access Control Administrator': subscriptionResourceId(
     'Microsoft.Authorization/roleDefinitions',
     'f58310d9-a9f6-439a-9e8d-f62e7b41a168'
   )
@@ -185,6 +193,17 @@ var builtInRoleNames = {
     '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
   )
 }
+
+var formattedRoleAssignments = [
+  for (roleAssignment, index) in (roleAssignments ?? []): union(roleAssignment, {
+    roleDefinitionId: builtInRoleNames[?roleAssignment.roleDefinitionIdOrName] ?? (contains(
+        roleAssignment.roleDefinitionIdOrName,
+        '/providers/Microsoft.Authorization/roleDefinitions/'
+      )
+      ? roleAssignment.roleDefinitionIdOrName
+      : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName))
+  })
+]
 
 #disable-next-line no-deployments-resources
 resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableTelemetry) {
@@ -243,9 +262,11 @@ resource registry 'Microsoft.ContainerRegistry/registries@2023-06-01-preview' = 
             identity: !empty(customerManagedKey.?userAssignedIdentityResourceId ?? '')
               ? cMKUserAssignedIdentity.properties.clientId
               : null
-            keyIdentifier: !empty(customerManagedKey.?keyVersion ?? '')
+            keyIdentifier: !empty(customerManagedKey.?keyVersion)
               ? '${cMKKeyVault::cMKKey.properties.keyUri}/${customerManagedKey!.keyVersion}'
-              : cMKKeyVault::cMKKey.properties.keyUriWithVersion
+              : (customerManagedKey.?autoRotationEnabled ?? true)
+                  ? cMKKeyVault::cMKKey.properties.keyUri
+                  : cMKKeyVault::cMKKey.properties.keyUriWithVersion
           }
         }
       : null
@@ -321,16 +342,32 @@ module registry_replications 'replication/main.bicep' = [
   }
 ]
 
-module registry_cacheRules 'cache-rules/main.bicep' = [
+module registry_credentialSets 'credential-set/main.bicep' = [
+  for (credentialSet, index) in (credentialSets ?? []): {
+    name: '${uniqueString(deployment().name, location)}-Registry-CredentialSet-${index}'
+    params: {
+      name: credentialSet.name
+      registryName: registry.name
+      managedIdentities: credentialSet.managedIdentities
+      authCredentials: credentialSet.authCredentials
+      loginServer: credentialSet.loginServer
+    }
+  }
+]
+
+module registry_cacheRules 'cache-rule/main.bicep' = [
   for (cacheRule, index) in (cacheRules ?? []): {
     name: '${uniqueString(deployment().name, location)}-Registry-Cache-${index}'
     params: {
       registryName: registry.name
       sourceRepository: cacheRule.sourceRepository
-      name: cacheRule.?name ?? replace(replace(cacheRule.sourceRepository, '/', '-'), '.', '-')
+      name: cacheRule.?name ?? replace(replace(replace(cacheRule.sourceRepository, '/', '-'), '.', '-'), '*', '')
       targetRepository: cacheRule.?targetRepository ?? cacheRule.sourceRepository
-      credentialSetResourceId: cacheRule.?credentialSetResourceId
+      credentialSetResourceId: !empty(cacheRule.?credentialSetResourceId) ? cacheRule.?credentialSetResourceId : null // Must only be set if condition is set
     }
+    dependsOn: [
+      registry_credentialSets
+    ]
   }
 ]
 
@@ -398,14 +435,10 @@ resource registry_diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021
 ]
 
 resource registry_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-  for (roleAssignment, index) in (roleAssignments ?? []): {
-    name: guid(registry.id, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName)
+  for (roleAssignment, index) in (formattedRoleAssignments ?? []): {
+    name: roleAssignment.?name ?? guid(registry.id, roleAssignment.principalId, roleAssignment.roleDefinitionId)
     properties: {
-      roleDefinitionId: contains(builtInRoleNames, roleAssignment.roleDefinitionIdOrName)
-        ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
-        : contains(roleAssignment.roleDefinitionIdOrName, '/providers/Microsoft.Authorization/roleDefinitions/')
-            ? roleAssignment.roleDefinitionIdOrName
-            : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName)
+      roleDefinitionId: roleAssignment.roleDefinitionId
       principalId: roleAssignment.principalId
       description: roleAssignment.?description
       principalType: roleAssignment.?principalType
@@ -417,10 +450,18 @@ resource registry_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-
   }
 ]
 
-module registry_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.4.1' = [
+module registry_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-registry-PrivateEndpoint-${index}'
-    scope: resourceGroup(privateEndpoint.?resourceGroupName ?? '')
+    scope: !empty(privateEndpoint.?resourceGroupResourceId)
+      ? resourceGroup(
+          split((privateEndpoint.?resourceGroupResourceId ?? '//'), '/')[2],
+          split((privateEndpoint.?resourceGroupResourceId ?? '////'), '/')[4]
+        )
+      : resourceGroup(
+          split((privateEndpoint.?subnetResourceId ?? '//'), '/')[2],
+          split((privateEndpoint.?subnetResourceId ?? '////'), '/')[4]
+        )
     params: {
       name: privateEndpoint.?name ?? 'pep-${last(split(registry.id, '/'))}-${privateEndpoint.?service ?? 'registry'}-${index}'
       privateLinkServiceConnections: privateEndpoint.?isManualConnection != true
@@ -458,8 +499,7 @@ module registry_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.4
         'Full'
       ).location
       lock: privateEndpoint.?lock ?? lock
-      privateDnsZoneGroupName: privateEndpoint.?privateDnsZoneGroupName
-      privateDnsZoneResourceIds: privateEndpoint.?privateDnsZoneResourceIds
+      privateDnsZoneGroup: privateEndpoint.?privateDnsZoneGroup
       roleAssignments: privateEndpoint.?roleAssignments
       tags: privateEndpoint.?tags ?? tags
       customDnsConfigs: privateEndpoint.?customDnsConfigs
@@ -483,190 +523,61 @@ output resourceGroupName string = resourceGroup().name
 output resourceId string = registry.id
 
 @description('The principal ID of the system assigned identity.')
-output systemAssignedMIPrincipalId string = registry.?identity.?principalId ?? ''
+output systemAssignedMIPrincipalId string? = registry.?identity.?principalId
 
 @description('The location the resource was deployed into.')
 output location string = registry.location
+
+@description('The Principal IDs of the ACR Credential Sets system-assigned identities.')
+output credentialSetsSystemAssignedMIPrincipalIds array = [
+  for index in range(0, length(credentialSets)): registry_credentialSets[index].outputs.systemAssignedMIPrincipalId
+]
+
+@description('The Resource IDs of the ACR Credential Sets.')
+output credentialSetsResourceIds array = [
+  for index in range(0, length(credentialSets)): registry_credentialSets[index].outputs.resourceId
+]
+
+@description('The private endpoints of the Azure container registry.')
+output privateEndpoints array = [
+  for (pe, i) in (!empty(privateEndpoints) ? array(privateEndpoints) : []): {
+    name: registry_privateEndpoints[i].outputs.name
+    resourceId: registry_privateEndpoints[i].outputs.resourceId
+    groupId: registry_privateEndpoints[i].outputs.?groupId!
+    customDnsConfigs: registry_privateEndpoints[i].outputs.customDnsConfigs
+    networkInterfaceResourceIds: registry_privateEndpoints[i].outputs.networkInterfaceResourceIds
+  }
+]
 
 // =============== //
 //   Definitions   //
 // =============== //
 
-type managedIdentitiesType = {
-  @description('Optional. Enables system assigned managed identity on the resource.')
-  systemAssigned: bool?
+@export()
+type privateEndpointOutputType = {
+  @description('The name of the private endpoint.')
+  name: string
 
-  @description('Optional. The resource ID(s) to assign to the resource.')
-  userAssignedResourceIds: string[]?
-}?
+  @description('The resource ID of the private endpoint.')
+  resourceId: string
 
-type lockType = {
-  @description('Optional. Specify the name of lock.')
-  name: string?
+  @description('The group Id for the private endpoint Group.')
+  groupId: string?
 
-  @description('Optional. Specify the type of lock.')
-  kind: ('CanNotDelete' | 'ReadOnly' | 'None')?
-}?
-
-type roleAssignmentType = {
-  @description('Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
-  roleDefinitionIdOrName: string
-
-  @description('Required. The principal ID of the principal (user/group/identity) to assign the role to.')
-  principalId: string
-
-  @description('Optional. The principal type of the assigned principal ID.')
-  principalType: ('ServicePrincipal' | 'Group' | 'User' | 'ForeignGroup' | 'Device')?
-
-  @description('Optional. The description of the role assignment.')
-  description: string?
-
-  @description('Optional. The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container".')
-  condition: string?
-
-  @description('Optional. Version of the condition.')
-  conditionVersion: '2.0'?
-
-  @description('Optional. The Resource Id of the delegated managed identity resource.')
-  delegatedManagedIdentityResourceId: string?
-}[]?
-
-type privateEndpointType = {
-  @description('Optional. The name of the private endpoint.')
-  name: string?
-
-  @description('Optional. The location to deploy the private endpoint to.')
-  location: string?
-
-  @description('Optional. The name of the private link connection to create.')
-  privateLinkServiceConnectionName: string?
-
-  @description('Optional. The subresource to deploy the private endpoint for. For example "vault", "mysqlServer" or "dataFactory".')
-  service: string?
-
-  @description('Required. Resource ID of the subnet where the endpoint needs to be created.')
-  subnetResourceId: string
-
-  @description('Optional. The name of the private DNS zone group to create if `privateDnsZoneResourceIds` were provided.')
-  privateDnsZoneGroupName: string?
-
-  @description('Optional. The private DNS zone groups to associate the private endpoint with. A DNS zone group can support up to 5 DNS zones.')
-  privateDnsZoneResourceIds: string[]?
-
-  @description('Optional. If Manual Private Link Connection is required.')
-  isManualConnection: bool?
-
-  @description('Optional. A message passed to the owner of the remote resource with the manual connection request.')
-  @maxLength(140)
-  manualConnectionRequestMessage: string?
-
-  @description('Optional. Custom DNS configurations.')
+  @description('The custom DNS configurations of the private endpoint.')
   customDnsConfigs: {
-    @description('Required. Fqdn that resolves to private endpoint IP address.')
+    @description('FQDN that resolves to private endpoint IP address.')
     fqdn: string?
 
-    @description('Required. A list of private IP addresses of the private endpoint.')
+    @description('A list of private IP addresses of the private endpoint.')
     ipAddresses: string[]
-  }[]?
+  }[]
 
-  @description('Optional. A list of IP configurations of the private endpoint. This will be used to map to the First Party Service endpoints.')
-  ipConfigurations: {
-    @description('Required. The name of the resource that is unique within a resource group.')
-    name: string
+  @description('The IDs of the network interfaces associated with the private endpoint.')
+  networkInterfaceResourceIds: string[]
+}
 
-    @description('Required. Properties of private endpoint IP configurations.')
-    properties: {
-      @description('Required. The ID of a group obtained from the remote resource that this private endpoint should connect to.')
-      groupId: string
-
-      @description('Required. The member name of a group obtained from the remote resource that this private endpoint should connect to.')
-      memberName: string
-
-      @description('Required. A private IP address obtained from the private endpoint\'s subnet.')
-      privateIPAddress: string
-    }
-  }[]?
-
-  @description('Optional. Application security groups in which the private endpoint IP configuration is included.')
-  applicationSecurityGroupResourceIds: string[]?
-
-  @description('Optional. The custom name of the network interface attached to the private endpoint.')
-  customNetworkInterfaceName: string?
-
-  @description('Optional. Specify the type of lock.')
-  lock: lockType
-
-  @description('Optional. Array of role assignments to create.')
-  roleAssignments: roleAssignmentType
-
-  @description('Optional. Tags to be applied on all resources/resource groups in this deployment.')
-  tags: object?
-
-  @description('Optional. Enable/Disable usage telemetry for module.')
-  enableTelemetry: bool?
-
-  @description('Optional. Specify if you want to deploy the Private Endpoint into a different resource group than the main resource.')
-  resourceGroupName: string?
-}[]?
-
-type diagnosticSettingType = {
-  @description('Optional. The name of diagnostic setting.')
-  name: string?
-
-  @description('Optional. The name of logs that will be streamed. "allLogs" includes all possible logs for the resource. Set to `[]` to disable log collection.')
-  logCategoriesAndGroups: {
-    @description('Optional. Name of a Diagnostic Log category for a resource type this setting is applied to. Set the specific logs to collect here.')
-    category: string?
-
-    @description('Optional. Name of a Diagnostic Log category group for a resource type this setting is applied to. Set to `allLogs` to collect all logs.')
-    categoryGroup: string?
-
-    @description('Optional. Enable or disable the category explicitly. Default is `true`.')
-    enabled: bool?
-  }[]?
-
-  @description('Optional. The name of metrics that will be streamed. "allMetrics" includes all possible metrics for the resource. Set to `[]` to disable metric collection.')
-  metricCategories: {
-    @description('Required. Name of a Diagnostic Metric category for a resource type this setting is applied to. Set to `AllMetrics` to collect all metrics.')
-    category: string
-
-    @description('Optional. Enable or disable the category explicitly. Default is `true`.')
-    enabled: bool?
-  }[]?
-
-  @description('Optional. A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type.')
-  logAnalyticsDestinationType: ('Dedicated' | 'AzureDiagnostics')?
-
-  @description('Optional. Resource ID of the diagnostic log analytics workspace. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  workspaceResourceId: string?
-
-  @description('Optional. Resource ID of the diagnostic storage account. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  storageAccountResourceId: string?
-
-  @description('Optional. Resource ID of the diagnostic event hub authorization rule for the Event Hubs namespace in which the event hub should be created or streamed to.')
-  eventHubAuthorizationRuleResourceId: string?
-
-  @description('Optional. Name of the diagnostic event hub within the namespace to which logs are streamed. Without this, an event hub is created for each log category. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  eventHubName: string?
-
-  @description('Optional. The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.')
-  marketplacePartnerResourceId: string?
-}[]?
-
-type customerManagedKeyType = {
-  @description('Required. The resource ID of a key vault to reference a customer managed key for encryption from.')
-  keyVaultResourceId: string
-
-  @description('Required. The name of the customer managed key to use for encryption.')
-  keyName: string
-
-  @description('Optional. The version of the customer managed key to reference for encryption. If not provided, using \'latest\'.')
-  keyVersion: string?
-
-  @description('Optional. User assigned identity to use when fetching the customer managed key. Required if no system assigned identity is available for use.')
-  userAssignedIdentityResourceId: string?
-}?
-
+@export()
 type scopeMapsType = {
   @description('Optional. The name of the scope map.')
   name: string?
@@ -676,4 +587,4 @@ type scopeMapsType = {
 
   @description('Optional. The user friendly description of the scope map.')
   description: string?
-}[]?
+}

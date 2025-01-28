@@ -5,12 +5,11 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.28.1.47646",
-      "templateHash": "18166536793397048488"
+      "version": "0.32.4.45862",
+      "templateHash": "9640551980154944642"
     },
     "name": "Log Analytics Workspace Saved Searches",
-    "description": "This module deploys a Log Analytics Workspace Saved Search.",
-    "owner": "Azure/module-maintainers"
+    "description": "This module deploys a Log Analytics Workspace Saved Search."
   },
   "parameters": {
     "logAnalyticsWorkspaceName": {
@@ -99,10 +98,7 @@
         "functionAlias": "[parameters('functionAlias')]",
         "functionParameters": "[parameters('functionParameters')]",
         "version": "[parameters('version')]"
-      },
-      "dependsOn": [
-        "workspace"
-      ]
+      }
     }
   },
   "outputs": {

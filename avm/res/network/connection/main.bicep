@@ -1,6 +1,5 @@
 metadata name = 'Virtual Network Gateway Connections'
 metadata description = 'This module deploys a Virtual Network Gateway Connection.'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Required. Remote connection name.')
 param name string
@@ -46,6 +45,9 @@ param dpdTimeoutSeconds int = 45
 
 @description('Optional. Enable policy-based traffic selectors.')
 param usePolicyBasedTrafficSelectors bool = false
+
+@description('Optional. The traffic selector policies to be considered by this connection.')
+param trafficSelectorPolicies array = []
 
 @description('Optional. Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. Only available when connection connectionType is Express Route.')
 param enablePrivateLinkFastPath bool = false
@@ -132,6 +134,7 @@ resource connection 'Microsoft.Network/connections@2023-04-01' = {
     peer: connectionType == 'ExpressRoute' ? peer : null
     authorizationKey: connectionType == 'ExpressRoute' && !empty(authorizationKey) ? authorizationKey : null
     sharedKey: connectionType != 'ExpressRoute' ? vpnSharedKey : null
+    trafficSelectorPolicies: trafficSelectorPolicies
     usePolicyBasedTrafficSelectors: usePolicyBasedTrafficSelectors
     ipsecPolicies: !empty(customIPSecPolicy.ipsecEncryption)
       ? [

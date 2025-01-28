@@ -7,14 +7,13 @@ This module deploys a Service Bus Namespace Topic Subscription.
 - [Resource Types](#Resource-Types)
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
-- [Cross-referenced modules](#Cross-referenced-modules)
-- [Data Collection](#Data-Collection)
 
 ## Resource Types
 
 | Resource Type | API Version |
 | :-- | :-- |
 | `Microsoft.ServiceBus/namespaces/topics/subscriptions` | [2021-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.ServiceBus/2021-11-01/namespaces/topics/subscriptions) |
+| `Microsoft.ServiceBus/namespaces/topics/subscriptions/rules` | [2022-10-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.ServiceBus/2022-10-01-preview/namespaces/topics/subscriptions/rules) |
 
 ## Parameters
 
@@ -48,6 +47,7 @@ This module deploys a Service Bus Namespace Topic Subscription.
 | [`lockDuration`](#parameter-lockduration) | string | ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute. |
 | [`maxDeliveryCount`](#parameter-maxdeliverycount) | int | Number of maximum deliveries. A message is automatically deadlettered after this number of deliveries. Default value is 10. |
 | [`requiresSession`](#parameter-requiressession) | bool | A value that indicates whether the subscription supports the concept of session. |
+| [`rules`](#parameter-rules) | array | The subscription rules. |
 | [`status`](#parameter-status) | string | Enumerates the possible values for the status of a messaging entity. |
 
 ### Parameter: `name`
@@ -175,6 +175,224 @@ A value that indicates whether the subscription supports the concept of session.
 - Type: bool
 - Default: `False`
 
+### Parameter: `rules`
+
+The subscription rules.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`name`](#parameter-rulesname) | string | The name of the service bus namespace topic subscription rule. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`action`](#parameter-rulesaction) | object | Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression. |
+| [`correlationFilter`](#parameter-rulescorrelationfilter) | object | Properties of correlationFilter. |
+| [`filterType`](#parameter-rulesfiltertype) | string | Filter type that is evaluated against a BrokeredMessage. |
+| [`sqlFilter`](#parameter-rulessqlfilter) | object | Properties of sqlFilter. |
+
+### Parameter: `rules.name`
+
+The name of the service bus namespace topic subscription rule.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `rules.action`
+
+Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`compatibilityLevel`](#parameter-rulesactioncompatibilitylevel) | int | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. |
+| [`requiresPreprocessing`](#parameter-rulesactionrequirespreprocessing) | bool | Value that indicates whether the rule action requires preprocessing. |
+| [`sqlExpression`](#parameter-rulesactionsqlexpression) | string | SQL expression. e.g. MyProperty='ABC'. |
+
+### Parameter: `rules.action.compatibilityLevel`
+
+This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+
+- Required: No
+- Type: int
+
+### Parameter: `rules.action.requiresPreprocessing`
+
+Value that indicates whether the rule action requires preprocessing.
+
+- Required: No
+- Type: bool
+
+### Parameter: `rules.action.sqlExpression`
+
+SQL expression. e.g. MyProperty='ABC'.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter`
+
+Properties of correlationFilter.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`to`](#parameter-rulescorrelationfilterto) | string | Address to send to. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`contentType`](#parameter-rulescorrelationfiltercontenttype) | string | Content type of the message. |
+| [`correlationId`](#parameter-rulescorrelationfiltercorrelationid) | string | Identifier of the correlation. |
+| [`label`](#parameter-rulescorrelationfilterlabel) | string | Application specific label. |
+| [`messageId`](#parameter-rulescorrelationfiltermessageid) | string | Identifier of the message. |
+| [`properties`](#parameter-rulescorrelationfilterproperties) | array | dictionary object for custom filters. |
+| [`replyTo`](#parameter-rulescorrelationfilterreplyto) | string | Address of the queue to reply to. |
+| [`replyToSessionId`](#parameter-rulescorrelationfilterreplytosessionid) | string | Session identifier to reply to. |
+| [`requiresPreprocessing`](#parameter-rulescorrelationfilterrequirespreprocessing) | bool | Value that indicates whether the rule action requires preprocessing. |
+| [`sessionId`](#parameter-rulescorrelationfiltersessionid) | string | Session identifier. |
+
+### Parameter: `rules.correlationFilter.to`
+
+Address to send to.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `rules.correlationFilter.contentType`
+
+Content type of the message.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.correlationId`
+
+Identifier of the correlation.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.label`
+
+Application specific label.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.messageId`
+
+Identifier of the message.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.properties`
+
+dictionary object for custom filters.
+
+- Required: No
+- Type: array
+- Allowed:
+  ```Bicep
+  [
+    {}
+  ]
+  ```
+
+### Parameter: `rules.correlationFilter.replyTo`
+
+Address of the queue to reply to.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.replyToSessionId`
+
+Session identifier to reply to.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.correlationFilter.requiresPreprocessing`
+
+Value that indicates whether the rule action requires preprocessing.
+
+- Required: No
+- Type: bool
+
+### Parameter: `rules.correlationFilter.sessionId`
+
+Session identifier.
+
+- Required: No
+- Type: string
+
+### Parameter: `rules.filterType`
+
+Filter type that is evaluated against a BrokeredMessage.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'CorrelationFilter'
+    'SqlFilter'
+  ]
+  ```
+
+### Parameter: `rules.sqlFilter`
+
+Properties of sqlFilter.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`compatibilityLevel`](#parameter-rulessqlfiltercompatibilitylevel) | int | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. |
+| [`requiresPreprocessing`](#parameter-rulessqlfilterrequirespreprocessing) | bool | Value that indicates whether the rule action requires preprocessing. |
+| [`sqlExpression`](#parameter-rulessqlfiltersqlexpression) | string | SQL expression. e.g. MyProperty='ABC'. |
+
+### Parameter: `rules.sqlFilter.compatibilityLevel`
+
+This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+
+- Required: No
+- Type: int
+
+### Parameter: `rules.sqlFilter.requiresPreprocessing`
+
+Value that indicates whether the rule action requires preprocessing.
+
+- Required: No
+- Type: bool
+
+### Parameter: `rules.sqlFilter.sqlExpression`
+
+SQL expression. e.g. MyProperty='ABC'.
+
+- Required: No
+- Type: string
+
 ### Parameter: `status`
 
 Enumerates the possible values for the status of a messaging entity.
@@ -197,7 +415,6 @@ Enumerates the possible values for the status of a messaging entity.
   ]
   ```
 
-
 ## Outputs
 
 | Output | Type | Description |
@@ -205,11 +422,3 @@ Enumerates the possible values for the status of a messaging entity.
 | `name` | string | The name of the topic subscription. |
 | `resourceGroupName` | string | The name of the Resource Group the topic subscription was created in. |
 | `resourceId` | string | The Resource ID of the topic subscription. |
-
-## Cross-referenced modules
-
-_None_
-
-## Data Collection
-
-The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the [repository](https://aka.ms/avm/telemetry). There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.

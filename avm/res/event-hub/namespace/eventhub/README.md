@@ -8,7 +8,6 @@ This module deploys an Event Hub Namespace Event Hub.
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
 - [Cross-referenced modules](#Cross-referenced-modules)
-- [Data Collection](#Data-Collection)
 
 ## Resource Types
 
@@ -154,6 +153,8 @@ The time window allows you to set the frequency with which the capture to Azure 
 - Required: No
 - Type: int
 - Default: `300`
+- MinValue: 60
+- MaxValue: 900
 
 ### Parameter: `captureDescriptionSizeLimitInBytes`
 
@@ -162,6 +163,8 @@ The size window defines the amount of data built up in your Event Hub before an 
 - Required: No
 - Type: int
 - Default: `314572800`
+- MinValue: 10485760
+- MaxValue: 524288000
 
 ### Parameter: `captureDescriptionSkipEmptyArchives`
 
@@ -170,6 +173,8 @@ A value that indicates whether to Skip Empty Archives.
 - Required: No
 - Type: bool
 - Default: `False`
+- MinValue: 10485760
+- MaxValue: 524288000
 
 ### Parameter: `consumergroups`
 
@@ -185,6 +190,8 @@ The consumer groups to create in this event hub instance.
     }
   ]
   ```
+- MinValue: 10485760
+- MaxValue: 524288000
 
 ### Parameter: `lock`
 
@@ -192,6 +199,8 @@ The lock settings of the service.
 
 - Required: No
 - Type: object
+- MinValue: 10485760
+- MaxValue: 524288000
 
 **Optional parameters**
 
@@ -214,6 +223,8 @@ Specify the type of lock.
     'ReadOnly'
   ]
   ```
+- MinValue: 10485760
+- MaxValue: 524288000
 
 ### Parameter: `lock.name`
 
@@ -221,6 +232,8 @@ Specify the name of lock.
 
 - Required: No
 - Type: string
+- MinValue: 10485760
+- MaxValue: 524288000
 
 ### Parameter: `messageRetentionInDays`
 
@@ -229,6 +242,8 @@ Number of days to retain the events for this Event Hub, value should be 1 to 7 d
 - Required: No
 - Type: int
 - Default: `1`
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `partitionCount`
 
@@ -237,6 +252,8 @@ Number of partitions created for the Event Hub, allowed values are from 1 to 32 
 - Required: No
 - Type: int
 - Default: `2`
+- MinValue: 1
+- MaxValue: 32
 
 ### Parameter: `retentionDescriptionCleanupPolicy`
 
@@ -252,6 +269,8 @@ Retention cleanup policy. Enumerates the possible values for cleanup policy.
     'Delete'
   ]
   ```
+- MinValue: 1
+- MaxValue: 32
 
 ### Parameter: `retentionDescriptionRetentionTimeInHours`
 
@@ -260,6 +279,8 @@ Retention time in hours. Number of hours to retain the events for this Event Hub
 - Required: No
 - Type: int
 - Default: `1`
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `retentionDescriptionTombstoneRetentionTimeInHours`
 
@@ -268,6 +289,8 @@ Retention cleanup policy. Number of hours to retain the tombstone markers of a c
 - Required: No
 - Type: int
 - Default: `1`
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments`
 
@@ -275,6 +298,17 @@ Array of role assignments to create.
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 168
+- Roles configurable by name:
+  - `'Azure Event Hubs Data Owner'`
+  - `'Azure Event Hubs Data Receiver'`
+  - `'Azure Event Hubs Data Sender'`
+  - `'Contributor'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'Role Based Access Control Administrator'`
+  - `'User Access Administrator'`
 
 **Required parameters**
 
@@ -291,6 +325,7 @@ Array of role assignments to create.
 | [`conditionVersion`](#parameter-roleassignmentsconditionversion) | string | Version of the condition. |
 | [`delegatedManagedIdentityResourceId`](#parameter-roleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
 | [`description`](#parameter-roleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-roleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
 | [`principalType`](#parameter-roleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
 
 ### Parameter: `roleAssignments.principalId`
@@ -299,6 +334,8 @@ The principal ID of the principal (user/group/identity) to assign the role to.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.roleDefinitionIdOrName`
 
@@ -306,6 +343,8 @@ The role to assign. You can provide either the display name of the role definiti
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.condition`
 
@@ -313,6 +352,8 @@ The conditions on the role assignment. This limits the resources it can be assig
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.conditionVersion`
 
@@ -326,6 +367,8 @@ Version of the condition.
     '2.0'
   ]
   ```
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.delegatedManagedIdentityResourceId`
 
@@ -333,6 +376,8 @@ The Resource Id of the delegated managed identity resource.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.description`
 
@@ -340,6 +385,17 @@ The description of the role assignment.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 168
+
+### Parameter: `roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `roleAssignments.principalType`
 
@@ -357,6 +413,8 @@ The principal type of the assigned principal ID.
     'User'
   ]
   ```
+- MinValue: 1
+- MaxValue: 168
 
 ### Parameter: `status`
 
@@ -379,7 +437,8 @@ Enumerates the possible values for the status of the Event Hub.
     'Unknown'
   ]
   ```
-
+- MinValue: 1
+- MaxValue: 168
 
 ## Outputs
 
@@ -391,8 +450,8 @@ Enumerates the possible values for the status of the Event Hub.
 
 ## Cross-referenced modules
 
-_None_
+This section gives you an overview of all local-referenced module files (i.e., other modules that are referenced in this module) and all remote-referenced files (i.e., Bicep modules that are referenced from a Bicep Registry or Template Specs).
 
-## Data Collection
-
-The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the [repository](https://aka.ms/avm/telemetry). There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.
+| Reference | Type |
+| :-- | :-- |
+| `br/public:avm/utl/types/avm-common-types:0.5.1` | Remote reference |

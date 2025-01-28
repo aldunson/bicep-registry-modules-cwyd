@@ -4,12 +4,11 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.28.1.47646",
-      "templateHash": "3505452198428635330"
+      "version": "0.32.4.45862",
+      "templateHash": "13762641450479393784"
     },
     "name": "Virtual Hub Virtual Network Connections",
-    "description": "This module deploys a Virtual Hub Virtual Network Connection.",
-    "owner": "Azure/module-maintainers"
+    "description": "This module deploys a Virtual Hub Virtual Network Connection."
   },
   "parameters": {
     "name": {
@@ -48,7 +47,7 @@
   "resources": [
     {
       "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-      "apiVersion": "2022-11-01",
+      "apiVersion": "2024-01-01",
       "name": "[format('{0}/{1}', parameters('virtualHubName'), parameters('name'))]",
       "properties": {
         "enableInternetSecurity": "[parameters('enableInternetSecurity')]",

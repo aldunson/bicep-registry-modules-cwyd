@@ -21,6 +21,9 @@ param serviceShort string = 'nanaanfs3'
 @description('Optional. A token to inject into the name of each resource.')
 param namePrefix string = '#_namePrefix_#'
 
+@description('Optional. The source of the encryption key.')
+param encryptionKeySource string = 'Microsoft.NetApp'
+
 // ============ //
 // Dependencies //
 // ============ //
@@ -66,19 +69,28 @@ module testDeployment '../../../main.bicep' = {
         size: 4398046511104
         volumes: [
           {
-            exportPolicyRules: [
-              {
-                allowedClients: '0.0.0.0/0'
-                nfsv3: true
-                nfsv41: false
-                ruleIndex: 1
-                unixReadOnly: false
-                unixReadWrite: true
-              }
-            ]
+            exportPolicy: {
+              rules: [
+                {
+                  allowedClients: '0.0.0.0/0'
+                  nfsv3: true
+                  nfsv41: false
+                  ruleIndex: 1
+                  unixReadOnly: false
+                  unixReadWrite: true
+                  kerberos5iReadOnly: false
+                  kerberos5pReadOnly: false
+                  kerberos5ReadOnly: false
+                  kerberos5iReadWrite: false
+                  kerberos5pReadWrite: false
+                  kerberos5ReadWrite: false
+                }
+              ]
+            }
             name: '${namePrefix}-${serviceShort}-vol-001'
-            zones: ['1']
+            zones: [1]
             networkFeatures: 'Standard'
+            encryptionKeySource: encryptionKeySource
             protocolTypes: [
               'NFSv3'
             ]
@@ -94,8 +106,9 @@ module testDeployment '../../../main.bicep' = {
           }
           {
             name: '${namePrefix}-${serviceShort}-vol-002'
-            zones: ['1']
+            zones: [1]
             networkFeatures: 'Standard'
+            encryptionKeySource: encryptionKeySource
             protocolTypes: [
               'NFSv3'
             ]
@@ -152,7 +165,4 @@ module testDeployment '../../../main.bicep' = {
       ServiceName: 'DeploymentValidation'
     }
   }
-  dependsOn: [
-    nestedDependencies
-  ]
 }

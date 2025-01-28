@@ -7,8 +7,6 @@ This module deploys an Eventgrid Namespace Topic.
 - [Resource Types](#Resource-Types)
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
-- [Cross-referenced modules](#Cross-referenced-modules)
-- [Data Collection](#Data-Collection)
 
 ## Resource Types
 
@@ -65,6 +63,8 @@ Event retention for the namespace topic expressed in days.
 - Required: No
 - Type: int
 - Default: `1`
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `eventSubscriptions`
 
@@ -72,6 +72,8 @@ All event subscriptions to create.
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `inputSchema`
 
@@ -80,6 +82,8 @@ This determines the format that is expected for incoming events published to the
 - Required: No
 - Type: string
 - Default: `'CloudEventSchemaV1_0'`
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `lock`
 
@@ -87,6 +91,8 @@ The lock settings of the service.
 
 - Required: No
 - Type: object
+- MinValue: 1
+- MaxValue: 7
 
 **Optional parameters**
 
@@ -109,6 +115,8 @@ Specify the type of lock.
     'ReadOnly'
   ]
   ```
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `lock.name`
 
@@ -116,6 +124,8 @@ Specify the name of lock.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `publisherType`
 
@@ -124,6 +134,8 @@ Publisher type of the namespace topic.
 - Required: No
 - Type: string
 - Default: `'Custom'`
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments`
 
@@ -131,6 +143,22 @@ Array of role assignments to create.
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 7
+- Roles configurable by name:
+  - `'Azure Resource Notifications System Topics Subscriber'`
+  - `'Contributor'`
+  - `'EventGrid Contributor'`
+  - `'EventGrid Data Contributor'`
+  - `'EventGrid Data Receiver'`
+  - `'EventGrid Data Sender'`
+  - `'EventGrid EventSubscription Contributor'`
+  - `'EventGrid EventSubscription Reader'`
+  - `'EventGrid TopicSpaces Publisher'`
+  - `'EventGrid TopicSpaces Subscriber'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'User Access Administrator'`
 
 **Required parameters**
 
@@ -147,6 +175,7 @@ Array of role assignments to create.
 | [`conditionVersion`](#parameter-roleassignmentsconditionversion) | string | Version of the condition. |
 | [`delegatedManagedIdentityResourceId`](#parameter-roleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
 | [`description`](#parameter-roleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-roleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
 | [`principalType`](#parameter-roleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
 
 ### Parameter: `roleAssignments.principalId`
@@ -155,6 +184,8 @@ The principal ID of the principal (user/group/identity) to assign the role to.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.roleDefinitionIdOrName`
 
@@ -162,6 +193,8 @@ The role to assign. You can provide either the display name of the role definiti
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.condition`
 
@@ -169,6 +202,8 @@ The conditions on the role assignment. This limits the resources it can be assig
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.conditionVersion`
 
@@ -182,6 +217,8 @@ Version of the condition.
     '2.0'
   ]
   ```
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.delegatedManagedIdentityResourceId`
 
@@ -189,6 +226,8 @@ The Resource Id of the delegated managed identity resource.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.description`
 
@@ -196,6 +235,17 @@ The description of the role assignment.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 7
+
+### Parameter: `roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+- MinValue: 1
+- MaxValue: 7
 
 ### Parameter: `roleAssignments.principalType`
 
@@ -213,7 +263,8 @@ The principal type of the assigned principal ID.
     'User'
   ]
   ```
-
+- MinValue: 1
+- MaxValue: 7
 
 ## Outputs
 
@@ -222,11 +273,3 @@ The principal type of the assigned principal ID.
 | `name` | string | The name of the Namespace Topic. |
 | `resourceGroupName` | string | The name of the resource group the Namespace Topic was created in. |
 | `resourceId` | string | The resource ID of the Namespace Topic. |
-
-## Cross-referenced modules
-
-_None_
-
-## Data Collection
-
-The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the [repository](https://aka.ms/avm/telemetry). There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.

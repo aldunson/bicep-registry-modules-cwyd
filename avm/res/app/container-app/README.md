@@ -15,7 +15,7 @@ This module deploys a Container App.
 
 | Resource Type | API Version |
 | :-- | :-- |
-| `Microsoft.App/containerApps` | [2023-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.App/2023-05-01/containerApps) |
+| `Microsoft.App/containerApps` | [2024-10-02-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.App/2024-10-02-preview/containerApps) |
 | `Microsoft.Authorization/locks` | [2020-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2020-05-01/locks) |
 | `Microsoft.Authorization/roleAssignments` | [2022-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2022-04-01/roleAssignments) |
 
@@ -30,7 +30,8 @@ The following section provides usage examples for the module, which were used to
 - [Using only defaults](#example-1-using-only-defaults)
 - [Without ingress enabled](#example-2-without-ingress-enabled)
 - [Using large parameter set](#example-3-using-large-parameter-set)
-- [WAF-aligned](#example-4-waf-aligned)
+- [VNet integrated container app deployment](#example-4-vnet-integrated-container-app-deployment)
+- [WAF-aligned](#example-5-waf-aligned)
 
 ### Example 1: _Using only defaults_
 
@@ -56,7 +57,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       }
     ]
-    environmentId: '<environmentId>'
+    environmentResourceId: '<environmentResourceId>'
     name: 'acamin001'
     // Non-required parameters
     location: '<location>'
@@ -69,7 +70,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -89,8 +90,8 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       ]
     },
-    "environmentId": {
-      "value": "<environmentId>"
+    "environmentResourceId": {
+      "value": "<environmentResourceId>"
     },
     "name": {
       "value": "acamin001"
@@ -101,6 +102,33 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     }
   }
 }
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/app/container-app:<version>'
+
+// Required parameters
+param containers = [
+  {
+    image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+    name: 'simple-hello-world-container'
+    resources: {
+      cpu: '<cpu>'
+      memory: '0.5Gi'
+    }
+  }
+]
+param environmentResourceId = '<environmentResourceId>'
+param name = 'acamin001'
+// Non-required parameters
+param location = '<location>'
 ```
 
 </details>
@@ -130,7 +158,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       }
     ]
-    environmentId: '<environmentId>'
+    environmentResourceId: '<environmentResourceId>'
     name: 'acapriv001'
     // Non-required parameters
     disableIngress: true
@@ -144,7 +172,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -164,8 +192,8 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       ]
     },
-    "environmentId": {
-      "value": "<environmentId>"
+    "environmentResourceId": {
+      "value": "<environmentResourceId>"
     },
     "name": {
       "value": "acapriv001"
@@ -179,6 +207,34 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     }
   }
 }
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/app/container-app:<version>'
+
+// Required parameters
+param containers = [
+  {
+    image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+    name: 'simple-hello-world-container'
+    resources: {
+      cpu: '<cpu>'
+      memory: '0.5Gi'
+    }
+  }
+]
+param environmentResourceId = '<environmentResourceId>'
+param name = 'acapriv001'
+// Non-required parameters
+param disableIngress = true
+param location = '<location>'
 ```
 
 </details>
@@ -200,6 +256,16 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     // Required parameters
     containers: [
       {
+        env: [
+          {
+            name: 'ContainerAppStoredSecretName'
+            secretRef: 'containerappstoredsecret'
+          }
+          {
+            name: 'ContainerAppKeyVaultStoredSecretName'
+            secretRef: 'keyvaultstoredsecret'
+          }
+        ]
         image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
         name: 'simple-hello-world-container'
         probes: [
@@ -225,7 +291,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       }
     ]
-    environmentId: '<environmentId>'
+    environmentResourceId: '<environmentResourceId>'
     name: 'acamax001'
     // Non-required parameters
     location: '<location>'
@@ -240,11 +306,13 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     }
     roleAssignments: [
       {
+        name: 'e9bac1ee-aebe-4513-9337-49e87a7be05e'
         principalId: '<principalId>'
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'Owner'
       }
       {
+        name: '<name>'
         principalId: '<principalId>'
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
@@ -255,11 +323,28 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
       }
     ]
+    runtime: {
+      java: {
+        enableJavaAgent: true
+        enableMetrics: false
+        loggerSettings: [
+          {
+            level: 'info'
+            logger: 'test'
+          }
+        ]
+      }
+    }
     secrets: {
       secureList: [
         {
-          name: 'customtest'
+          name: 'containerappstoredsecret'
           value: '<value>'
+        }
+        {
+          identity: '<identity>'
+          keyVaultUrl: '<keyVaultUrl>'
+          name: 'keyvaultstoredsecret'
         }
       ]
     }
@@ -276,7 +361,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -287,6 +372,16 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     "containers": {
       "value": [
         {
+          "env": [
+            {
+              "name": "ContainerAppStoredSecretName",
+              "secretRef": "containerappstoredsecret"
+            },
+            {
+              "name": "ContainerAppKeyVaultStoredSecretName",
+              "secretRef": "keyvaultstoredsecret"
+            }
+          ],
           "image": "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest",
           "name": "simple-hello-world-container",
           "probes": [
@@ -313,8 +408,8 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       ]
     },
-    "environmentId": {
-      "value": "<environmentId>"
+    "environmentResourceId": {
+      "value": "<environmentResourceId>"
     },
     "name": {
       "value": "acamax001"
@@ -339,11 +434,13 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
     "roleAssignments": {
       "value": [
         {
+          "name": "e9bac1ee-aebe-4513-9337-49e87a7be05e",
           "principalId": "<principalId>",
           "principalType": "ServicePrincipal",
           "roleDefinitionIdOrName": "Owner"
         },
         {
+          "name": "<name>",
           "principalId": "<principalId>",
           "principalType": "ServicePrincipal",
           "roleDefinitionIdOrName": "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -355,12 +452,31 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       ]
     },
+    "runtime": {
+      "value": {
+        "java": {
+          "enableJavaAgent": true,
+          "enableMetrics": false,
+          "loggerSettings": [
+            {
+              "level": "info",
+              "logger": "test"
+            }
+          ]
+        }
+      }
+    },
     "secrets": {
       "value": {
         "secureList": [
           {
-            "name": "customtest",
+            "name": "containerappstoredsecret",
             "value": "<value>"
+          },
+          {
+            "identity": "<identity>",
+            "keyVaultUrl": "<keyVaultUrl>",
+            "name": "keyvaultstoredsecret"
           }
         ]
       }
@@ -378,7 +494,262 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 </details>
 <p>
 
-### Example 4: _WAF-aligned_
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/app/container-app:<version>'
+
+// Required parameters
+param containers = [
+  {
+    env: [
+      {
+        name: 'ContainerAppStoredSecretName'
+        secretRef: 'containerappstoredsecret'
+      }
+      {
+        name: 'ContainerAppKeyVaultStoredSecretName'
+        secretRef: 'keyvaultstoredsecret'
+      }
+    ]
+    image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+    name: 'simple-hello-world-container'
+    probes: [
+      {
+        httpGet: {
+          httpHeaders: [
+            {
+              name: 'Custom-Header'
+              value: 'Awesome'
+            }
+          ]
+          path: '/health'
+          port: 8080
+        }
+        initialDelaySeconds: 3
+        periodSeconds: 3
+        type: 'Liveness'
+      }
+    ]
+    resources: {
+      cpu: '<cpu>'
+      memory: '0.5Gi'
+    }
+  }
+]
+param environmentResourceId = '<environmentResourceId>'
+param name = 'acamax001'
+// Non-required parameters
+param location = '<location>'
+param lock = {
+  kind: 'CanNotDelete'
+  name: 'myCustomLockName'
+}
+param managedIdentities = {
+  userAssignedResourceIds: [
+    '<managedIdentityResourceId>'
+  ]
+}
+param roleAssignments = [
+  {
+    name: 'e9bac1ee-aebe-4513-9337-49e87a7be05e'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'Owner'
+  }
+  {
+    name: '<name>'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  }
+  {
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  }
+]
+param runtime = {
+  java: {
+    enableJavaAgent: true
+    enableMetrics: false
+    loggerSettings: [
+      {
+        level: 'info'
+        logger: 'test'
+      }
+    ]
+  }
+}
+param secrets = {
+  secureList: [
+    {
+      name: 'containerappstoredsecret'
+      value: '<value>'
+    }
+    {
+      identity: '<identity>'
+      keyVaultUrl: '<keyVaultUrl>'
+      name: 'keyvaultstoredsecret'
+    }
+  ]
+}
+param tags = {
+  Env: 'test'
+  'hidden-title': 'This is visible in the resource name'
+}
+```
+
+</details>
+<p>
+
+### Example 4: _VNet integrated container app deployment_
+
+This instance deploys the container app in a managed environment with a virtual network using TCP ingress.
+
+
+<details>
+
+<summary>via Bicep module</summary>
+
+```bicep
+module containerApp 'br/public:avm/res/app/container-app:<version>' = {
+  name: 'containerAppDeployment'
+  params: {
+    // Required parameters
+    containers: [
+      {
+        image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+        name: 'simple-hello-world-container'
+        resources: {
+          cpu: '<cpu>'
+          memory: '0.5Gi'
+        }
+      }
+    ]
+    environmentResourceId: '<environmentResourceId>'
+    name: 'acavnet001'
+    // Non-required parameters
+    additionalPortMappings: [
+      {
+        exposedPort: 8080
+        external: false
+        targetPort: 8080
+      }
+    ]
+    ingressAllowInsecure: false
+    ingressExternal: false
+    ingressTargetPort: 80
+    ingressTransport: 'tcp'
+    location: '<location>'
+  }
+}
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via JSON parameters file</summary>
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    // Required parameters
+    "containers": {
+      "value": [
+        {
+          "image": "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest",
+          "name": "simple-hello-world-container",
+          "resources": {
+            "cpu": "<cpu>",
+            "memory": "0.5Gi"
+          }
+        }
+      ]
+    },
+    "environmentResourceId": {
+      "value": "<environmentResourceId>"
+    },
+    "name": {
+      "value": "acavnet001"
+    },
+    // Non-required parameters
+    "additionalPortMappings": {
+      "value": [
+        {
+          "exposedPort": 8080,
+          "external": false,
+          "targetPort": 8080
+        }
+      ]
+    },
+    "ingressAllowInsecure": {
+      "value": false
+    },
+    "ingressExternal": {
+      "value": false
+    },
+    "ingressTargetPort": {
+      "value": 80
+    },
+    "ingressTransport": {
+      "value": "tcp"
+    },
+    "location": {
+      "value": "<location>"
+    }
+  }
+}
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/app/container-app:<version>'
+
+// Required parameters
+param containers = [
+  {
+    image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+    name: 'simple-hello-world-container'
+    resources: {
+      cpu: '<cpu>'
+      memory: '0.5Gi'
+    }
+  }
+]
+param environmentResourceId = '<environmentResourceId>'
+param name = 'acavnet001'
+// Non-required parameters
+param additionalPortMappings = [
+  {
+    exposedPort: 8080
+    external: false
+    targetPort: 8080
+  }
+]
+param ingressAllowInsecure = false
+param ingressExternal = false
+param ingressTargetPort = 80
+param ingressTransport = 'tcp'
+param location = '<location>'
+```
+
+</details>
+<p>
+
+### Example 5: _WAF-aligned_
 
 This instance deploys the module in alignment with the best-practices of the Azure Well-Architected Framework.
 
@@ -419,7 +790,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       }
     ]
-    environmentId: '<environmentId>'
+    environmentResourceId: '<environmentResourceId>'
     name: 'acawaf001'
     // Non-required parameters
     ingressAllowInsecure: false
@@ -447,7 +818,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -484,8 +855,8 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
         }
       ]
     },
-    "environmentId": {
-      "value": "<environmentId>"
+    "environmentResourceId": {
+      "value": "<environmentResourceId>"
     },
     "name": {
       "value": "acawaf001"
@@ -526,6 +897,64 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 </details>
 <p>
 
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/app/container-app:<version>'
+
+// Required parameters
+param containers = [
+  {
+    image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+    name: 'simple-hello-world-container'
+    probes: [
+      {
+        httpGet: {
+          httpHeaders: [
+            {
+              name: 'Custom-Header'
+              value: 'Awesome'
+            }
+          ]
+          path: '/health'
+          port: 8080
+        }
+        initialDelaySeconds: 3
+        periodSeconds: 3
+        type: 'Liveness'
+      }
+    ]
+    resources: {
+      cpu: '<cpu>'
+      memory: '0.5Gi'
+    }
+  }
+]
+param environmentResourceId = '<environmentResourceId>'
+param name = 'acawaf001'
+// Non-required parameters
+param ingressAllowInsecure = false
+param ingressExternal = false
+param location = '<location>'
+param lock = {
+  kind: 'CanNotDelete'
+  name: 'myCustomLockName'
+}
+param managedIdentities = {
+  userAssignedResourceIds: [
+    '<managedIdentityResourceId>'
+  ]
+}
+param tags = {
+  Env: 'test'
+  'hidden-title': 'This is visible in the resource name'
+}
+```
+
+</details>
+<p>
 
 ## Parameters
 
@@ -534,7 +963,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`containers`](#parameter-containers) | array | List of container definitions for the Container App. |
-| [`environmentId`](#parameter-environmentid) | string | Resource ID of environment. |
+| [`environmentResourceId`](#parameter-environmentresourceid) | string | Resource ID of environment. |
 | [`name`](#parameter-name) | string | Name of the Container App. |
 
 **Optional parameters**
@@ -542,6 +971,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`activeRevisionsMode`](#parameter-activerevisionsmode) | string | Controls how active revisions are handled for the Container app. |
+| [`additionalPortMappings`](#parameter-additionalportmappings) | array | Settings to expose additional ports on container app. |
 | [`clientCertificateMode`](#parameter-clientcertificatemode) | string | Client certificate mode for mTLS. |
 | [`corsPolicy`](#parameter-corspolicy) | object | Object userd to configure CORS policy. |
 | [`customDomains`](#parameter-customdomains) | array | Custom domain bindings for Container App hostnames. |
@@ -549,6 +979,7 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 | [`disableIngress`](#parameter-disableingress) | bool | Bool to disable all ingress traffic for the container app. |
 | [`enableTelemetry`](#parameter-enabletelemetry) | bool | Enable/Disable usage telemetry for module. |
 | [`exposedPort`](#parameter-exposedport) | int | Exposed Port in containers for TCP traffic from ingress. |
+| [`includeAddOns`](#parameter-includeaddons) | bool | Toggle to include the service configuration. |
 | [`ingressAllowInsecure`](#parameter-ingressallowinsecure) | bool | Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections. |
 | [`ingressExternal`](#parameter-ingressexternal) | bool | Bool indicating if the App exposes an external HTTP endpoint. |
 | [`ingressTargetPort`](#parameter-ingresstargetport) | int | Target Port in containers for traffic from ingress. |
@@ -562,10 +993,13 @@ module containerApp 'br/public:avm/res/app/container-app:<version>' = {
 | [`registries`](#parameter-registries) | array | Collection of private container registry credentials for containers used by the Container app. |
 | [`revisionSuffix`](#parameter-revisionsuffix) | string | User friendly suffix that is appended to the revision name. |
 | [`roleAssignments`](#parameter-roleassignments) | array | Array of role assignments to create. |
+| [`runtime`](#parameter-runtime) | object | Runtime configuration for the Container App. |
 | [`scaleMaxReplicas`](#parameter-scalemaxreplicas) | int | Maximum number of container replicas. Defaults to 10 if not set. |
 | [`scaleMinReplicas`](#parameter-scaleminreplicas) | int | Minimum number of container replicas. Defaults to 3 if not set. |
 | [`scaleRules`](#parameter-scalerules) | array | Scaling rules. |
 | [`secrets`](#parameter-secrets) | secureObject | The secrets of the Container App. |
+| [`service`](#parameter-service) | object | Dev ContainerApp service type. |
+| [`serviceBinds`](#parameter-servicebinds) | array | List of container app services bound to the app. |
 | [`stickySessionsAffinity`](#parameter-stickysessionsaffinity) | string | Bool indicating if the Container App should enable session affinity. |
 | [`tags`](#parameter-tags) | object | Tags of the resource. |
 | [`trafficLabel`](#parameter-trafficlabel) | string | Associates a traffic label with a revision. Label name should be consist of lower case alphanumeric characters or dashes. |
@@ -692,7 +1126,7 @@ List of probes for the container.
 | [`initialDelaySeconds`](#parameter-containersprobesinitialdelayseconds) | int | Number of seconds after the container has started before liveness probes are initiated. |
 | [`periodSeconds`](#parameter-containersprobesperiodseconds) | int | How often (in seconds) to perform the probe. Default to 10 seconds. |
 | [`successThreshold`](#parameter-containersprobessuccessthreshold) | int | Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. |
-| [`tcpSocket`](#parameter-containersprobestcpsocket) | object | TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. |
+| [`tcpSocket`](#parameter-containersprobestcpsocket) | object | The TCP socket specifies an action involving a TCP port. TCP hooks not yet supported. |
 | [`terminationGracePeriodSeconds`](#parameter-containersprobesterminationgraceperiodseconds) | int | Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour). |
 | [`timeoutSeconds`](#parameter-containersprobestimeoutseconds) | int | Number of seconds after which the probe times out. Defaults to 1 second. |
 | [`type`](#parameter-containersprobestype) | string | The type of probe. |
@@ -703,6 +1137,8 @@ Minimum consecutive failures for the probe to be considered failed after having 
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet`
 
@@ -710,6 +1146,8 @@ HTTPGet specifies the http request to perform.
 
 - Required: No
 - Type: object
+- MinValue: 1
+- MaxValue: 10
 
 **Required parameters**
 
@@ -732,6 +1170,8 @@ Path to access on the HTTP server.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.port`
 
@@ -739,6 +1179,8 @@ Name or number of the port to access on the container.
 
 - Required: Yes
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.host`
 
@@ -746,6 +1188,8 @@ Host name to connect to. Defaults to the pod IP.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.httpHeaders`
 
@@ -753,6 +1197,8 @@ HTTP headers to set in the request.
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 10
 
 **Required parameters**
 
@@ -767,6 +1213,8 @@ Name of the header.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.httpHeaders.value`
 
@@ -774,6 +1222,8 @@ Value of the header.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.scheme`
 
@@ -788,6 +1238,8 @@ Scheme to use for connecting to the host. Defaults to HTTP.
     'HTTPS'
   ]
   ```
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.initialDelaySeconds`
 
@@ -795,6 +1247,8 @@ Number of seconds after the container has started before liveness probes are ini
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 60
 
 ### Parameter: `containers.probes.periodSeconds`
 
@@ -802,6 +1256,8 @@ How often (in seconds) to perform the probe. Default to 10 seconds.
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 240
 
 ### Parameter: `containers.probes.successThreshold`
 
@@ -809,13 +1265,17 @@ Minimum consecutive successes for the probe to be considered successful after ha
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.tcpSocket`
 
-TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported.
+The TCP socket specifies an action involving a TCP port. TCP hooks not yet supported.
 
 - Required: No
 - Type: object
+- MinValue: 1
+- MaxValue: 10
 
 **Required parameters**
 
@@ -835,6 +1295,8 @@ Number of the port to access on the container. Name must be an IANA_SVC_NAME.
 
 - Required: Yes
 - Type: int
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.tcpSocket.host`
 
@@ -842,6 +1304,8 @@ Host name to connect to, defaults to the pod IP.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.terminationGracePeriodSeconds`
 
@@ -849,6 +1313,8 @@ Optional duration in seconds the pod needs to terminate gracefully upon probe fa
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.timeoutSeconds`
 
@@ -856,6 +1322,8 @@ Number of seconds after which the probe times out. Defaults to 1 second.
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 240
 
 ### Parameter: `containers.probes.type`
 
@@ -871,6 +1339,8 @@ The type of probe.
     'Startup'
   ]
   ```
+- MinValue: 1
+- MaxValue: 240
 
 ### Parameter: `containers.volumeMounts`
 
@@ -913,7 +1383,7 @@ Path within the volume from which the container's volume should be mounted. Defa
 - Required: No
 - Type: string
 
-### Parameter: `environmentId`
+### Parameter: `environmentResourceId`
 
 Resource ID of environment.
 
@@ -941,6 +1411,47 @@ Controls how active revisions are handled for the Container app.
     'Single'
   ]
   ```
+
+### Parameter: `additionalPortMappings`
+
+Settings to expose additional ports on container app.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`external`](#parameter-additionalportmappingsexternal) | bool | Specifies whether the app port is accessible outside of the environment. |
+| [`targetPort`](#parameter-additionalportmappingstargetport) | int | Specifies the port the container listens on. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`exposedPort`](#parameter-additionalportmappingsexposedport) | int | Specifies the exposed port for the target port. If not specified, it defaults to target port. |
+
+### Parameter: `additionalPortMappings.external`
+
+Specifies whether the app port is accessible outside of the environment.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `additionalPortMappings.targetPort`
+
+Specifies the port the container listens on.
+
+- Required: Yes
+- Type: int
+
+### Parameter: `additionalPortMappings.exposedPort`
+
+Specifies the exposed port for the target port. If not specified, it defaults to target port.
+
+- Required: No
+- Type: int
 
 ### Parameter: `clientCertificateMode`
 
@@ -1058,6 +1569,14 @@ Exposed Port in containers for TCP traffic from ingress.
 - Type: int
 - Default: `0`
 
+### Parameter: `includeAddOns`
+
+Toggle to include the service configuration.
+
+- Required: No
+- Type: bool
+- Default: `False`
+
 ### Parameter: `ingressAllowInsecure`
 
 Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections.
@@ -1171,7 +1690,7 @@ The managed identity definition for this resource.
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`systemAssigned`](#parameter-managedidentitiessystemassigned) | bool | Enables system assigned managed identity on the resource. |
-| [`userAssignedResourceIds`](#parameter-managedidentitiesuserassignedresourceids) | array | The resource ID(s) to assign to the resource. |
+| [`userAssignedResourceIds`](#parameter-managedidentitiesuserassignedresourceids) | array | The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption. |
 
 ### Parameter: `managedIdentities.systemAssigned`
 
@@ -1182,7 +1701,7 @@ Enables system assigned managed identity on the resource.
 
 ### Parameter: `managedIdentities.userAssignedResourceIds`
 
-The resource ID(s) to assign to the resource.
+The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption.
 
 - Required: No
 - Type: array
@@ -1217,6 +1736,13 @@ Array of role assignments to create.
 
 - Required: No
 - Type: array
+- Roles configurable by name:
+  - `'ContainerApp Reader'`
+  - `'Contributor'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'Role Based Access Control Administrator'`
+  - `'User Access Administrator'`
 
 **Required parameters**
 
@@ -1233,6 +1759,7 @@ Array of role assignments to create.
 | [`conditionVersion`](#parameter-roleassignmentsconditionversion) | string | Version of the condition. |
 | [`delegatedManagedIdentityResourceId`](#parameter-roleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
 | [`description`](#parameter-roleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-roleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
 | [`principalType`](#parameter-roleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
 
 ### Parameter: `roleAssignments.principalId`
@@ -1283,6 +1810,13 @@ The description of the role assignment.
 - Required: No
 - Type: string
 
+### Parameter: `roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+
 ### Parameter: `roleAssignments.principalType`
 
 The principal type of the assigned principal ID.
@@ -1299,6 +1833,113 @@ The principal type of the assigned principal ID.
     'User'
   ]
   ```
+
+### Parameter: `runtime`
+
+Runtime configuration for the Container App.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`dotnet`](#parameter-runtimedotnet) | object | Runtime configuration for ASP.NET Core. |
+| [`java`](#parameter-runtimejava) | object | Runtime configuration for Java. |
+
+### Parameter: `runtime.dotnet`
+
+Runtime configuration for ASP.NET Core.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`autoConfigureDataProtection`](#parameter-runtimedotnetautoconfiguredataprotection) | bool | Enable to auto configure the ASP.NET Core Data Protection feature. |
+
+### Parameter: `runtime.dotnet.autoConfigureDataProtection`
+
+Enable to auto configure the ASP.NET Core Data Protection feature.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `runtime.java`
+
+Runtime configuration for Java.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`enableJavaAgent`](#parameter-runtimejavaenablejavaagent) | bool | Enable Java agent injection for the Java app. |
+| [`enableMetrics`](#parameter-runtimejavaenablemetrics) | bool | Enable JMX core metrics for the Java app. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`loggerSettings`](#parameter-runtimejavaloggersettings) | array | Java agent logging configuration. |
+
+### Parameter: `runtime.java.enableJavaAgent`
+
+Enable Java agent injection for the Java app.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `runtime.java.enableMetrics`
+
+Enable JMX core metrics for the Java app.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `runtime.java.loggerSettings`
+
+Java agent logging configuration.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`level`](#parameter-runtimejavaloggersettingslevel) | string | Java agent logging level. |
+| [`logger`](#parameter-runtimejavaloggersettingslogger) | string | Name of the logger. |
+
+### Parameter: `runtime.java.loggerSettings.level`
+
+Java agent logging level.
+
+- Required: Yes
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'debug'
+    'error'
+    'info'
+    'off'
+    'trace'
+    'warn'
+  ]
+  ```
+
+### Parameter: `runtime.java.loggerSettings.logger`
+
+Name of the logger.
+
+- Required: Yes
+- Type: string
 
 ### Parameter: `scaleMaxReplicas`
 
@@ -1331,6 +1972,42 @@ The secrets of the Container App.
 - Required: No
 - Type: secureObject
 - Default: `{}`
+
+### Parameter: `service`
+
+Dev ContainerApp service type.
+
+- Required: No
+- Type: object
+- Default: `{}`
+
+### Parameter: `serviceBinds`
+
+List of container app services bound to the app.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`name`](#parameter-servicebindsname) | string | The name of the service. |
+| [`serviceId`](#parameter-servicebindsserviceid) | string | The service ID. |
+
+### Parameter: `serviceBinds.name`
+
+The name of the service.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `serviceBinds.serviceId`
+
+The service ID.
+
+- Required: Yes
+- Type: string
 
 ### Parameter: `stickySessionsAffinity`
 
@@ -1402,7 +2079,6 @@ Workload profile name to pin for container app execution.
 - Type: string
 - Default: `''`
 
-
 ## Outputs
 
 | Output | Type | Description |
@@ -1416,7 +2092,11 @@ Workload profile name to pin for container app execution.
 
 ## Cross-referenced modules
 
-_None_
+This section gives you an overview of all local-referenced module files (i.e., other modules that are referenced in this module) and all remote-referenced files (i.e., Bicep modules that are referenced from a Bicep Registry or Template Specs).
+
+| Reference | Type |
+| :-- | :-- |
+| `br/public:avm/utl/types/avm-common-types:0.4.1` | Remote reference |
 
 ## Data Collection
 

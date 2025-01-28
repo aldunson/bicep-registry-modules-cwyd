@@ -17,12 +17,13 @@ This module deploys an Azure NetApp File.
 | :-- | :-- |
 | `Microsoft.Authorization/locks` | [2020-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2020-05-01/locks) |
 | `Microsoft.Authorization/roleAssignments` | [2022-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2022-04-01/roleAssignments) |
-| `Microsoft.NetApp/netAppAccounts` | [2023-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-07-01/netAppAccounts) |
-| `Microsoft.NetApp/netAppAccounts/backupPolicies` | [2023-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-11-01/netAppAccounts/backupPolicies) |
-| `Microsoft.NetApp/netAppAccounts/backupVaults` | [2023-05-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-05-01-preview/netAppAccounts/backupVaults) |
-| `Microsoft.NetApp/netAppAccounts/backupVaults/backups` | [2023-05-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-05-01-preview/netAppAccounts/backupVaults/backups) |
-| `Microsoft.NetApp/netAppAccounts/capacityPools` | [2023-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-07-01/netAppAccounts/capacityPools) |
-| `Microsoft.NetApp/netAppAccounts/capacityPools/volumes` | [2023-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2023-07-01/netAppAccounts/capacityPools/volumes) |
+| `Microsoft.NetApp/netAppAccounts` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts) |
+| `Microsoft.NetApp/netAppAccounts/backupPolicies` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/backupPolicies) |
+| `Microsoft.NetApp/netAppAccounts/backupVaults` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/backupVaults) |
+| `Microsoft.NetApp/netAppAccounts/backupVaults/backups` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/backupVaults/backups) |
+| `Microsoft.NetApp/netAppAccounts/capacityPools` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/capacityPools) |
+| `Microsoft.NetApp/netAppAccounts/capacityPools/volumes` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/capacityPools/volumes) |
+| `Microsoft.NetApp/netAppAccounts/snapshotPolicies` | [2024-03-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.NetApp/2024-03-01/netAppAccounts/snapshotPolicies) |
 
 ## Usage examples
 
@@ -63,7 +64,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -85,6 +86,22 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 </details>
 <p>
 
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/net-app/net-app-account:<version>'
+
+// Required parameters
+param name = 'nanaamin001'
+// Non-required parameters
+param location = '<location>'
+```
+
+</details>
+<p>
+
 ### Example 2: _Using large parameter set_
 
 This instance deploys the module with most of its features enabled.
@@ -101,9 +118,25 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
     // Required parameters
     name: 'nanaamax001'
     // Non-required parameters
+    backupPolicies: [
+      {
+        name: 'myBackupPolicy'
+      }
+    ]
+    backupVault: {
+      backups: [
+        {
+          capacityPoolName: 'cp-001'
+          label: 'myLabel'
+          name: 'myBackup01'
+          volumeName: 'vol-001'
+        }
+      ]
+      name: 'myVault'
+    }
     capacityPools: [
       {
-        name: 'nanaamax-cp-001'
+        name: 'cp-001'
         roleAssignments: [
           {
             principalId: '<principalId>'
@@ -115,17 +148,36 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
         size: 4398046511104
         volumes: [
           {
-            exportPolicyRules: [
-              {
-                allowedClients: '0.0.0.0/0'
-                nfsv3: false
-                nfsv41: true
-                ruleIndex: 1
-                unixReadOnly: false
-                unixReadWrite: true
+            dataProtection: {
+              backup: {
+                backupPolicyName: 'myBackupPolicy'
+                backupVaultName: 'myVault'
+                policyEnforced: false
               }
-            ]
-            name: 'nanaamax-vol-001'
+              snapshot: {
+                snapshotPolicyName: 'mySnapshotPolicy'
+              }
+            }
+            encryptionKeySource: '<encryptionKeySource>'
+            exportPolicy: {
+              rules: [
+                {
+                  allowedClients: '0.0.0.0/0'
+                  kerberos5iReadOnly: false
+                  kerberos5iReadWrite: false
+                  kerberos5pReadOnly: false
+                  kerberos5pReadWrite: false
+                  kerberos5ReadOnly: false
+                  kerberos5ReadWrite: false
+                  nfsv3: false
+                  nfsv41: true
+                  ruleIndex: 1
+                  unixReadOnly: false
+                  unixReadWrite: true
+                }
+              ]
+            }
+            name: 'vol-001'
             networkFeatures: 'Standard'
             protocolTypes: [
               'NFSv4.1'
@@ -140,35 +192,48 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
             subnetResourceId: '<subnetResourceId>'
             usageThreshold: 107374182400
             zones: [
-              '1'
+              1
             ]
           }
           {
-            exportPolicyRules: [
-              {
-                allowedClients: '0.0.0.0/0'
-                nfsv3: false
-                nfsv41: true
-                ruleIndex: 1
-                unixReadOnly: false
-                unixReadWrite: true
-              }
-            ]
-            name: 'nanaamax-vol-002'
+            encryptionKeySource: '<encryptionKeySource>'
+            exportPolicy: {
+              rules: [
+                {
+                  allowedClients: '0.0.0.0/0'
+                  kerberos5iReadOnly: false
+                  kerberos5iReadWrite: false
+                  kerberos5pReadOnly: false
+                  kerberos5pReadWrite: false
+                  kerberos5ReadOnly: false
+                  kerberos5ReadWrite: false
+                  nfsv3: false
+                  nfsv41: true
+                  ruleIndex: 1
+                  unixReadOnly: false
+                  unixReadWrite: false
+                }
+              ]
+            }
+            kerberosEnabled: false
+            name: 'vol-002'
             networkFeatures: 'Standard'
             protocolTypes: [
               'NFSv4.1'
             ]
+            smbContinuouslyAvailable: false
+            smbEncryption: false
+            smbNonBrowsable: 'Disabled'
             subnetResourceId: '<subnetResourceId>'
             usageThreshold: 107374182400
             zones: [
-              '1'
+              1
             ]
           }
         ]
       }
       {
-        name: 'nanaamax-cp-002'
+        name: 'cp-002'
         roleAssignments: [
           {
             principalId: '<principalId>'
@@ -189,11 +254,13 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
     }
     roleAssignments: [
       {
+        name: '18051111-2a33-4f8e-8b24-441aac1e6562'
         principalId: '<principalId>'
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'Owner'
       }
       {
+        name: '<name>'
         principalId: '<principalId>'
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
@@ -202,6 +269,16 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
         principalId: '<principalId>'
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+      }
+    ]
+    snapshotPolicies: [
+      {
+        dailySchedule: {
+          hour: 0
+          minute: 0
+          snapshotsToKeep: 1
+        }
+        name: 'mySnapshotPolicy'
       }
     ]
     tags: {
@@ -222,7 +299,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -234,10 +311,30 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
       "value": "nanaamax001"
     },
     // Non-required parameters
+    "backupPolicies": {
+      "value": [
+        {
+          "name": "myBackupPolicy"
+        }
+      ]
+    },
+    "backupVault": {
+      "value": {
+        "backups": [
+          {
+            "capacityPoolName": "cp-001",
+            "label": "myLabel",
+            "name": "myBackup01",
+            "volumeName": "vol-001"
+          }
+        ],
+        "name": "myVault"
+      }
+    },
     "capacityPools": {
       "value": [
         {
-          "name": "nanaamax-cp-001",
+          "name": "cp-001",
           "roleAssignments": [
             {
               "principalId": "<principalId>",
@@ -249,17 +346,36 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
           "size": 4398046511104,
           "volumes": [
             {
-              "exportPolicyRules": [
-                {
-                  "allowedClients": "0.0.0.0/0",
-                  "nfsv3": false,
-                  "nfsv41": true,
-                  "ruleIndex": 1,
-                  "unixReadOnly": false,
-                  "unixReadWrite": true
+              "dataProtection": {
+                "backup": {
+                  "backupPolicyName": "myBackupPolicy",
+                  "backupVaultName": "myVault",
+                  "policyEnforced": false
+                },
+                "snapshot": {
+                  "snapshotPolicyName": "mySnapshotPolicy"
                 }
-              ],
-              "name": "nanaamax-vol-001",
+              },
+              "encryptionKeySource": "<encryptionKeySource>",
+              "exportPolicy": {
+                "rules": [
+                  {
+                    "allowedClients": "0.0.0.0/0",
+                    "kerberos5iReadOnly": false,
+                    "kerberos5iReadWrite": false,
+                    "kerberos5pReadOnly": false,
+                    "kerberos5pReadWrite": false,
+                    "kerberos5ReadOnly": false,
+                    "kerberos5ReadWrite": false,
+                    "nfsv3": false,
+                    "nfsv41": true,
+                    "ruleIndex": 1,
+                    "unixReadOnly": false,
+                    "unixReadWrite": true
+                  }
+                ]
+              },
+              "name": "vol-001",
               "networkFeatures": "Standard",
               "protocolTypes": [
                 "NFSv4.1"
@@ -274,35 +390,48 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
               "subnetResourceId": "<subnetResourceId>",
               "usageThreshold": 107374182400,
               "zones": [
-                "1"
+                1
               ]
             },
             {
-              "exportPolicyRules": [
-                {
-                  "allowedClients": "0.0.0.0/0",
-                  "nfsv3": false,
-                  "nfsv41": true,
-                  "ruleIndex": 1,
-                  "unixReadOnly": false,
-                  "unixReadWrite": true
-                }
-              ],
-              "name": "nanaamax-vol-002",
+              "encryptionKeySource": "<encryptionKeySource>",
+              "exportPolicy": {
+                "rules": [
+                  {
+                    "allowedClients": "0.0.0.0/0",
+                    "kerberos5iReadOnly": false,
+                    "kerberos5iReadWrite": false,
+                    "kerberos5pReadOnly": false,
+                    "kerberos5pReadWrite": false,
+                    "kerberos5ReadOnly": false,
+                    "kerberos5ReadWrite": false,
+                    "nfsv3": false,
+                    "nfsv41": true,
+                    "ruleIndex": 1,
+                    "unixReadOnly": false,
+                    "unixReadWrite": false
+                  }
+                ]
+              },
+              "kerberosEnabled": false,
+              "name": "vol-002",
               "networkFeatures": "Standard",
               "protocolTypes": [
                 "NFSv4.1"
               ],
+              "smbContinuouslyAvailable": false,
+              "smbEncryption": false,
+              "smbNonBrowsable": "Disabled",
               "subnetResourceId": "<subnetResourceId>",
               "usageThreshold": 107374182400,
               "zones": [
-                "1"
+                1
               ]
             }
           ]
         },
         {
-          "name": "nanaamax-cp-002",
+          "name": "cp-002",
           "roleAssignments": [
             {
               "principalId": "<principalId>",
@@ -329,11 +458,13 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
     "roleAssignments": {
       "value": [
         {
+          "name": "18051111-2a33-4f8e-8b24-441aac1e6562",
           "principalId": "<principalId>",
           "principalType": "ServicePrincipal",
           "roleDefinitionIdOrName": "Owner"
         },
         {
+          "name": "<name>",
           "principalId": "<principalId>",
           "principalType": "ServicePrincipal",
           "roleDefinitionIdOrName": "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -342,6 +473,18 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
           "principalId": "<principalId>",
           "principalType": "ServicePrincipal",
           "roleDefinitionIdOrName": "<roleDefinitionIdOrName>"
+        }
+      ]
+    },
+    "snapshotPolicies": {
+      "value": [
+        {
+          "dailySchedule": {
+            "hour": 0,
+            "minute": 0,
+            "snapshotsToKeep": 1
+          },
+          "name": "mySnapshotPolicy"
         }
       ]
     },
@@ -357,6 +500,193 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
       }
     }
   }
+}
+```
+
+</details>
+<p>
+
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/net-app/net-app-account:<version>'
+
+// Required parameters
+param name = 'nanaamax001'
+// Non-required parameters
+param backupPolicies = [
+  {
+    name: 'myBackupPolicy'
+  }
+]
+param backupVault = {
+  backups: [
+    {
+      capacityPoolName: 'cp-001'
+      label: 'myLabel'
+      name: 'myBackup01'
+      volumeName: 'vol-001'
+    }
+  ]
+  name: 'myVault'
+}
+param capacityPools = [
+  {
+    name: 'cp-001'
+    roleAssignments: [
+      {
+        principalId: '<principalId>'
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Reader'
+      }
+    ]
+    serviceLevel: 'Premium'
+    size: 4398046511104
+    volumes: [
+      {
+        dataProtection: {
+          backup: {
+            backupPolicyName: 'myBackupPolicy'
+            backupVaultName: 'myVault'
+            policyEnforced: false
+          }
+          snapshot: {
+            snapshotPolicyName: 'mySnapshotPolicy'
+          }
+        }
+        encryptionKeySource: '<encryptionKeySource>'
+        exportPolicy: {
+          rules: [
+            {
+              allowedClients: '0.0.0.0/0'
+              kerberos5iReadOnly: false
+              kerberos5iReadWrite: false
+              kerberos5pReadOnly: false
+              kerberos5pReadWrite: false
+              kerberos5ReadOnly: false
+              kerberos5ReadWrite: false
+              nfsv3: false
+              nfsv41: true
+              ruleIndex: 1
+              unixReadOnly: false
+              unixReadWrite: true
+            }
+          ]
+        }
+        name: 'vol-001'
+        networkFeatures: 'Standard'
+        protocolTypes: [
+          'NFSv4.1'
+        ]
+        roleAssignments: [
+          {
+            principalId: '<principalId>'
+            principalType: 'ServicePrincipal'
+            roleDefinitionIdOrName: 'Reader'
+          }
+        ]
+        subnetResourceId: '<subnetResourceId>'
+        usageThreshold: 107374182400
+        zones: [
+          1
+        ]
+      }
+      {
+        encryptionKeySource: '<encryptionKeySource>'
+        exportPolicy: {
+          rules: [
+            {
+              allowedClients: '0.0.0.0/0'
+              kerberos5iReadOnly: false
+              kerberos5iReadWrite: false
+              kerberos5pReadOnly: false
+              kerberos5pReadWrite: false
+              kerberos5ReadOnly: false
+              kerberos5ReadWrite: false
+              nfsv3: false
+              nfsv41: true
+              ruleIndex: 1
+              unixReadOnly: false
+              unixReadWrite: false
+            }
+          ]
+        }
+        kerberosEnabled: false
+        name: 'vol-002'
+        networkFeatures: 'Standard'
+        protocolTypes: [
+          'NFSv4.1'
+        ]
+        smbContinuouslyAvailable: false
+        smbEncryption: false
+        smbNonBrowsable: 'Disabled'
+        subnetResourceId: '<subnetResourceId>'
+        usageThreshold: 107374182400
+        zones: [
+          1
+        ]
+      }
+    ]
+  }
+  {
+    name: 'cp-002'
+    roleAssignments: [
+      {
+        principalId: '<principalId>'
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Reader'
+      }
+    ]
+    serviceLevel: 'Premium'
+    size: 4398046511104
+    volumes: []
+  }
+]
+param location = '<location>'
+param managedIdentities = {
+  userAssignedResourceIds: [
+    '<managedIdentityResourceId>'
+  ]
+}
+param roleAssignments = [
+  {
+    name: '18051111-2a33-4f8e-8b24-441aac1e6562'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'Owner'
+  }
+  {
+    name: '<name>'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  }
+  {
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  }
+]
+param snapshotPolicies = [
+  {
+    dailySchedule: {
+      hour: 0
+      minute: 0
+      snapshotsToKeep: 1
+    }
+    name: 'mySnapshotPolicy'
+  }
+]
+param tags = {
+  Contact: 'test.user@testcompany.com'
+  CostCenter: '7890'
+  Environment: 'Non-Prod'
+  'hidden-title': 'This is visible in the resource name'
+  PurchaseOrder: '1234'
+  Role: 'DeploymentValidation'
+  ServiceName: 'DeploymentValidation'
 }
 ```
 
@@ -393,16 +723,25 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
         size: 4398046511104
         volumes: [
           {
-            exportPolicyRules: [
-              {
-                allowedClients: '0.0.0.0/0'
-                nfsv3: true
-                nfsv41: false
-                ruleIndex: 1
-                unixReadOnly: false
-                unixReadWrite: true
-              }
-            ]
+            encryptionKeySource: '<encryptionKeySource>'
+            exportPolicy: {
+              rules: [
+                {
+                  allowedClients: '0.0.0.0/0'
+                  kerberos5iReadOnly: false
+                  kerberos5iReadWrite: false
+                  kerberos5pReadOnly: false
+                  kerberos5pReadWrite: false
+                  kerberos5ReadOnly: false
+                  kerberos5ReadWrite: false
+                  nfsv3: true
+                  nfsv41: false
+                  ruleIndex: 1
+                  unixReadOnly: false
+                  unixReadWrite: true
+                }
+              ]
+            }
             name: 'nanaanfs3-vol-001'
             networkFeatures: 'Standard'
             protocolTypes: [
@@ -418,10 +757,11 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
             subnetResourceId: '<subnetResourceId>'
             usageThreshold: 107374182400
             zones: [
-              '1'
+              1
             ]
           }
           {
+            encryptionKeySource: '<encryptionKeySource>'
             name: 'nanaanfs3-vol-002'
             networkFeatures: 'Standard'
             protocolTypes: [
@@ -430,7 +770,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
             subnetResourceId: '<subnetResourceId>'
             usageThreshold: 107374182400
             zones: [
-              '1'
+              1
             ]
           }
         ]
@@ -489,7 +829,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -516,16 +856,25 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
           "size": 4398046511104,
           "volumes": [
             {
-              "exportPolicyRules": [
-                {
-                  "allowedClients": "0.0.0.0/0",
-                  "nfsv3": true,
-                  "nfsv41": false,
-                  "ruleIndex": 1,
-                  "unixReadOnly": false,
-                  "unixReadWrite": true
-                }
-              ],
+              "encryptionKeySource": "<encryptionKeySource>",
+              "exportPolicy": {
+                "rules": [
+                  {
+                    "allowedClients": "0.0.0.0/0",
+                    "kerberos5iReadOnly": false,
+                    "kerberos5iReadWrite": false,
+                    "kerberos5pReadOnly": false,
+                    "kerberos5pReadWrite": false,
+                    "kerberos5ReadOnly": false,
+                    "kerberos5ReadWrite": false,
+                    "nfsv3": true,
+                    "nfsv41": false,
+                    "ruleIndex": 1,
+                    "unixReadOnly": false,
+                    "unixReadWrite": true
+                  }
+                ]
+              },
               "name": "nanaanfs3-vol-001",
               "networkFeatures": "Standard",
               "protocolTypes": [
@@ -541,10 +890,11 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
               "subnetResourceId": "<subnetResourceId>",
               "usageThreshold": 107374182400,
               "zones": [
-                "1"
+                1
               ]
             },
             {
+              "encryptionKeySource": "<encryptionKeySource>",
               "name": "nanaanfs3-vol-002",
               "networkFeatures": "Standard",
               "protocolTypes": [
@@ -553,7 +903,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
               "subnetResourceId": "<subnetResourceId>",
               "usageThreshold": 107374182400,
               "zones": [
-                "1"
+                1
               ]
             }
           ]
@@ -619,6 +969,132 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 </details>
 <p>
 
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/net-app/net-app-account:<version>'
+
+// Required parameters
+param name = 'nanaanfs3001'
+// Non-required parameters
+param capacityPools = [
+  {
+    name: 'nanaanfs3-cp-001'
+    roleAssignments: [
+      {
+        principalId: '<principalId>'
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Reader'
+      }
+    ]
+    serviceLevel: 'Premium'
+    size: 4398046511104
+    volumes: [
+      {
+        encryptionKeySource: '<encryptionKeySource>'
+        exportPolicy: {
+          rules: [
+            {
+              allowedClients: '0.0.0.0/0'
+              kerberos5iReadOnly: false
+              kerberos5iReadWrite: false
+              kerberos5pReadOnly: false
+              kerberos5pReadWrite: false
+              kerberos5ReadOnly: false
+              kerberos5ReadWrite: false
+              nfsv3: true
+              nfsv41: false
+              ruleIndex: 1
+              unixReadOnly: false
+              unixReadWrite: true
+            }
+          ]
+        }
+        name: 'nanaanfs3-vol-001'
+        networkFeatures: 'Standard'
+        protocolTypes: [
+          'NFSv3'
+        ]
+        roleAssignments: [
+          {
+            principalId: '<principalId>'
+            principalType: 'ServicePrincipal'
+            roleDefinitionIdOrName: 'Reader'
+          }
+        ]
+        subnetResourceId: '<subnetResourceId>'
+        usageThreshold: 107374182400
+        zones: [
+          1
+        ]
+      }
+      {
+        encryptionKeySource: '<encryptionKeySource>'
+        name: 'nanaanfs3-vol-002'
+        networkFeatures: 'Standard'
+        protocolTypes: [
+          'NFSv3'
+        ]
+        subnetResourceId: '<subnetResourceId>'
+        usageThreshold: 107374182400
+        zones: [
+          1
+        ]
+      }
+    ]
+  }
+  {
+    name: 'nanaanfs3-cp-002'
+    roleAssignments: [
+      {
+        principalId: '<principalId>'
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Reader'
+      }
+    ]
+    serviceLevel: 'Premium'
+    size: 4398046511104
+    volumes: []
+  }
+]
+param location = '<location>'
+param lock = {
+  kind: 'CanNotDelete'
+  name: 'myCustomLockName'
+}
+param roleAssignments = [
+  {
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'Owner'
+  }
+  {
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  }
+  {
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  }
+]
+param tags = {
+  Contact: 'test.user@testcompany.com'
+  CostCenter: '7890'
+  Environment: 'Non-Prod'
+  'hidden-title': 'This is visible in the resource name'
+  PurchaseOrder: '1234'
+  Role: 'DeploymentValidation'
+  ServiceName: 'DeploymentValidation'
+}
+```
+
+</details>
+<p>
+
 ### Example 4: _WAF-aligned_
 
 This instance deploys the module in alignment with the best-practices of the Azure Well-Architected Framework.
@@ -648,7 +1124,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 
 <details>
 
-<summary>via JSON Parameter file</summary>
+<summary>via JSON parameters file</summary>
 
 ```json
 {
@@ -675,6 +1151,24 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 </details>
 <p>
 
+<details>
+
+<summary>via Bicep parameters file</summary>
+
+```bicep-params
+using 'br/public:avm/res/net-app/net-app-account:<version>'
+
+// Required parameters
+param name = 'nanaawaf001'
+// Non-required parameters
+param location = '<location>'
+param tags = {
+  service: 'netapp'
+}
+```
+
+</details>
+<p>
 
 ## Parameters
 
@@ -690,6 +1184,8 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 | :-- | :-- | :-- |
 | [`adName`](#parameter-adname) | string | Name of the active directory host as part of Kerberos Realm used for Kerberos authentication. |
 | [`aesEncryption`](#parameter-aesencryption) | bool | Enable AES encryption on the SMB Server. |
+| [`backupPolicies`](#parameter-backuppolicies) | array | The backup policies to create. |
+| [`backupVault`](#parameter-backupvault) | object | The netapp backup vault to create & configure. |
 | [`capacityPools`](#parameter-capacitypools) | array | Capacity pools to create. |
 | [`customerManagedKey`](#parameter-customermanagedkey) | object | The customer managed key definition. |
 | [`dnsServers`](#parameter-dnsservers) | string | Required if domainName is specified. Comma separated list of DNS server IP addresses (IPv4 only) required for the Active Directory (AD) domain join and SMB authentication operations to succeed. |
@@ -708,6 +1204,7 @@ module netAppAccount 'br/public:avm/res/net-app/net-app-account:<version>' = {
 | [`roleAssignments`](#parameter-roleassignments) | array | Array of role assignments to create. |
 | [`serverRootCACertificate`](#parameter-serverrootcacertificate) | string | A server Root certificate is required of ldapOverTLS is enabled. |
 | [`smbServerNamePrefix`](#parameter-smbservernameprefix) | string | Required if domainName is specified. NetBIOS name of the SMB server. A computer account with this prefix will be registered in the AD and used to mount volumes. |
+| [`snapshotPolicies`](#parameter-snapshotpolicies) | array | The snapshot policies to create. |
 | [`tags`](#parameter-tags) | object | Tags for all resources. |
 
 ### Parameter: `name`
@@ -733,13 +1230,951 @@ Enable AES encryption on the SMB Server.
 - Type: bool
 - Default: `False`
 
+### Parameter: `backupPolicies`
+
+The backup policies to create.
+
+- Required: No
+- Type: array
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`dailyBackupsToKeep`](#parameter-backuppoliciesdailybackupstokeep) | int | The daily backups to keep. |
+| [`enabled`](#parameter-backuppoliciesenabled) | bool | Indicates whether the backup policy is enabled. |
+| [`location`](#parameter-backuppolicieslocation) | string | The location of the backup policy. |
+| [`monthlyBackupsToKeep`](#parameter-backuppoliciesmonthlybackupstokeep) | int | The monthly backups to keep. |
+| [`name`](#parameter-backuppoliciesname) | string | The name of the backup policy. |
+| [`weeklyBackupsToKeep`](#parameter-backuppoliciesweeklybackupstokeep) | int | The weekly backups to keep. |
+
+### Parameter: `backupPolicies.dailyBackupsToKeep`
+
+The daily backups to keep.
+
+- Required: No
+- Type: int
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupPolicies.enabled`
+
+Indicates whether the backup policy is enabled.
+
+- Required: No
+- Type: bool
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupPolicies.location`
+
+The location of the backup policy.
+
+- Required: No
+- Type: string
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupPolicies.monthlyBackupsToKeep`
+
+The monthly backups to keep.
+
+- Required: No
+- Type: int
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupPolicies.name`
+
+The name of the backup policy.
+
+- Required: No
+- Type: string
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupPolicies.weeklyBackupsToKeep`
+
+The weekly backups to keep.
+
+- Required: No
+- Type: int
+- MinValue: 2
+- MaxValue: 1019
+
+### Parameter: `backupVault`
+
+The netapp backup vault to create & configure.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`backups`](#parameter-backupvaultbackups) | array | The list of backups to create. |
+| [`location`](#parameter-backupvaultlocation) | string | Location of the backup vault. |
+| [`name`](#parameter-backupvaultname) | string | The name of the backup vault. |
+
+### Parameter: `backupVault.backups`
+
+The list of backups to create.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`capacityPoolName`](#parameter-backupvaultbackupscapacitypoolname) | string | The name of the capacity pool containing the volume. |
+| [`volumeName`](#parameter-backupvaultbackupsvolumename) | string | The name of the volume to backup. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`label`](#parameter-backupvaultbackupslabel) | string | Label for backup. |
+| [`name`](#parameter-backupvaultbackupsname) | string | The name of the backup. |
+| [`snapshotName`](#parameter-backupvaultbackupssnapshotname) | string | The name of the snapshot. |
+
+### Parameter: `backupVault.backups.capacityPoolName`
+
+The name of the capacity pool containing the volume.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `backupVault.backups.volumeName`
+
+The name of the volume to backup.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `backupVault.backups.label`
+
+Label for backup.
+
+- Required: No
+- Type: string
+
+### Parameter: `backupVault.backups.name`
+
+The name of the backup.
+
+- Required: No
+- Type: string
+
+### Parameter: `backupVault.backups.snapshotName`
+
+The name of the snapshot.
+
+- Required: No
+- Type: string
+
+### Parameter: `backupVault.location`
+
+Location of the backup vault.
+
+- Required: No
+- Type: string
+
+### Parameter: `backupVault.name`
+
+The name of the backup vault.
+
+- Required: No
+- Type: string
+
 ### Parameter: `capacityPools`
 
 Capacity pools to create.
 
 - Required: No
 - Type: array
-- Default: `[]`
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`name`](#parameter-capacitypoolsname) | string | The name of the capacity pool. |
+| [`size`](#parameter-capacitypoolssize) | int | Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104). |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`coolAccess`](#parameter-capacitypoolscoolaccess) | bool | If enabled (true) the pool can contain cool Access enabled volumes. |
+| [`encryptionType`](#parameter-capacitypoolsencryptiontype) | string | Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. |
+| [`location`](#parameter-capacitypoolslocation) | string | Location of the pool volume. |
+| [`qosType`](#parameter-capacitypoolsqostype) | string | The qos type of the pool. |
+| [`roleAssignments`](#parameter-capacitypoolsroleassignments) | array | Array of role assignments to create. |
+| [`serviceLevel`](#parameter-capacitypoolsservicelevel) | string | The pool service level. |
+| [`tags`](#parameter-capacitypoolstags) | object | Tags for the capcity pool. |
+| [`volumes`](#parameter-capacitypoolsvolumes) | array | List of volumes to create in the capacity pool. |
+
+### Parameter: `capacityPools.name`
+
+The name of the capacity pool.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.size`
+
+Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104).
+
+- Required: Yes
+- Type: int
+
+### Parameter: `capacityPools.coolAccess`
+
+If enabled (true) the pool can contain cool Access enabled volumes.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.encryptionType`
+
+Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Double'
+    'Single'
+  ]
+  ```
+
+### Parameter: `capacityPools.location`
+
+Location of the pool volume.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.qosType`
+
+The qos type of the pool.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Auto'
+    'Manual'
+  ]
+  ```
+
+### Parameter: `capacityPools.roleAssignments`
+
+Array of role assignments to create.
+
+- Required: No
+- Type: array
+- Roles configurable by name:
+  - `'Contributor'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'Role Based Access Control Administrator'`
+  - `'User Access Administrator'`
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`principalId`](#parameter-capacitypoolsroleassignmentsprincipalid) | string | The principal ID of the principal (user/group/identity) to assign the role to. |
+| [`roleDefinitionIdOrName`](#parameter-capacitypoolsroleassignmentsroledefinitionidorname) | string | The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`condition`](#parameter-capacitypoolsroleassignmentscondition) | string | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container". |
+| [`conditionVersion`](#parameter-capacitypoolsroleassignmentsconditionversion) | string | Version of the condition. |
+| [`delegatedManagedIdentityResourceId`](#parameter-capacitypoolsroleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
+| [`description`](#parameter-capacitypoolsroleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-capacitypoolsroleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
+| [`principalType`](#parameter-capacitypoolsroleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
+
+### Parameter: `capacityPools.roleAssignments.principalId`
+
+The principal ID of the principal (user/group/identity) to assign the role to.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.roleDefinitionIdOrName`
+
+The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.condition`
+
+The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container".
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.conditionVersion`
+
+Version of the condition.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    '2.0'
+  ]
+  ```
+
+### Parameter: `capacityPools.roleAssignments.delegatedManagedIdentityResourceId`
+
+The Resource Id of the delegated managed identity resource.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.description`
+
+The description of the role assignment.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.roleAssignments.principalType`
+
+The principal type of the assigned principal ID.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Device'
+    'ForeignGroup'
+    'Group'
+    'ServicePrincipal'
+    'User'
+  ]
+  ```
+
+### Parameter: `capacityPools.serviceLevel`
+
+The pool service level.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Premium'
+    'Standard'
+    'StandardZRS'
+    'Ultra'
+  ]
+  ```
+
+### Parameter: `capacityPools.tags`
+
+Tags for the capcity pool.
+
+- Required: No
+- Type: object
+
+### Parameter: `capacityPools.volumes`
+
+List of volumes to create in the capacity pool.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`name`](#parameter-capacitypoolsvolumesname) | string | The name of the pool volume. |
+| [`subnetResourceId`](#parameter-capacitypoolsvolumessubnetresourceid) | string | The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. |
+| [`usageThreshold`](#parameter-capacitypoolsvolumesusagethreshold) | int | Maximum storage quota allowed for a file system in bytes. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`coolAccess`](#parameter-capacitypoolsvolumescoolaccess) | bool | If enabled (true) the pool can contain cool Access enabled volumes. |
+| [`coolAccessRetrievalPolicy`](#parameter-capacitypoolsvolumescoolaccessretrievalpolicy) | string | Determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes (Default/Never/Read). |
+| [`coolnessPeriod`](#parameter-capacitypoolsvolumescoolnessperiod) | int | Specifies the number of days after which data that is not accessed by clients will be tiered. |
+| [`creationToken`](#parameter-capacitypoolsvolumescreationtoken) | string | A unique file path for the volume. This is the name of the volume export. A volume is mounted using the export path. File path must start with an alphabetical character and be unique within the subscription. |
+| [`dataProtection`](#parameter-capacitypoolsvolumesdataprotection) | object | DataProtection type volumes include an object containing details of the replication. |
+| [`encryptionKeySource`](#parameter-capacitypoolsvolumesencryptionkeysource) | string | The source of the encryption key. |
+| [`exportPolicy`](#parameter-capacitypoolsvolumesexportpolicy) | object | Export policy rules. |
+| [`kerberosEnabled`](#parameter-capacitypoolsvolumeskerberosenabled) | bool | Define if a volume is KerberosEnabled. |
+| [`keyVaultPrivateEndpointResourceId`](#parameter-capacitypoolsvolumeskeyvaultprivateendpointresourceid) | string | The resource ID of the key vault private endpoint. |
+| [`location`](#parameter-capacitypoolsvolumeslocation) | string | Location of the pool volume. |
+| [`networkFeatures`](#parameter-capacitypoolsvolumesnetworkfeatures) | string | Network feature for the volume. |
+| [`protocolTypes`](#parameter-capacitypoolsvolumesprotocoltypes) | array | Set of protocol types. |
+| [`roleAssignments`](#parameter-capacitypoolsvolumesroleassignments) | array | Array of role assignments to create. |
+| [`serviceLevel`](#parameter-capacitypoolsvolumesservicelevel) | string | The pool service level. Must match the one of the parent capacity pool. |
+| [`smbContinuouslyAvailable`](#parameter-capacitypoolsvolumessmbcontinuouslyavailable) | bool | Enables continuously available share property for SMB volume. Only applicable for SMB volume. |
+| [`smbEncryption`](#parameter-capacitypoolsvolumessmbencryption) | bool | Enables SMB encryption. Only applicable for SMB/DualProtocol volume. |
+| [`smbNonBrowsable`](#parameter-capacitypoolsvolumessmbnonbrowsable) | string | Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume. |
+| [`zones`](#parameter-capacitypoolsvolumeszones) | array | Zone where the volume will be placed. |
+
+### Parameter: `capacityPools.volumes.name`
+
+The name of the pool volume.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.subnetResourceId`
+
+The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.usageThreshold`
+
+Maximum storage quota allowed for a file system in bytes.
+
+- Required: Yes
+- Type: int
+
+### Parameter: `capacityPools.volumes.coolAccess`
+
+If enabled (true) the pool can contain cool Access enabled volumes.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.coolAccessRetrievalPolicy`
+
+Determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes (Default/Never/Read).
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.coolnessPeriod`
+
+Specifies the number of days after which data that is not accessed by clients will be tiered.
+
+- Required: No
+- Type: int
+
+### Parameter: `capacityPools.volumes.creationToken`
+
+A unique file path for the volume. This is the name of the volume export. A volume is mounted using the export path. File path must start with an alphabetical character and be unique within the subscription.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.dataProtection`
+
+DataProtection type volumes include an object containing details of the replication.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`backup`](#parameter-capacitypoolsvolumesdataprotectionbackup) | object | Backup properties. |
+| [`replication`](#parameter-capacitypoolsvolumesdataprotectionreplication) | object | Replication properties. |
+| [`snapshot`](#parameter-capacitypoolsvolumesdataprotectionsnapshot) | object | Snapshot properties. |
+
+### Parameter: `capacityPools.volumes.dataProtection.backup`
+
+Backup properties.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`backupPolicyName`](#parameter-capacitypoolsvolumesdataprotectionbackupbackuppolicyname) | string | The name of the backup policy to link. |
+| [`backupVaultName`](#parameter-capacitypoolsvolumesdataprotectionbackupbackupvaultname) | string | The name of the Backup Vault. |
+| [`policyEnforced`](#parameter-capacitypoolsvolumesdataprotectionbackuppolicyenforced) | bool | Enable to enforce the policy. |
+
+### Parameter: `capacityPools.volumes.dataProtection.backup.backupPolicyName`
+
+The name of the backup policy to link.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.dataProtection.backup.backupVaultName`
+
+The name of the Backup Vault.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.dataProtection.backup.policyEnforced`
+
+Enable to enforce the policy.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.dataProtection.replication`
+
+Replication properties.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`endpointType`](#parameter-capacitypoolsvolumesdataprotectionreplicationendpointtype) | string | Indicates whether the local volume is the source or destination for the Volume Replication. |
+| [`remoteVolumeRegion`](#parameter-capacitypoolsvolumesdataprotectionreplicationremotevolumeregion) | string | The remote region for the other end of the Volume Replication. |
+| [`remoteVolumeResourceId`](#parameter-capacitypoolsvolumesdataprotectionreplicationremotevolumeresourceid) | string | The resource ID of the remote volume. |
+| [`replicationSchedule`](#parameter-capacitypoolsvolumesdataprotectionreplicationreplicationschedule) | string | The replication schedule for the volume. |
+
+### Parameter: `capacityPools.volumes.dataProtection.replication.endpointType`
+
+Indicates whether the local volume is the source or destination for the Volume Replication.
+
+- Required: Yes
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'dst'
+    'src'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.dataProtection.replication.remoteVolumeRegion`
+
+The remote region for the other end of the Volume Replication.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.dataProtection.replication.remoteVolumeResourceId`
+
+The resource ID of the remote volume.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.dataProtection.replication.replicationSchedule`
+
+The replication schedule for the volume.
+
+- Required: Yes
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    '_10minutely'
+    'daily'
+    'hourly'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.dataProtection.snapshot`
+
+Snapshot properties.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`snapshotPolicyName`](#parameter-capacitypoolsvolumesdataprotectionsnapshotsnapshotpolicyname) | string | The name of the snapshot policy to link. |
+
+### Parameter: `capacityPools.volumes.dataProtection.snapshot.snapshotPolicyName`
+
+The name of the snapshot policy to link.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.encryptionKeySource`
+
+The source of the encryption key.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.exportPolicy`
+
+Export policy rules.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`rules`](#parameter-capacitypoolsvolumesexportpolicyrules) | array | The Export policy rules. |
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules`
+
+The Export policy rules.
+
+- Required: Yes
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`kerberos5iReadOnly`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5ireadonly) | bool | Kerberos5i Read only access. |
+| [`kerberos5iReadWrite`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5ireadwrite) | bool | Kerberos5i Read and write access. |
+| [`kerberos5pReadOnly`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5preadonly) | bool | Kerberos5p Read only access. |
+| [`kerberos5pReadWrite`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5preadwrite) | bool | Kerberos5p Read and write access. |
+| [`kerberos5ReadOnly`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5readonly) | bool | Kerberos5 Read only access. |
+| [`kerberos5ReadWrite`](#parameter-capacitypoolsvolumesexportpolicyruleskerberos5readwrite) | bool | Kerberos5 Read and write access. |
+| [`nfsv3`](#parameter-capacitypoolsvolumesexportpolicyrulesnfsv3) | bool | Allows NFSv3 protocol. Enable only for NFSv3 type volumes. |
+| [`nfsv41`](#parameter-capacitypoolsvolumesexportpolicyrulesnfsv41) | bool | Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes. |
+| [`ruleIndex`](#parameter-capacitypoolsvolumesexportpolicyrulesruleindex) | int | Order index. |
+| [`unixReadOnly`](#parameter-capacitypoolsvolumesexportpolicyrulesunixreadonly) | bool | Read only access. |
+| [`unixReadWrite`](#parameter-capacitypoolsvolumesexportpolicyrulesunixreadwrite) | bool | Read and write access. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`allowedClients`](#parameter-capacitypoolsvolumesexportpolicyrulesallowedclients) | string | Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names. |
+| [`chownMode`](#parameter-capacitypoolsvolumesexportpolicyruleschownmode) | string | This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own. |
+| [`cifs`](#parameter-capacitypoolsvolumesexportpolicyrulescifs) | bool | Allows CIFS protocol. |
+| [`hasRootAccess`](#parameter-capacitypoolsvolumesexportpolicyruleshasrootaccess) | bool | Has root access to volume. |
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5iReadOnly`
+
+Kerberos5i Read only access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5iReadWrite`
+
+Kerberos5i Read and write access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5pReadOnly`
+
+Kerberos5p Read only access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5pReadWrite`
+
+Kerberos5p Read and write access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5ReadOnly`
+
+Kerberos5 Read only access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.kerberos5ReadWrite`
+
+Kerberos5 Read and write access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.nfsv3`
+
+Allows NFSv3 protocol. Enable only for NFSv3 type volumes.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.nfsv41`
+
+Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.ruleIndex`
+
+Order index.
+
+- Required: Yes
+- Type: int
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.unixReadOnly`
+
+Read only access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.unixReadWrite`
+
+Read and write access.
+
+- Required: Yes
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.allowedClients`
+
+Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.chownMode`
+
+This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Restricted'
+    'Unrestricted'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.cifs`
+
+Allows CIFS protocol.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.exportPolicy.rules.hasRootAccess`
+
+Has root access to volume.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.kerberosEnabled`
+
+Define if a volume is KerberosEnabled.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.keyVaultPrivateEndpointResourceId`
+
+The resource ID of the key vault private endpoint.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.location`
+
+Location of the pool volume.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.networkFeatures`
+
+Network feature for the volume.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Basic'
+    'Basic_Standard'
+    'Standard'
+    'Standard_Basic'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.protocolTypes`
+
+Set of protocol types.
+
+- Required: No
+- Type: array
+
+### Parameter: `capacityPools.volumes.roleAssignments`
+
+Array of role assignments to create.
+
+- Required: No
+- Type: array
+- Roles configurable by name:
+  - `'Contributor'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'Role Based Access Control Administrator'`
+  - `'User Access Administrator'`
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`principalId`](#parameter-capacitypoolsvolumesroleassignmentsprincipalid) | string | The principal ID of the principal (user/group/identity) to assign the role to. |
+| [`roleDefinitionIdOrName`](#parameter-capacitypoolsvolumesroleassignmentsroledefinitionidorname) | string | The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`condition`](#parameter-capacitypoolsvolumesroleassignmentscondition) | string | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container". |
+| [`conditionVersion`](#parameter-capacitypoolsvolumesroleassignmentsconditionversion) | string | Version of the condition. |
+| [`delegatedManagedIdentityResourceId`](#parameter-capacitypoolsvolumesroleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
+| [`description`](#parameter-capacitypoolsvolumesroleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-capacitypoolsvolumesroleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
+| [`principalType`](#parameter-capacitypoolsvolumesroleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
+
+### Parameter: `capacityPools.volumes.roleAssignments.principalId`
+
+The principal ID of the principal (user/group/identity) to assign the role to.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.roleDefinitionIdOrName`
+
+The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.condition`
+
+The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container".
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.conditionVersion`
+
+Version of the condition.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    '2.0'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.roleAssignments.delegatedManagedIdentityResourceId`
+
+The Resource Id of the delegated managed identity resource.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.description`
+
+The description of the role assignment.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+
+### Parameter: `capacityPools.volumes.roleAssignments.principalType`
+
+The principal type of the assigned principal ID.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Device'
+    'ForeignGroup'
+    'Group'
+    'ServicePrincipal'
+    'User'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.serviceLevel`
+
+The pool service level. Must match the one of the parent capacity pool.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Premium'
+    'Standard'
+    'StandardZRS'
+    'Ultra'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.smbContinuouslyAvailable`
+
+Enables continuously available share property for SMB volume. Only applicable for SMB volume.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.smbEncryption`
+
+Enables SMB encryption. Only applicable for SMB/DualProtocol volume.
+
+- Required: No
+- Type: bool
+
+### Parameter: `capacityPools.volumes.smbNonBrowsable`
+
+Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Disabled'
+    'Enabled'
+  ]
+  ```
+
+### Parameter: `capacityPools.volumes.zones`
+
+Zone where the volume will be placed.
+
+- Required: No
+- Type: array
 
 ### Parameter: `customerManagedKey`
 
@@ -759,7 +2194,7 @@ The customer managed key definition.
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`keyVersion`](#parameter-customermanagedkeykeyversion) | string | The version of the customer managed key to reference for encryption. If not provided, using 'latest'. |
+| [`keyVersion`](#parameter-customermanagedkeykeyversion) | string | The version of the customer managed key to reference for encryption. If not provided, the deployment will use the latest version available at deployment time. |
 | [`userAssignedIdentityResourceId`](#parameter-customermanagedkeyuserassignedidentityresourceid) | string | User assigned identity to use when fetching the customer managed key. Required if no system assigned identity is available for use. |
 
 ### Parameter: `customerManagedKey.keyName`
@@ -778,7 +2213,7 @@ The resource ID of a key vault to reference a customer managed key for encryptio
 
 ### Parameter: `customerManagedKey.keyVersion`
 
-The version of the customer managed key to reference for encryption. If not provided, using 'latest'.
+The version of the customer managed key to reference for encryption. If not provided, the deployment will use the latest version available at deployment time.
 
 - Required: No
 - Type: string
@@ -925,13 +2360,13 @@ The managed identity definition for this resource.
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`userAssignedResourceIds`](#parameter-managedidentitiesuserassignedresourceids) | array | The resource ID(s) to assign to the resource. |
+| [`userAssignedResourceIds`](#parameter-managedidentitiesuserassignedresourceids) | array | The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption. |
 
 ### Parameter: `managedIdentities.userAssignedResourceIds`
 
-The resource ID(s) to assign to the resource.
+The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption.
 
-- Required: Yes
+- Required: No
 - Type: array
 
 ### Parameter: `roleAssignments`
@@ -940,6 +2375,12 @@ Array of role assignments to create.
 
 - Required: No
 - Type: array
+- Roles configurable by name:
+  - `'Contributor'`
+  - `'Owner'`
+  - `'Reader'`
+  - `'Role Based Access Control Administrator'`
+  - `'User Access Administrator'`
 
 **Required parameters**
 
@@ -956,6 +2397,7 @@ Array of role assignments to create.
 | [`conditionVersion`](#parameter-roleassignmentsconditionversion) | string | Version of the condition. |
 | [`delegatedManagedIdentityResourceId`](#parameter-roleassignmentsdelegatedmanagedidentityresourceid) | string | The Resource Id of the delegated managed identity resource. |
 | [`description`](#parameter-roleassignmentsdescription) | string | The description of the role assignment. |
+| [`name`](#parameter-roleassignmentsname) | string | The name (as GUID) of the role assignment. If not provided, a GUID will be generated. |
 | [`principalType`](#parameter-roleassignmentsprincipaltype) | string | The principal type of the assigned principal ID. |
 
 ### Parameter: `roleAssignments.principalId`
@@ -1006,6 +2448,13 @@ The description of the role assignment.
 - Required: No
 - Type: string
 
+### Parameter: `roleAssignments.name`
+
+The name (as GUID) of the role assignment. If not provided, a GUID will be generated.
+
+- Required: No
+- Type: string
+
 ### Parameter: `roleAssignments.principalType`
 
 The principal type of the assigned principal ID.
@@ -1039,6 +2488,289 @@ Required if domainName is specified. NetBIOS name of the SMB server. A computer 
 - Type: string
 - Default: `''`
 
+### Parameter: `snapshotPolicies`
+
+The snapshot policies to create.
+
+- Required: No
+- Type: array
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`name`](#parameter-snapshotpoliciesname) | string | The name of the snapshot policy. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`dailySchedule`](#parameter-snapshotpoliciesdailyschedule) | object | Daily schedule for the snapshot policy. |
+| [`hourlySchedule`](#parameter-snapshotpolicieshourlyschedule) | object | Hourly schedule for the snapshot policy. |
+| [`location`](#parameter-snapshotpolicieslocation) | string | Location of the snapshot policy. |
+| [`monthlySchedule`](#parameter-snapshotpoliciesmonthlyschedule) | object | Monthly schedule for the snapshot policy. |
+| [`weeklySchedule`](#parameter-snapshotpoliciesweeklyschedule) | object | Weekly schedule for the snapshot policy. |
+
+### Parameter: `snapshotPolicies.name`
+
+The name of the snapshot policy.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `snapshotPolicies.dailySchedule`
+
+Daily schedule for the snapshot policy.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`hour`](#parameter-snapshotpoliciesdailyschedulehour) | int | The daily snapshot hour. |
+| [`minute`](#parameter-snapshotpoliciesdailyscheduleminute) | int | The daily snapshot minute. |
+| [`snapshotsToKeep`](#parameter-snapshotpoliciesdailyschedulesnapshotstokeep) | int | Daily snapshot count to keep. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`usedBytes`](#parameter-snapshotpoliciesdailyscheduleusedbytes) | int | Resource size in bytes, current storage usage for the volume in bytes. |
+
+### Parameter: `snapshotPolicies.dailySchedule.hour`
+
+The daily snapshot hour.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 23
+
+### Parameter: `snapshotPolicies.dailySchedule.minute`
+
+The daily snapshot minute.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 59
+
+### Parameter: `snapshotPolicies.dailySchedule.snapshotsToKeep`
+
+Daily snapshot count to keep.
+
+- Required: Yes
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.dailySchedule.usedBytes`
+
+Resource size in bytes, current storage usage for the volume in bytes.
+
+- Required: No
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.hourlySchedule`
+
+Hourly schedule for the snapshot policy.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`minute`](#parameter-snapshotpolicieshourlyscheduleminute) | int | The hourly snapshot minute. |
+| [`snapshotsToKeep`](#parameter-snapshotpolicieshourlyschedulesnapshotstokeep) | int | Hourly snapshot count to keep. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`usedBytes`](#parameter-snapshotpolicieshourlyscheduleusedbytes) | int | Resource size in bytes, current storage usage for the volume in bytes. |
+
+### Parameter: `snapshotPolicies.hourlySchedule.minute`
+
+The hourly snapshot minute.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 59
+
+### Parameter: `snapshotPolicies.hourlySchedule.snapshotsToKeep`
+
+Hourly snapshot count to keep.
+
+- Required: Yes
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.hourlySchedule.usedBytes`
+
+Resource size in bytes, current storage usage for the volume in bytes.
+
+- Required: No
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.location`
+
+Location of the snapshot policy.
+
+- Required: No
+- Type: string
+
+### Parameter: `snapshotPolicies.monthlySchedule`
+
+Monthly schedule for the snapshot policy.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`daysOfMonth`](#parameter-snapshotpoliciesmonthlyscheduledaysofmonth) | string | Indicates which days of the month snapshot should be taken. A comma delimited string. E.g., '10,11,12'. |
+| [`hour`](#parameter-snapshotpoliciesmonthlyschedulehour) | int | The monthly snapshot hour. |
+| [`minute`](#parameter-snapshotpoliciesmonthlyscheduleminute) | int | The monthly snapshot minute. |
+| [`snapshotsToKeep`](#parameter-snapshotpoliciesmonthlyschedulesnapshotstokeep) | int | Monthly snapshot count to keep. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`usedBytes`](#parameter-snapshotpoliciesmonthlyscheduleusedbytes) | int | Resource size in bytes, current storage usage for the volume in bytes. |
+
+### Parameter: `snapshotPolicies.monthlySchedule.daysOfMonth`
+
+Indicates which days of the month snapshot should be taken. A comma delimited string. E.g., '10,11,12'.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `snapshotPolicies.monthlySchedule.hour`
+
+The monthly snapshot hour.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 23
+
+### Parameter: `snapshotPolicies.monthlySchedule.minute`
+
+The monthly snapshot minute.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 59
+
+### Parameter: `snapshotPolicies.monthlySchedule.snapshotsToKeep`
+
+Monthly snapshot count to keep.
+
+- Required: Yes
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.monthlySchedule.usedBytes`
+
+Resource size in bytes, current storage usage for the volume in bytes.
+
+- Required: No
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.weeklySchedule`
+
+Weekly schedule for the snapshot policy.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`day`](#parameter-snapshotpoliciesweeklyscheduleday) | string | The weekly snapshot day. |
+| [`hour`](#parameter-snapshotpoliciesweeklyschedulehour) | int | The weekly snapshot hour. |
+| [`minute`](#parameter-snapshotpoliciesweeklyscheduleminute) | int | The weekly snapshot minute. |
+| [`snapshotsToKeep`](#parameter-snapshotpoliciesweeklyschedulesnapshotstokeep) | int | Weekly snapshot count to keep. |
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`usedBytes`](#parameter-snapshotpoliciesweeklyscheduleusedbytes) | int | Resource size in bytes, current storage usage for the volume in bytes. |
+
+### Parameter: `snapshotPolicies.weeklySchedule.day`
+
+The weekly snapshot day.
+
+- Required: Yes
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'Friday'
+    'Monday'
+    'Saturday'
+    'Sunday'
+    'Thursday'
+    'Tuesday'
+    'Wednesday'
+  ]
+  ```
+
+### Parameter: `snapshotPolicies.weeklySchedule.hour`
+
+The weekly snapshot hour.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 23
+
+### Parameter: `snapshotPolicies.weeklySchedule.minute`
+
+The weekly snapshot minute.
+
+- Required: Yes
+- Type: int
+- MinValue: 0
+- MaxValue: 59
+
+### Parameter: `snapshotPolicies.weeklySchedule.snapshotsToKeep`
+
+Weekly snapshot count to keep.
+
+- Required: Yes
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
+### Parameter: `snapshotPolicies.weeklySchedule.usedBytes`
+
+Resource size in bytes, current storage usage for the volume in bytes.
+
+- Required: No
+- Type: int
+- MinValue: 1
+- MaxValue: 255
+
 ### Parameter: `tags`
 
 Tags for all resources.
@@ -1046,20 +2778,23 @@ Tags for all resources.
 - Required: No
 - Type: object
 
-
 ## Outputs
 
 | Output | Type | Description |
 | :-- | :-- | :-- |
+| `capacityPoolResourceIds` | array | The resource IDs of the created capacity pools & their volumes. |
 | `location` | string | The location the resource was deployed into. |
 | `name` | string | The name of the NetApp account. |
 | `resourceGroupName` | string | The name of the Resource Group the NetApp account was created in. |
 | `resourceId` | string | The Resource ID of the NetApp account. |
-| `volumeResourceId` | string | The resource IDs of the volume created in the capacity pool. |
 
 ## Cross-referenced modules
 
-_None_
+This section gives you an overview of all local-referenced module files (i.e., other modules that are referenced in this module) and all remote-referenced files (i.e., Bicep modules that are referenced from a Bicep Registry or Template Specs).
+
+| Reference | Type |
+| :-- | :-- |
+| `br/public:avm/utl/types/avm-common-types:0.4.0` | Remote reference |
 
 ## Data Collection
 

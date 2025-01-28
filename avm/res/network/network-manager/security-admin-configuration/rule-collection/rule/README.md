@@ -8,14 +8,12 @@ A security admin configuration contains a set of rule collections. Each rule col
 - [Resource Types](#Resource-Types)
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
-- [Cross-referenced modules](#Cross-referenced-modules)
-- [Data Collection](#Data-Collection)
 
 ## Resource Types
 
 | Resource Type | API Version |
 | :-- | :-- |
-| `Microsoft.Network/networkManagers/securityAdminConfigurations/ruleCollections/rules` | [2023-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Network/2023-11-01/networkManagers/securityAdminConfigurations/ruleCollections/rules) |
+| `Microsoft.Network/networkManagers/securityAdminConfigurations/ruleCollections/rules` | [2024-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Network/2024-05-01/networkManagers/securityAdminConfigurations/ruleCollections/rules) |
 
 ## Parameters
 
@@ -89,6 +87,8 @@ The priority of the rule. The value can be between 1 and 4096. The priority numb
 
 - Required: Yes
 - Type: int
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `protocol`
 
@@ -107,6 +107,8 @@ Network protocol this rule applies to.
     'Udp'
   ]
   ```
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `networkManagerName`
 
@@ -114,6 +116,8 @@ The name of the parent network manager. Required if the template is used in a st
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `ruleCollectionName`
 
@@ -121,6 +125,8 @@ The name of the parent rule collection. Required if the template is used in a st
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `securityAdminConfigurationName`
 
@@ -128,6 +134,8 @@ The name of the parent security admin configuration. Required if the template is
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `description`
 
@@ -135,6 +143,9 @@ A description of the rule.
 
 - Required: No
 - Type: string
+- Default: `''`
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `destinationPortRanges`
 
@@ -142,6 +153,8 @@ List of destination port ranges. This specifies on which ports traffic will be a
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `destinations`
 
@@ -149,6 +162,8 @@ The destnations filter can be an IP Address or a service tag. Each filter contai
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 4096
 
 **Required parameters**
 
@@ -163,6 +178,8 @@ Address prefix.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `destinations.addressPrefixType`
 
@@ -177,6 +194,8 @@ Address prefix type.
     'ServiceTag'
   ]
   ```
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `sourcePortRanges`
 
@@ -184,6 +203,8 @@ List of destination port ranges. This specifies on which ports traffic will be a
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `sources`
 
@@ -191,6 +212,8 @@ The source filter can be an IP Address or a service tag. Each filter contains th
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 4096
 
 **Required parameters**
 
@@ -205,6 +228,8 @@ Address prefix.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 4096
 
 ### Parameter: `sources.addressPrefixType`
 
@@ -219,7 +244,8 @@ Address prefix type.
     'ServiceTag'
   ]
   ```
-
+- MinValue: 1
+- MaxValue: 4096
 
 ## Outputs
 
@@ -228,11 +254,3 @@ Address prefix type.
 | `name` | string | The name of the deployed rule. |
 | `resourceGroupName` | string | The resource group the rule was deployed into. |
 | `resourceId` | string | The resource ID of the deployed rule. |
-
-## Cross-referenced modules
-
-_None_
-
-## Data Collection
-
-The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the [repository](https://aka.ms/avm/telemetry). There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.

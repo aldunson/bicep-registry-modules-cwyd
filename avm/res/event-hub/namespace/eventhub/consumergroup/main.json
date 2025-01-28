@@ -4,12 +4,11 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.28.1.47646",
-      "templateHash": "8005690025378324644"
+      "version": "0.32.4.45862",
+      "templateHash": "15726313856377224651"
     },
     "name": "Event Hub Namespace Event Hub Consumer Groups",
-    "description": "This module deploys an Event Hub Namespace Event Hub Consumer Group.",
-    "owner": "Azure/module-maintainers"
+    "description": "This module deploys an Event Hub Namespace Event Hub Consumer Group."
   },
   "parameters": {
     "namespaceName": {

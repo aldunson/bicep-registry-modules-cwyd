@@ -7,8 +7,6 @@ This module deploys an Azure Automation Account Software Update Configuration.
 - [Resource Types](#Resource-Types)
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
-- [Cross-referenced modules](#Cross-referenced-modules)
-- [Data Collection](#Data-Collection)
 
 ## Resource Types
 
@@ -179,6 +177,7 @@ The interval of the frequency for the deployment schedule. 1 Hour is every hour,
 - Required: No
 - Type: int
 - Default: `1`
+- MaxValue: 100
 
 ### Parameter: `isEnabled`
 
@@ -187,6 +186,7 @@ Enables the deployment schedule.
 - Required: No
 - Type: bool
 - Default: `True`
+- MaxValue: 100
 
 ### Parameter: `maintenanceWindow`
 
@@ -195,6 +195,7 @@ Maximum time allowed for the deployment schedule to run. Duration needs to be sp
 - Required: No
 - Type: string
 - Default: `'PT2H'`
+- MaxValue: 100
 
 ### Parameter: `monthDays`
 
@@ -202,7 +203,6 @@ Can be used with frequency 'Month'. Provides the specific days of the month to r
 
 - Required: No
 - Type: array
-- Default: `[]`
 - Allowed:
   ```Bicep
   [
@@ -239,6 +239,7 @@ Can be used with frequency 'Month'. Provides the specific days of the month to r
     31
   ]
   ```
+- MaxValue: 100
 
 ### Parameter: `monthlyOccurrences`
 
@@ -246,7 +247,7 @@ Can be used with frequency 'Month'. Provides the pattern/cadence for running the
 
 - Required: No
 - Type: array
-- Default: `[]`
+- MaxValue: 100
 
 ### Parameter: `nextRun`
 
@@ -255,6 +256,7 @@ The next time the deployment schedule runs in ISO 8601 format. YYYY-MM-DDTHH:MM:
 - Required: No
 - Type: string
 - Default: `''`
+- MaxValue: 100
 
 ### Parameter: `nextRunOffsetMinutes`
 
@@ -263,6 +265,7 @@ The next run's offset in minutes.
 - Required: No
 - Type: int
 - Default: `0`
+- MaxValue: 100
 
 ### Parameter: `nonAzureComputerNames`
 
@@ -271,6 +274,7 @@ List of names of non-azure machines in scope for the deployment schedule.
 - Required: No
 - Type: array
 - Default: `[]`
+- MaxValue: 100
 
 ### Parameter: `nonAzureQueries`
 
@@ -279,6 +283,7 @@ Array of functions from a Log Analytics workspace, used to scope the deployment 
 - Required: No
 - Type: array
 - Default: `[]`
+- MaxValue: 100
 
 ### Parameter: `postTaskParameters`
 
@@ -286,7 +291,7 @@ Parameters provided to the task running after the deployment schedule.
 
 - Required: No
 - Type: object
-- Default: `{}`
+- MaxValue: 100
 
 ### Parameter: `postTaskSource`
 
@@ -294,7 +299,7 @@ The source of the task running after the deployment schedule.
 
 - Required: No
 - Type: string
-- Default: `''`
+- MaxValue: 100
 
 ### Parameter: `preTaskParameters`
 
@@ -302,7 +307,7 @@ Parameters provided to the task running before the deployment schedule.
 
 - Required: No
 - Type: object
-- Default: `{}`
+- MaxValue: 100
 
 ### Parameter: `preTaskSource`
 
@@ -310,7 +315,7 @@ The source of the task running before the deployment schedule.
 
 - Required: No
 - Type: string
-- Default: `''`
+- MaxValue: 100
 
 ### Parameter: `scheduleDescription`
 
@@ -319,6 +324,7 @@ The schedules description.
 - Required: No
 - Type: string
 - Default: `''`
+- MaxValue: 100
 
 ### Parameter: `scopeByLocations`
 
@@ -327,6 +333,7 @@ Specify locations to which to scope the deployment schedule to.
 - Required: No
 - Type: array
 - Default: `[]`
+- MaxValue: 100
 
 ### Parameter: `scopeByResources`
 
@@ -340,6 +347,7 @@ Specify the resources to scope the deployment schedule to.
     '[subscription().id]'
   ]
   ```
+- MaxValue: 100
 
 ### Parameter: `scopeByTags`
 
@@ -348,6 +356,7 @@ Specify tags to which to scope the deployment schedule to.
 - Required: No
 - Type: object
 - Default: `{}`
+- MaxValue: 100
 
 ### Parameter: `scopeByTagsOperation`
 
@@ -363,6 +372,7 @@ Enables the scopeByTags to require All (Tag A and Tag B) or Any (Tag A or Tag B)
     'Any'
   ]
   ```
+- MaxValue: 100
 
 ### Parameter: `startTime`
 
@@ -371,6 +381,7 @@ The start time of the deployment schedule in ISO 8601 format. To specify a speci
 - Required: No
 - Type: string
 - Default: `''`
+- MaxValue: 100
 
 ### Parameter: `timeZone`
 
@@ -379,6 +390,7 @@ Time zone for the deployment schedule. IANA ID or a Windows Time Zone ID.
 - Required: No
 - Type: string
 - Default: `'UTC'`
+- MaxValue: 100
 
 ### Parameter: `updateClassifications`
 
@@ -407,6 +419,7 @@ Update classification included in the deployment schedule.
     'Updates'
   ]
   ```
+- MaxValue: 100
 
 ### Parameter: `weekDays`
 
@@ -414,7 +427,6 @@ Required when used with frequency 'Week'. Specified the day of the week to run t
 
 - Required: No
 - Type: array
-- Default: `[]`
 - Allowed:
   ```Bicep
   [
@@ -427,6 +439,7 @@ Required when used with frequency 'Week'. Specified the day of the week to run t
     'Wednesday'
   ]
   ```
+- MaxValue: 100
 
 ### Parameter: `baseTime`
 
@@ -435,7 +448,7 @@ Do not touch. Is used to provide the base time for time comparison for startTime
 - Required: No
 - Type: string
 - Default: `[utcNow('u')]`
-
+- MaxValue: 100
 
 ## Outputs
 
@@ -444,11 +457,3 @@ Do not touch. Is used to provide the base time for time comparison for startTime
 | `name` | string | The name of the deployed softwareUpdateConfiguration. |
 | `resourceGroupName` | string | The resource group of the deployed softwareUpdateConfiguration. |
 | `resourceId` | string | The resource ID of the deployed softwareUpdateConfiguration. |
-
-## Cross-referenced modules
-
-_None_
-
-## Data Collection
-
-The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the [repository](https://aka.ms/avm/telemetry). There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.

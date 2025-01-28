@@ -1,6 +1,5 @@
 metadata name = 'Finops-hub'
 metadata description = 'This module deploys a Finops hub from the Finops toolkit.'
-metadata owner = 'Azure/module-maintainers'
 
 @description('Optional. Name of the hub. Used to ensure unique resource names. Default: "finops-hub".')
 param hubName string
@@ -99,10 +98,7 @@ module storage 'modules/storage.bicep' = {
 resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' = {
   name: dataFactoryName
   location: location
-  tags: union(
-    resourceTags,
-    contains(tagsByResource, 'Microsoft.DataFactory/factories') ? tagsByResource['Microsoft.DataFactory/factories'] : {}
-  )
+  tags: union(resourceTags, tagsByResource[?'Microsoft.DataFactory/factories'] ?? {})
   identity: { type: 'SystemAssigned' }
   properties: any(
     // Using any() to hide the error that gets surfaced because globalConfigurations is not in the ADF schema yet.
@@ -174,6 +170,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
+#disable-next-line no-deployments-resources
 resource defaultTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableTelemetry) {
   name: 'pid-${telemetryId}-${uniqueString(deployment().name, location)}'
   properties: {

@@ -5,12 +5,11 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.47.4906",
-      "templateHash": "3479776319506170502"
+      "version": "0.32.4.45862",
+      "templateHash": "5767723932557197412"
     },
     "name": "API Management Service Named Values",
-    "description": "This module deploys an API Management Service Named Value.",
-    "owner": "Azure/module-maintainers"
+    "description": "This module deploys an API Management Service Named Value."
   },
   "parameters": {
     "apiManagementServiceName": {
@@ -80,10 +79,7 @@
         "displayName": "[parameters('displayName')]",
         "value": "[if(variables('keyVaultEmpty'), parameters('value'), null())]",
         "keyVault": "[if(not(variables('keyVaultEmpty')), parameters('keyVault'), null())]"
-      },
-      "dependsOn": [
-        "service"
-      ]
+      }
     }
   },
   "outputs": {
