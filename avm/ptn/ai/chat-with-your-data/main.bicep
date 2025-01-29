@@ -347,7 +347,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 // }
 
 // Store secrets in a keyvault
-module keyvault 'br/public:avm/res/key-vault/vault:0.11.1' = {
+module keyvault 'br/public:avm/res/key-vault/vault:0.11.2' = {
   name: keyVaultName
   params: {
     name: keyVaultName
@@ -357,6 +357,22 @@ module keyvault 'br/public:avm/res/key-vault/vault:0.11.1' = {
       defaultAction: 'Deny'
       bypass: 'AzureServices'
     }
+  }
+}
+
+module diagnosticSetting 'br/public:avm/res/insights/diagnostic-setting:0.1.3' = {
+  name: 'diagnosticSettingDeployment'
+  scope: subscription()
+  params: {
+    location: location
+    name: 'cwyd-diagnostic-settings'
+    workspaceResourceId: '<workspaceResourceId>'
+    metricCategories: [
+      {
+        category: 'AuditEvent'
+        enabled: true
+      }
+    ]
   }
 }
 
