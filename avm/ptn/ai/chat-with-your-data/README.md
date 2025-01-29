@@ -194,7 +194,6 @@ param location = '<location>'
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`environmentName`](#parameter-environmentname) | string | Name of the the environment which is used to generate a short unique hash used in all resources. |
-| [`location`](#parameter-location) | string | Location for all resources. |
 
 **Optional parameters**
 
@@ -257,6 +256,7 @@ param location = '<location>'
 | [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization. |
 | [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
 | [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
+| [`location`](#parameter-location) | string | Location for all resources. |
 | [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name. |
 | [`logLevel`](#parameter-loglevel) | string | Log level web service. |
 | [`newGuidString`](#parameter-newguidstring) | string | Guid. |
@@ -279,14 +279,6 @@ Name of the the environment which is used to generate a short unique hash used i
 
 - Required: Yes
 - Type: string
-
-### Parameter: `location`
-
-Location for all resources.
-
-- Required: No
-- Type: string
-- Default: `[resourceGroup().location]`
 
 ### Parameter: `adminWebsiteName`
 
@@ -811,6 +803,14 @@ The pricing tier for the App Service plan.
     'S3'
   ]
   ```
+
+### Parameter: `location`
+
+Location for all resources.
+
+- Required: No
+- Type: string
+- Default: `[resourceGroup().location]`
 
 ### Parameter: `logAnalyticsName`
 

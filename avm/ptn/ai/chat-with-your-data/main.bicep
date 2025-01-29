@@ -11,7 +11,7 @@ param environmentName string
 @description('Optional. Resource Name.')
 param resourceName string = toLower(uniqueString(subscription().id, environmentName, location))
 
-@description('Required. Location for all resources.')
+@description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
 @description('Optional. Name of App Service plan.')

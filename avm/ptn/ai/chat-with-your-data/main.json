@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "15399382726744456489"
+      "templateHash": "18159927773196168026"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -31,7 +31,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "Required. Location for all resources."
+        "description": "Optional. Location for all resources."
       }
     },
     "hostingPlanName": {
@@ -4617,7 +4617,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.29.47.4906",
-              "templateHash": "12684510657123056213"
+              "templateHash": "4534284441330445788"
             }
           },
           "parameters": {
@@ -4657,7 +4657,7 @@
               "type": "string",
               "defaultValue": ""
             },
-            "storageAccountKeyName": {
+            "storageAcctIdentifier": {
               "type": "string",
               "defaultValue": "AZURE-STORAGE-ACCOUNT-KEY"
             },
@@ -4690,7 +4690,7 @@
             {
               "type": "Microsoft.KeyVault/vaults/secrets",
               "apiVersion": "2022-07-01",
-              "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('storageAccountKeyName'))]",
+              "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('storageAcctIdentifier'))]",
               "properties": {
                 "value": "[listKeys(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2021-09-01').keys[0].value]"
               }
@@ -4764,7 +4764,7 @@
             },
             "STORAGE_ACCOUNT_KEY_NAME": {
               "type": "string",
-              "value": "[parameters('storageAccountKeyName')]"
+              "value": "[parameters('storageAcctIdentifier')]"
             },
             "SPEECH_KEY_NAME": {
               "type": "string",

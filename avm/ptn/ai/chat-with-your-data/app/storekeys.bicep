@@ -7,7 +7,7 @@ param formRecognizerName string = ''
 param contentSafetyName string = ''
 param speechServiceName string = ''
 param computerVisionName string = ''
-param storageAccountKeyName string = 'AZURE-STORAGE-ACCOUNT-KEY'
+param storageAcctIdentifier string = 'AZURE-STORAGE-ACCOUNT-KEY'
 param openAIKeyName string = 'AZURE-OPENAI-API-KEY'
 param searchKeyName string = 'AZURE-SEARCH-KEY'
 param formRecognizerKeyName string = 'AZURE-FORM-RECOGNIZER-KEY'
@@ -17,7 +17,7 @@ param computerVisionKeyName string = 'AZURE-COMPUTER-VISION-KEY'
 
 resource storageAccountKeySecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   parent: keyVault
-  name: storageAccountKeyName
+  name: storageAcctIdentifier
   properties: {
     value: listKeys(
       resourceId(subscription().subscriptionId, rgName, 'Microsoft.Storage/storageAccounts', storageAccountName),
