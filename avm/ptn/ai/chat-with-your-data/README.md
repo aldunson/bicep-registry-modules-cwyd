@@ -189,6 +189,13 @@ param location = '<location>'
 
 ## Parameters
 
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`environmentName`](#parameter-environmentname) | string | Name of the the environment which is used to generate a short unique hash used in all resources. |
+| [`location`](#parameter-location) | string | Location for all resources. |
+
 **Optional parameters**
 
 | Parameter | Type | Description |
@@ -245,13 +252,11 @@ param location = '<location>'
 | [`contentSafetyName`](#parameter-contentsafetyname) | string | Azure Content Safety Name. |
 | [`conversationFlow`](#parameter-conversationflow) | string | Chat conversation type: custom or byod. |
 | [`enableTelemetry`](#parameter-enabletelemetry) | bool | Enable/Disable usage telemetry for module. |
-| [`environmentName`](#parameter-environmentname) | string | Name of the the environment which is used to generate a short unique hash used in all resources. |
 | [`formRecognizerName`](#parameter-formrecognizername) | string | Azure Form Recognizer Name. |
 | [`functionName`](#parameter-functionname) | string | Name of Function App for Batch document processing. |
 | [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization. |
 | [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
 | [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
-| [`location`](#parameter-location) | string | Location for all resources. |
 | [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name. |
 | [`logLevel`](#parameter-loglevel) | string | Log level web service. |
 | [`newGuidString`](#parameter-newguidstring) | string | Guid. |
@@ -267,6 +272,21 @@ param location = '<location>'
 | [`useKeyVault`](#parameter-usekeyvault) | bool | Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false. |
 | [`websiteName`](#parameter-websitename) | string | Name of Web App. |
 | [`workbookDisplayName`](#parameter-workbookdisplayname) | string | Name of the Workbook. |
+
+### Parameter: `environmentName`
+
+Name of the the environment which is used to generate a short unique hash used in all resources.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `location`
+
+Location for all resources.
+
+- Required: No
+- Type: string
+- Default: `[resourceGroup().location]`
 
 ### Parameter: `adminWebsiteName`
 
@@ -728,13 +748,6 @@ Enable/Disable usage telemetry for module.
 - Type: bool
 - Default: `True`
 
-### Parameter: `environmentName`
-
-Name of the the environment which is used to generate a short unique hash used in all resources.
-
-- Required: Yes
-- Type: string
-
 ### Parameter: `formRecognizerName`
 
 Azure Form Recognizer Name.
@@ -798,14 +811,6 @@ The pricing tier for the App Service plan.
     'S3'
   ]
   ```
-
-### Parameter: `location`
-
-Location for all resources.
-
-- Required: No
-- Type: string
-- Default: `[resourceGroup().location]`
 
 ### Parameter: `logAnalyticsName`
 
