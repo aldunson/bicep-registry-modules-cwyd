@@ -353,6 +353,10 @@ module keyvault 'br/public:avm/res/key-vault/vault:0.11.1' = {
     name: keyVaultName
     location: location
     tags: tags
+    networkAcls: {
+      defaultAction: 'Deny'
+      bypass: 'AzureServices'
+    }
   }
 }
 

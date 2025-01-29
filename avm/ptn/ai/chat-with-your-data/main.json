@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "18159927773196168026"
+      "templateHash": "16482766210645056277"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -679,6 +679,12 @@
           },
           "tags": {
             "value": "[variables('tags')]"
+          },
+          "networkAcls": {
+            "value": {
+              "defaultAction": "Deny",
+              "bypass": "AzureServices"
+            }
           }
         },
         "template": {
