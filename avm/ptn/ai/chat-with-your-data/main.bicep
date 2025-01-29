@@ -366,7 +366,7 @@ module diagnosticSetting 'br/public:avm/res/insights/diagnostic-setting:0.1.3' =
   params: {
     location: location
     name: 'cwyd-diagnostic-settings'
-    workspaceResourceId: '<workspaceResourceId>'
+    workspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceId
     logCategoriesAndGroups: [
       {
         category: 'AuditEvent'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "10196361770850124145"
+      "templateHash": "14607623852656244497"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -3875,7 +3875,7 @@
             "value": "cwyd-diagnostic-settings"
           },
           "workspaceResourceId": {
-            "value": "<workspaceResourceId>"
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'monitoring'), '2022-09-01').outputs.logAnalyticsWorkspaceId.value]"
           },
           "logCategoriesAndGroups": {
             "value": [
@@ -4125,7 +4125,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'monitoring')]"
+      ]
     },
     {
       "type": "Microsoft.Resources/deployments",
