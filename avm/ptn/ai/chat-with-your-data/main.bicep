@@ -307,8 +307,8 @@ var rgName = resourceGroup().name
 
 // @secure()
 // param vaultName string = 'kv-${resourceName}'
-
-var vaultName = 'kv-${resourceName}'
+@description('Optional. Name of Keyvault.')
+param keyvaultname string = 'kv-${resourceName}'
 
 //resources
 #disable-next-line no-deployments-resources
@@ -352,9 +352,9 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 
 // Store secrets in a keyvault
 module keyvault 'br/public:avm/res/key-vault/vault:0.11.2' = {
-  name: vaultName
+  name: keyvaultname
   params: {
-    name: vaultName
+    name: keyvaultname
     location: location
     tags: tags
     networkAcls: {
@@ -374,6 +374,13 @@ module diagnosticSetting 'br/public:avm/res/insights/diagnostic-setting:0.1.3' =
     logCategoriesAndGroups: [
       {
         category: 'AuditEvent'
+        categoryGroup: 'audit'
+        enabled: true
+      }
+    ]
+    metricCategories: [
+      {
+        category: 'AllMetrics'
         enabled: true
       }
     ]
@@ -518,7 +525,7 @@ module storekeys './app/storekeys.bicep' = if (useKeyVault) {
   name: 'storekeys'
   //  scope: rg
   params: {
-    keyVaultName: vaultName
+    keyVaultName: keyvaultname
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
     storageAccountName: storage.outputs.name

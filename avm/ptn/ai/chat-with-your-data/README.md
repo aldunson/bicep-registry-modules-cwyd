@@ -257,6 +257,7 @@ param location = '<location>'
 | [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization. |
 | [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
 | [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
+| [`keyvaultname`](#parameter-keyvaultname) | string | Name of Keyvault. |
 | [`location`](#parameter-location) | string | Location for all resources. |
 | [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name. |
 | [`logLevel`](#parameter-loglevel) | string | Log level web service. |
@@ -804,6 +805,14 @@ The pricing tier for the App Service plan.
     'S3'
   ]
   ```
+
+### Parameter: `keyvaultname`
+
+Name of Keyvault.
+
+- Required: No
+- Type: string
+- Default: `[format('kv-{0}', parameters('resourceName'))]`
 
 ### Parameter: `location`
 
