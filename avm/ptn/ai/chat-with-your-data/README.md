@@ -984,7 +984,6 @@ Name of the Workbook.
 | `azureFormRecognizerEndpoint` | string | The form recognizer endpoint. |
 | `azureFormRecognizerKey` | string | The form recognizer key. |
 | `azureKeyVaultEndpoint` | string | The key vault endpoint. |
-| `azureKeyVaultName` | string | The key vault name. |
 | `azureLocation` | string | The deployment region. |
 | `azureMLWorkspaceName` | string | The name of your Azure ML workspace. |
 | `azureOpenAIAPIKey` | string | The Open AI API key. |
@@ -1023,6 +1022,7 @@ Name of the Workbook.
 | `azureSpeechServiceName` | string | The name of your Azure Speech Service. |
 | `azureSpeechServiceRegion` | string | The loccation of the Speech Service. |
 | `azureTenantId` | string | The tenant ID. |
+| `azurevaultName` | string | The key vault name. |
 | `conversationFlow` | string | The name of the conversation flow. |
 | `documentProcessingQueueName` | string | The name of the document processing queue. |
 | `frontendWebsiteName` | string | The name of your frontend website. |

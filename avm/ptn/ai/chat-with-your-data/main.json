@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "14607623852656244497"
+      "templateHash": "7781557502477625306"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -610,7 +610,7 @@
       "azd-env-name": "[parameters('environmentName')]"
     },
     "rgName": "[resourceGroup().name]",
-    "keyVaultName": "[format('kv-{0}', parameters('resourceName'))]",
+    "vaultName": "[format('kv-{0}', parameters('resourceName'))]",
     "defaultOpenAiDeployments": [
       {
         "name": "[parameters('azureOpenAIModel')]",
@@ -664,7 +664,7 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[variables('keyVaultName')]",
+      "name": "[variables('vaultName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -672,7 +672,7 @@
         "mode": "Incremental",
         "parameters": {
           "name": {
-            "value": "[variables('keyVaultName')]"
+            "value": "[variables('vaultName')]"
           },
           "location": {
             "value": "[parameters('location')]"
@@ -4873,7 +4873,7 @@
         "mode": "Incremental",
         "parameters": {
           "keyVaultName": {
-            "value": "[variables('keyVaultName')]"
+            "value": "[variables('vaultName')]"
           },
           "azureOpenAIName": {
             "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName')), '2022-09-01').outputs.name.value]"
@@ -5407,7 +5407,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -6293,7 +6293,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -6363,7 +6363,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -7249,7 +7249,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -7319,7 +7319,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -8197,7 +8197,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -8264,7 +8264,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -9142,7 +9142,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -10955,7 +10955,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -12128,7 +12128,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -12198,7 +12198,7 @@
           "useKeyVault": {
             "value": "[parameters('useKeyVault')]"
           },
-          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
+          "keyVaultName": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value), createObject('value', ''))]",
           "authType": {
             "value": "[parameters('authType')]"
           },
@@ -13371,7 +13371,7 @@
         "[resourceId('Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -14334,7 +14334,7 @@
           "storageAccountId": {
             "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('storageAccountName')), '2022-09-01').outputs.id.value]"
           },
-          "keyVaultId": "[if(parameters('useKeyVault'), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.resourceId.value), createObject('value', ''))]",
+          "keyVaultId": "[if(parameters('useKeyVault'), createObject('value', reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.resourceId.value), createObject('value', ''))]",
           "applicationInsightsId": {
             "value": "[reference(resourceId('Microsoft.Resources/deployments', 'monitoring'), '2022-09-01').outputs.applicationInsightsId.value]"
           },
@@ -14454,7 +14454,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', variables('keyVaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', variables('vaultName'))]",
         "[resourceId('Microsoft.Resources/deployments', 'monitoring')]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[resourceId('Microsoft.Resources/deployments', parameters('azureAISearchName'))]",
@@ -14559,14 +14559,14 @@
       "metadata": {
         "description": "The key vault endpoint."
       },
-      "value": "[if(parameters('useKeyVault'), reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.uri.value, '')]"
+      "value": "[if(parameters('useKeyVault'), reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.uri.value, '')]"
     },
-    "azureKeyVaultName": {
+    "azurevaultName": {
       "type": "string",
       "metadata": {
         "description": "The key vault name."
       },
-      "value": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), reference(resourceId('Microsoft.Resources/deployments', variables('keyVaultName')), '2022-09-01').outputs.name.value, '')]"
+      "value": "[if(or(parameters('useKeyVault'), equals(parameters('authType'), 'rbac')), reference(resourceId('Microsoft.Resources/deployments', variables('vaultName')), '2022-09-01').outputs.name.value, '')]"
     },
     "azureLocation": {
       "type": "string",

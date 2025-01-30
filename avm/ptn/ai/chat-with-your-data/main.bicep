@@ -304,7 +304,11 @@ var eventGridSystemTopicName = 'doc-processing'
 var tags = { 'azd-env-name': environmentName }
 // var rgName = 'rg-${environmentName}'
 var rgName = resourceGroup().name
-var keyVaultName = 'kv-${resourceName}'
+
+// @secure()
+// param vaultName string = 'kv-${resourceName}'
+
+var vaultName = 'kv-${resourceName}'
 
 //resources
 #disable-next-line no-deployments-resources
@@ -339,7 +343,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 //   name: 'keyvault'
 //   // scope: rg
 //   params: {
-//     name: keyVaultName
+//     name: vaultName
 //     location: location
 //     tags: tags
 //     principalId: principalId
@@ -348,9 +352,9 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
 
 // Store secrets in a keyvault
 module keyvault 'br/public:avm/res/key-vault/vault:0.11.2' = {
-  name: keyVaultName
+  name: vaultName
   params: {
-    name: keyVaultName
+    name: vaultName
     location: location
     tags: tags
     networkAcls: {
@@ -514,7 +518,7 @@ module storekeys './app/storekeys.bicep' = if (useKeyVault) {
   name: 'storekeys'
   //  scope: rg
   params: {
-    keyVaultName: keyVaultName
+    keyVaultName: vaultName
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
     storageAccountName: storage.outputs.name
@@ -1198,7 +1202,7 @@ output azureFormRecognizerKey string = useKeyVault ? storekeys.outputs.FORM_RECO
 output azureKeyVaultEndpoint string = useKeyVault ? keyvault.outputs.uri : ''
 
 @description('The key vault name.')
-output azureKeyVaultName string = useKeyVault || authType == 'rbac' ? keyvault.outputs.name : ''
+output azurevaultName string = useKeyVault || authType == 'rbac' ? keyvault.outputs.name : ''
 
 @description('The deployment region.')
 output azureLocation string = location
