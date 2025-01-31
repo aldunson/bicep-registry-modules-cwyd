@@ -403,26 +403,15 @@ module keyvault 'br/public:avm/res/key-vault/vault:0.11.2' = {
       defaultAction: 'Deny'
       bypass: 'AzureServices'
     }
-  }
-}
-
-module diagnosticSetting 'br/public:avm/res/insights/diagnostic-setting:0.1.3' = {
-  name: 'diagnosticSettingDeployment'
-  scope: subscription()
-  params: {
-    location: location
-    name: 'cwyd-diagnostic-settings'
-    workspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceId
-    logCategoriesAndGroups: [
+    diagnosticSettings: [
       {
-        category: 'AuditEvent'
-        enabled: true
-      }
-    ]
-    metricCategories: [
-      {
-        category: 'AllMetrics'
-        enabled: true
+        name: 'keyVaultDiagnostics'
+        logCategoriesAndGroups: [
+          {
+            category: 'AuditEvent'
+            enabled: true
+          }
+        ]
       }
     ]
   }

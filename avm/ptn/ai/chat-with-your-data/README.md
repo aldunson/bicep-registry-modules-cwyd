@@ -1102,7 +1102,6 @@ This section gives you an overview of all local-referenced module files (i.e., o
 
 | Reference | Type |
 | :-- | :-- |
-| `br/public:avm/res/insights/diagnostic-setting:0.1.3` | Remote reference |
 | `br/public:avm/res/key-vault/vault:0.11.2` | Remote reference |
 
 ## Data Collection
