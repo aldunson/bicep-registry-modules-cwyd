@@ -20,6 +20,14 @@ which is integrated into a web application to provide a natural language interfa
 | `Microsoft.Authorization/roleAssignments` | [2022-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2022-04-01/roleAssignments) |
 | `Microsoft.CognitiveServices/accounts` | [2023-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.CognitiveServices/2023-05-01/accounts) |
 | `Microsoft.CognitiveServices/accounts/deployments` | [2023-05-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.CognitiveServices/2023-05-01/accounts/deployments) |
+| `Microsoft.DBforPostgreSQL/flexibleServers` | [2023-12-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DBforPostgreSQL/2023-12-01-preview/flexibleServers) |
+| `Microsoft.DBforPostgreSQL/flexibleServers/administrators` | [2022-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DBforPostgreSQL/2022-12-01/flexibleServers/administrators) |
+| `Microsoft.DBforPostgreSQL/flexibleServers/configurations` | [2023-12-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DBforPostgreSQL/2023-12-01-preview/flexibleServers/configurations) |
+| `Microsoft.DBforPostgreSQL/flexibleServers/firewallRules` | [2023-12-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DBforPostgreSQL/2023-12-01-preview/flexibleServers/firewallRules) |
+| `Microsoft.DocumentDB/databaseAccounts` | [2022-08-15](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DocumentDB/2022-08-15/databaseAccounts) |
+| `Microsoft.DocumentDB/databaseAccounts/sqlDatabases` | [2022-05-15](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DocumentDB/2022-05-15/databaseAccounts/sqlDatabases) |
+| `Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers` | [2022-05-15](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DocumentDB/2022-05-15/databaseAccounts/sqlDatabases/containers) |
+| `Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments` | [2022-05-15](https://learn.microsoft.com/en-us/azure/templates/Microsoft.DocumentDB/2022-05-15/databaseAccounts/sqlRoleAssignments) |
 | `Microsoft.EventGrid/systemTopics` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics) |
 | `Microsoft.EventGrid/systemTopics/eventSubscriptions` | [2021-12-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.EventGrid/2021-12-01/systemTopics/eventSubscriptions) |
 | `Microsoft.Insights/components` | [2020-02-02](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2020-02-02/components) |
@@ -32,6 +40,7 @@ which is integrated into a web application to provide a natural language interfa
 | `Microsoft.KeyVault/vaults/secrets` | [2022-07-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.KeyVault/2022-07-01/vaults/secrets) |
 | `Microsoft.MachineLearningServices/workspaces` | [2023-06-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.MachineLearningServices/2023-06-01-preview/workspaces) |
 | `Microsoft.MachineLearningServices/workspaces/connections` | [2024-01-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.MachineLearningServices/2024-01-01-preview/workspaces/connections) |
+| `Microsoft.ManagedIdentity/userAssignedIdentities` | [2023-01-31](https://learn.microsoft.com/en-us/azure/templates/Microsoft.ManagedIdentity/2023-01-31/userAssignedIdentities) |
 | `Microsoft.Network/privateEndpoints` | [2023-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Network/2023-11-01/privateEndpoints) |
 | `Microsoft.Network/privateEndpoints/privateDnsZoneGroups` | [2023-11-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Network/2023-11-01/privateEndpoints/privateDnsZoneGroups) |
 | `Microsoft.OperationalInsights/workspaces` | [2021-12-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.OperationalInsights/2021-12-01-preview/workspaces) |
@@ -205,6 +214,7 @@ param location = '<location>'
 | [`applicationInsightsName`](#parameter-applicationinsightsname) | string | Name of Application Insights. |
 | [`authType`](#parameter-authtype) | string | Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles. |
 | [`azureAISearchName`](#parameter-azureaisearchname) | string | Azure AI Search Resource. |
+| [`azureCosmosDBAccountName`](#parameter-azurecosmosdbaccountname) | string | Azure Cosmos DB Account Name. |
 | [`azureMachineLearningName`](#parameter-azuremachinelearningname) | string | Azure Machine Learning Name. |
 | [`azureOpenAIApiVersion`](#parameter-azureopenaiapiversion) | string | Azure OpenAI Api Version. |
 | [`azureOpenAIEmbeddingModel`](#parameter-azureopenaiembeddingmodel) | string | Azure OpenAI Embedding Model Deployment Name. |
@@ -227,34 +237,39 @@ param location = '<location>'
 | [`azureOpenAIVisionModelCapacity`](#parameter-azureopenaivisionmodelcapacity) | int | Azure OpenAI Vision Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota . |
 | [`azureOpenAIVisionModelName`](#parameter-azureopenaivisionmodelname) | string | Azure OpenAI Vision Model Name. |
 | [`azureOpenAIVisionModelVersion`](#parameter-azureopenaivisionmodelversion) | string | Azure OpenAI Vision Model Version. |
-| [`azureSearchContentColumns`](#parameter-azuresearchcontentcolumns) | string | Content columns. |
+| [`azurePostgresDBAccountName`](#parameter-azurepostgresdbaccountname) | string | Azure Postgres DB Account Name. |
+| [`azureSearchChunkColumn`](#parameter-azuresearchchunkcolumn) | string | Chunk column. |
 | [`azureSearchConversationLogIndex`](#parameter-azuresearchconversationlogindex) | string | Azure AI Search Conversation Log Index. |
 | [`azureSearchDatasource`](#parameter-azuresearchdatasource) | string | Azure AI Search Datasource. |
 | [`azureSearchEnableInDomain`](#parameter-azuresearchenableindomain) | string | Enable in domain. |
+| [`azureSearchFieldId`](#parameter-azuresearchfieldid) | string | Id columns |
+| [`azureSearchFieldsMetadata`](#parameter-azuresearchfieldsmetadata) | string | Metadata column. |
 | [`azureSearchFilenameColumn`](#parameter-azuresearchfilenamecolumn) | string | Filename column. |
 | [`azureSearchFilter`](#parameter-azuresearchfilter) | string | Search filter. |
 | [`azureSearchIndex`](#parameter-azuresearchindex) | string | Azure AI Search Index. |
 | [`azureSearchIndexer`](#parameter-azuresearchindexer) | string | Azure AI Search Indexer. |
 | [`azureSearchIndexIsPrechunked`](#parameter-azuresearchindexisprechunked) | string | Is the index prechunked. |
+| [`azureSearchOffsetColumn`](#parameter-azuresearchoffsetcolumn) | string | Offset column. |
 | [`azureSearchSemanticSearchConfig`](#parameter-azuresearchsemanticsearchconfig) | string | Semantic search config. |
 | [`azureSearchSku`](#parameter-azuresearchsku) | string | The SKU of the search service you want to create. E.g. free or standard. |
+| [`azureSearchSourceColumn`](#parameter-azuresearchsourcecolumn) | string | Source column. |
 | [`azureSearchTitleColumn`](#parameter-azuresearchtitlecolumn) | string | Title column. |
 | [`azureSearchTopK`](#parameter-azuresearchtopk) | string | Top K results. |
 | [`azureSearchUrlColumn`](#parameter-azuresearchurlcolumn) | string | Url column. |
 | [`azureSearchUseIntegratedVectorization`](#parameter-azuresearchuseintegratedvectorization) | bool | Use Azure Search Integrated Vectorization. |
 | [`azureSearchUseSemanticSearch`](#parameter-azuresearchusesemanticsearch) | bool | Use semantic search. |
-| [`azureSearchVectorColumns`](#parameter-azuresearchvectorcolumns) | string | Vector columns. |
+| [`azureSearchVectorColumn`](#parameter-azuresearchvectorcolumn) | string | Vector columns. |
 | [`computerVisionLocation`](#parameter-computervisionlocation) | string | Location of Computer Vision Resource (if useAdvancedImageProcessing=true). |
 | [`computerVisionName`](#parameter-computervisionname) | string | Name of Computer Vision Resource (if useAdvancedImageProcessing=true). |
 | [`computerVisionSkuName`](#parameter-computervisionskuname) | string | Name of Computer Vision Resource SKU (if useAdvancedImageProcessing=true). |
 | [`computerVisionVectorizeImageApiVersion`](#parameter-computervisionvectorizeimageapiversion) | string | Azure Computer Vision Vectorize Image API Version. |
 | [`computerVisionVectorizeImageModelVersion`](#parameter-computervisionvectorizeimagemodelversion) | string | Azure Computer Vision Vectorize Image Model Version. |
 | [`contentSafetyName`](#parameter-contentsafetyname) | string | Azure Content Safety Name. |
-| [`conversationFlow`](#parameter-conversationflow) | string | Chat conversation type: custom or byod. |
+| [`conversationFlow`](#parameter-conversationflow) | string | Chat conversation type: custom or byod. If the database type is PostgreSQL, set this to custom. |
 | [`enableTelemetry`](#parameter-enabletelemetry) | bool | Enable/Disable usage telemetry for module. |
 | [`formRecognizerName`](#parameter-formrecognizername) | string | Azure Form Recognizer Name. |
 | [`functionName`](#parameter-functionname) | string | Name of Function App for Batch document processing. |
-| [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization. |
+| [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. This value is fixed as "container", which uses prebuilt containers for faster deployment. |
 | [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
 | [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
 | [`keyvaultname`](#parameter-keyvaultname) | string | Name of Keyvault. |
@@ -274,6 +289,12 @@ param location = '<location>'
 | [`useKeyVault`](#parameter-usekeyvault) | bool | Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false. |
 | [`websiteName`](#parameter-websitename) | string | Name of Web App. |
 | [`workbookDisplayName`](#parameter-workbookdisplayname) | string | Name of the Workbook. |
+
+**Optionl parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`databaseType`](#parameter-databasetype) | string | The type of database to deploy (cosmos or postgres). |
 
 ### Parameter: `environmentName`
 
@@ -312,7 +333,7 @@ Whether the Azure services communicate with each other using RBAC or keys. RBAC 
 
 - Required: No
 - Type: string
-- Default: `'keys'`
+- Default: `'rbac'`
 - Allowed:
   ```Bicep
   [
@@ -328,6 +349,14 @@ Azure AI Search Resource.
 - Required: No
 - Type: string
 - Default: `[format('search-{0}', parameters('resourceName'))]`
+
+### Parameter: `azureCosmosDBAccountName`
+
+Azure Cosmos DB Account Name.
+
+- Required: No
+- Type: string
+- Default: `[format('cosmos-{0}', parameters('resourceName'))]`
 
 ### Parameter: `azureMachineLearningName`
 
@@ -505,13 +534,21 @@ Azure OpenAI Vision Model Version.
 - Type: string
 - Default: `'vision-preview'`
 
-### Parameter: `azureSearchContentColumns`
+### Parameter: `azurePostgresDBAccountName`
 
-Content columns.
+Azure Postgres DB Account Name.
 
 - Required: No
 - Type: string
-- Default: `'content'`
+- Default: `[format('postgres-{0}', parameters('resourceName'))]`
+
+### Parameter: `azureSearchChunkColumn`
+
+Chunk column.
+
+- Required: No
+- Type: string
+- Default: `'chunk'`
 
 ### Parameter: `azureSearchConversationLogIndex`
 
@@ -535,7 +572,23 @@ Enable in domain.
 
 - Required: No
 - Type: string
-- Default: `'false'`
+- Default: `'true'`
+
+### Parameter: `azureSearchFieldId`
+
+Id columns
+
+- Required: No
+- Type: string
+- Default: `'id'`
+
+### Parameter: `azureSearchFieldsMetadata`
+
+Metadata column.
+
+- Required: No
+- Type: string
+- Default: `'metadata'`
 
 ### Parameter: `azureSearchFilenameColumn`
 
@@ -577,6 +630,14 @@ Is the index prechunked.
 - Type: string
 - Default: `'false'`
 
+### Parameter: `azureSearchOffsetColumn`
+
+Offset column.
+
+- Required: No
+- Type: string
+- Default: `'offset'`
+
 ### Parameter: `azureSearchSemanticSearchConfig`
 
 Semantic search config.
@@ -602,6 +663,14 @@ The SKU of the search service you want to create. E.g. free or standard.
     'standard3'
   ]
   ```
+
+### Parameter: `azureSearchSourceColumn`
+
+Source column.
+
+- Required: No
+- Type: string
+- Default: `'source'`
 
 ### Parameter: `azureSearchTitleColumn`
 
@@ -643,7 +712,7 @@ Use semantic search.
 - Type: bool
 - Default: `False`
 
-### Parameter: `azureSearchVectorColumns`
+### Parameter: `azureSearchVectorColumn`
 
 Vector columns.
 
@@ -721,7 +790,7 @@ Azure Content Safety Name.
 
 ### Parameter: `conversationFlow`
 
-Chat conversation type: custom or byod.
+Chat conversation type: custom or byod. If the database type is PostgreSQL, set this to custom.
 
 - Required: No
 - Type: string
@@ -760,18 +829,11 @@ Name of Function App for Batch document processing.
 
 ### Parameter: `hostingModel`
 
-Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization.
+Hosting model for the web apps. This value is fixed as "container", which uses prebuilt containers for faster deployment.
 
 - Required: No
 - Type: string
 - Default: `'container'`
-- Allowed:
-  ```Bicep
-  [
-    'code'
-    'container'
-  ]
-  ```
 
 ### Parameter: `hostingPlanName`
 
@@ -862,7 +924,7 @@ Orchestration strategy: openai_function or semantic_kernel or langchain str. If 
 
 - Required: No
 - Type: string
-- Default: `'openai_function'`
+- Default: `'semantic_kernel'`
 - Allowed:
   ```Bicep
   [
@@ -973,6 +1035,21 @@ Name of the Workbook.
 - Type: string
 - Default: `[format('workbook-{0}', parameters('resourceName'))]`
 
+### Parameter: `databaseType`
+
+The type of database to deploy (cosmos or postgres).
+
+- Required: No
+- Type: string
+- Default: `'PostgreSQL'`
+- Allowed:
+  ```Bicep
+  [
+    'CosmosDB'
+    'PostgreSQL'
+  ]
+  ```
+
 ## Outputs
 
 | Output | Type | Description |
@@ -981,64 +1058,31 @@ Name of the Workbook.
 | `advancedImageProcessingMaxImages` | int | The maximum number of images to be processed. |
 | `applicationInsightsConnectionString` | string | The connection string of the application insights component. |
 | `azureAppServiceHostingModel` | string | The app service hosting model. |
-| `azureBlobAccountName` | string | The Storage account name. |
-| `azureBlobContainerName` | string | The Blob container name. |
-| `azureComputerVisionEndpoint` | string | The computer vision endpoint. |
-| `azureComputerVisionKey` | string | The computer Vision Key. |
-| `azureComputerVisionLocation` | string | The omputer vision region. |
-| `azureComputerVisionVectorizeImageApiVersion` | string | The computer vision image vectorization API version. |
-| `azureComputerVisionVectorizeImageModelVersion` | string | The computer vision image model version. |
-| `azureContentSafetyEndpoint` | string | The content safety endpoint. |
-| `azureContentSafetyKey` | string | The content safety key name. |
-| `azureFormRecognizerEndpoint` | string | The form recognizer endpoint. |
-| `azureFormRecognizerKey` | string | The form recognizer key. |
-| `azureKeyVaultEndpoint` | string | The key vault endpoint. |
+| `azureAuthType` | string | Azure Authentication Type |
+| `azureBlobStorageInfo` | string | The Blob container and storge account name. |
+| `azureComputerVisionInfo` | string | The computer vision endpoint,region,key, and other information. |
+| `azureContentSafetyInfo` | string | The content safety infromation. |
+| `azureCosmosDBInfo` | string | The cosmos db account name. |
+| `azureFormRecognizerInfo` | string | The form recognizer infromation. |
+| `azureKeyVaultInfo` | string | The key vault information. |
 | `azureLocation` | string | The deployment region. |
 | `azureMLWorkspaceName` | string | The name of your Azure ML workspace. |
-| `azureOpenAIAPIKey` | string | The Open AI API key. |
-| `azureOpenAIApiVersion` | string | The Open AI API version. |
-| `azureOpenAIEmbeddingModelName` | string | The Open AI Embedding Model name. |
-| `azureOpenAIEmbeddingModelVersion` | string | The Open AI Embedding Model version. |
-| `azureOpenAIMaxToks` | string | The maximum number of tokens allowed for the Open AI model. |
-| `azureOpenAIModelName` | string | The Open AI model name. |
-| `azureOpenAIModelVersion` | string | The Open AI model version. |
-| `azureOpenAIResource` | string | The Open AI resource name. |
-| `azureOpenAIStopSequence` | string | The Open AI stop sequence. |
-| `azureOpenAIStream` | string | The Open AI Stream name. |
-| `azureOpenAISystemMessage` | string | The Open AI system message. |
-| `azureOpenAITemperature` | string | The Open AI Stream name. |
-| `azureOpenAITopP` | string | The Open AI top P setting. |
+| `azureOpenAIConfigurationInfo` | string | The Open AI configuration information. |
+| `azureOpenAIEmbeddingModelInfo` | string | The Open AI Embedding Model information. |
+| `azureOpenAIModelInfo` | string | The Open AI model information. |
+| `azurePostgresDBInfo` | string | The postgres db account name. |
 | `azureResourceGroup` | string | The resource group name for the deployment. |
-| `azureSearchContentColumns` | string | List of fields in your search index that contains the text content of your documents to use when formulating a bot response. Represent these as a string joined with. |
-| `azureSearchDatasourceName` | string | The name of your Azure AI data source. |
-| `azureSearchEnableInDomain` | string | Limits responses to only queries relating to your data. |
-| `azureSearchFilenameColumn` | string | Field from your search index that gives a unique identifier of the source of your data to display in the UI. |
-| `azureSearchFilter` | string | The name of your Azure search filter. |
-| `azureSearchIndex` | string | The name of your Azure AI Search Index. |
-| `azureSearchIndexerName` | string | The name of your Azure AI Search Indexer. |
-| `azureSearchIndexIsPrechunked` | string | Value that determines if index is prechunked. |
-| `azureSearchKey` | string | The search key name. |
-| `azureSearchSemanticSearchConfig` | string | The name of the semantic search configuration to use if using semantic search. |
-| `azureSearchService` | string | The name of your Azure AI Search resource. |
-| `azureSearchTitleColumn` | string | The name of the search title column. |
-| `azureSearchTopK` | string | The number of documents that should be returned on a search. |
-| `azureSearchUrlColumn` | string | The name of the URL column. |
-| `azureSearchUseIntegratedVectorization` | bool | Boolean to use integrated vectorization. |
-| `azureSearchUseSemanticSearch` | bool | The value that turns the semantic search on or off. |
-| `azureSearchVectorColumns` | string | List of fields in your search index that contain vector embeddings of your documents to use when formulating a bot response. Represent these as a string joined with. |
-| `azureSpeechRecognizerLanguages` | string | Languages the speech service will recognize. |
-| `azureSpeechServiceKey` | string | The nspeech service key. |
-| `azureSpeechServiceName` | string | The name of your Azure Speech Service. |
-| `azureSpeechServiceRegion` | string | The loccation of the Speech Service. |
+| `azureSearchServiceInfo` | string | The name information for your Azure AI Search resource. |
+| `azureSpeechServiceInfo` | string | The information for your Azure Speech Service. |
 | `azureTenantId` | string | The tenant ID. |
-| `azurevaultName` | string | The key vault name. |
 | `conversationFlow` | string | The name of the conversation flow. |
 | `documentProcessingQueueName` | string | The name of the document processing queue. |
 | `frontendWebsiteName` | string | The name of your frontend website. |
 | `logLevel` | string | The log level for application insights. |
+| `openAIFunctionsSystemPrompt` | string | TheOpenAI system prompt. |
 | `orchestrationStrategy` | string | The strategy for Azure service orchestration. |
-| `resourceGroupName` | string | The name of your resource group. |
 | `resourceName` | string | The name of your resource token. |
+| `semanticKernelSystemPrompt` | string | The semantic kernel system prompt. |
 | `useAdvancedImageProcessing` | bool | Boolean that determines if advaced image processing is used. |
 | `useKeyVault` | bool | Boolean for using the keyvault. |
 
