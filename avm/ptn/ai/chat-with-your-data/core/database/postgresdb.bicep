@@ -11,7 +11,7 @@ param administratorLoginPassword string = 'Initial_0524'
 param serverEdition string = 'Burstable'
 param skuSizeGB int = 32
 param dbInstanceType string = 'Standard_B1ms'
-// param haMode string = 'ZoneRedundant'
+param haMode string = 'ZoneRedundant'
 param availabilityZone string = '1'
 param allowAllIPsFirewall bool = false
 param allowAzureIPsFirewall bool = false
@@ -52,7 +52,7 @@ resource serverName_resource 'Microsoft.DBforPostgreSQL/flexibleServers@2023-12-
       passwordAuth: 'Disabled'
     }
     highAvailability: {
-      mode: 'ZoneRedundant'
+      mode: haMode
     }
     storage: {
       storageSizeGB: skuSizeGB
