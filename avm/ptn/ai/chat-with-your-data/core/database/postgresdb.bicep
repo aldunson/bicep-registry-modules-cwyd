@@ -29,6 +29,9 @@ param version string = '16'
 resource serverName_resource 'Microsoft.DBforPostgreSQL/flexibleServers@2023-12-01-preview' = {
   name: serverName
   location: solutionLocation
+  tags: {
+    solution: solutionName
+  }
   sku: {
     name: dbInstanceType
     tier: serverEdition
@@ -37,20 +40,26 @@ resource serverName_resource 'Microsoft.DBforPostgreSQL/flexibleServers@2023-12-
     version: version
     administratorLogin: administratorLogin
     administratorLoginPassword: administratorLoginPassword
+    maintenanceWindow: {
+      customWindow: 'Enabled'
+      dayOfWeek: 0
+      startHour: 1
+      startMinute: 0
+    }
     authConfig: {
       tenantId: subscription().tenantId
       activeDirectoryAuth: 'Enabled'
-      passwordAuth: 'Enabled'
+      passwordAuth: 'Disabled'
     }
     highAvailability: {
-      mode: 'Disabled'
+      mode: 'ZoneRedundant'
     }
     storage: {
       storageSizeGB: skuSizeGB
     }
     backup: {
       backupRetentionDays: 7
-      geoRedundantBackup: 'Disabled'
+      geoRedundantBackup: 'Enabled'
     }
     network: {
       publicNetworkAccess: 'Enabled'
@@ -63,6 +72,9 @@ resource delayScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: 'waitForServerReady'
   location: resourceGroup().location
   kind: 'AzurePowerShell'
+  tags: {
+    name: 'waitForServerReady'
+  }
   properties: {
     azPowerShellVersion: '3.0'
     scriptContent: 'start-sleep -Seconds 300'
