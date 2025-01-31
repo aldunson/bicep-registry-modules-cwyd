@@ -86,9 +86,10 @@ param azureSearchTopK string = '5'
 @description('Optional. Enable in domain.')
 param azureSearchEnableInDomain string = 'true'
 
-@description('Optional. Id columns')
+@description('Optional. Field id.')
 param azureSearchFieldId string = 'id'
-@description('Optional.Content columns.')
+
+@description('Optional. Content columns.')
 param azureSearchContentColumn string = 'content'
 
 @description('Optional. Vector columns.')
@@ -1579,7 +1580,7 @@ output orchestrationStrategy string = orchestrationStrategy
 @description('Boolean for using the keyvault.')
 output useKeyVault bool = useKeyVault
 
-@description('Azure Authentication Type')
+@description('Azure Authentication Type.')
 output azureAuthType string = authType
 
 @description('The name of your frontend website.')
@@ -1609,6 +1610,9 @@ output azureMLWorkspaceName string = orchestrationStrategy == 'prompt_flow' ? ma
 
 @description('The name of your resource token.')
 output resourceName string = resourceName
+
+@description('The name of your resource group.')
+output resourceGroupName string = rgName
 
 @description('The cosmos db account name.')
 output azureCosmosDBInfo string = azureCosmosDBInfo

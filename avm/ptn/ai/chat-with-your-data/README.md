@@ -239,10 +239,11 @@ param location = '<location>'
 | [`azureOpenAIVisionModelVersion`](#parameter-azureopenaivisionmodelversion) | string | Azure OpenAI Vision Model Version. |
 | [`azurePostgresDBAccountName`](#parameter-azurepostgresdbaccountname) | string | Azure Postgres DB Account Name. |
 | [`azureSearchChunkColumn`](#parameter-azuresearchchunkcolumn) | string | Chunk column. |
+| [`azureSearchContentColumn`](#parameter-azuresearchcontentcolumn) | string | Content columns. |
 | [`azureSearchConversationLogIndex`](#parameter-azuresearchconversationlogindex) | string | Azure AI Search Conversation Log Index. |
 | [`azureSearchDatasource`](#parameter-azuresearchdatasource) | string | Azure AI Search Datasource. |
 | [`azureSearchEnableInDomain`](#parameter-azuresearchenableindomain) | string | Enable in domain. |
-| [`azureSearchFieldId`](#parameter-azuresearchfieldid) | string | Id columns |
+| [`azureSearchFieldId`](#parameter-azuresearchfieldid) | string | Field id. |
 | [`azureSearchFieldsMetadata`](#parameter-azuresearchfieldsmetadata) | string | Metadata column. |
 | [`azureSearchFilenameColumn`](#parameter-azuresearchfilenamecolumn) | string | Filename column. |
 | [`azureSearchFilter`](#parameter-azuresearchfilter) | string | Search filter. |
@@ -550,6 +551,14 @@ Chunk column.
 - Type: string
 - Default: `'chunk'`
 
+### Parameter: `azureSearchContentColumn`
+
+Content columns.
+
+- Required: No
+- Type: string
+- Default: `'content'`
+
 ### Parameter: `azureSearchConversationLogIndex`
 
 Azure AI Search Conversation Log Index.
@@ -576,7 +585,7 @@ Enable in domain.
 
 ### Parameter: `azureSearchFieldId`
 
-Id columns
+Field id.
 
 - Required: No
 - Type: string
@@ -1058,7 +1067,7 @@ The type of database to deploy (cosmos or postgres).
 | `advancedImageProcessingMaxImages` | int | The maximum number of images to be processed. |
 | `applicationInsightsConnectionString` | string | The connection string of the application insights component. |
 | `azureAppServiceHostingModel` | string | The app service hosting model. |
-| `azureAuthType` | string | Azure Authentication Type |
+| `azureAuthType` | string | Azure Authentication Type. |
 | `azureBlobStorageInfo` | string | The Blob container and storge account name. |
 | `azureComputerVisionInfo` | string | The computer vision endpoint,region,key, and other information. |
 | `azureContentSafetyInfo` | string | The content safety infromation. |
@@ -1081,6 +1090,7 @@ The type of database to deploy (cosmos or postgres).
 | `logLevel` | string | The log level for application insights. |
 | `openAIFunctionsSystemPrompt` | string | TheOpenAI system prompt. |
 | `orchestrationStrategy` | string | The strategy for Azure service orchestration. |
+| `resourceGroupName` | string | The name of your resource group. |
 | `resourceName` | string | The name of your resource token. |
 | `semanticKernelSystemPrompt` | string | The semantic kernel system prompt. |
 | `useAdvancedImageProcessing` | bool | Boolean that determines if advaced image processing is used. |

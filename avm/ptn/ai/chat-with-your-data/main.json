@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "8466819201192190480"
+      "templateHash": "5038366219383770130"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -170,14 +170,14 @@
       "type": "string",
       "defaultValue": "id",
       "metadata": {
-        "description": "Optional. Id columns"
+        "description": "Optional. Field id."
       }
     },
     "azureSearchContentColumn": {
       "type": "string",
       "defaultValue": "content",
       "metadata": {
-        "description": "Optional.Content columns."
+        "description": "Optional. Content columns."
       }
     },
     "azureSearchVectorColumn": {
@@ -15259,7 +15259,7 @@
     "azureAuthType": {
       "type": "string",
       "metadata": {
-        "description": "Azure Authentication Type"
+        "description": "Azure Authentication Type."
       },
       "value": "[parameters('authType')]"
     },
@@ -15318,6 +15318,13 @@
         "description": "The name of your resource token."
       },
       "value": "[parameters('resourceName')]"
+    },
+    "resourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your resource group."
+      },
+      "value": "[variables('rgName')]"
     },
     "azureCosmosDBInfo": {
       "type": "string",
