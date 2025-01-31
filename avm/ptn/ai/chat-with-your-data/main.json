@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "4801096972072006194"
+      "templateHash": "15845466094012589583"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -764,7 +764,8 @@
                     "category": "AuditEvent",
                     "enabled": true
                   }
-                ]
+                ],
+                "workspaceResourceId": "[reference(resourceId('Microsoft.Resources/deployments', 'monitoring'), '2022-09-01').outputs.logAnalyticsWorkspaceId.value]"
               }
             ]
           }
@@ -3936,7 +3937,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'monitoring')]"
+      ]
     },
     {
       "condition": "[equals(parameters('databaseType'), 'PostgreSQL')]",
@@ -4220,7 +4224,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.33.13.18514",
-              "templateHash": "14985319177875023514"
+              "templateHash": "13311200746519582805"
             }
           },
           "parameters": {
@@ -4253,7 +4257,7 @@
             },
             "serverEdition": {
               "type": "string",
-              "defaultValue": "Burstable"
+              "defaultValue": "GeneralPurpose"
             },
             "skuSizeGB": {
               "type": "int",

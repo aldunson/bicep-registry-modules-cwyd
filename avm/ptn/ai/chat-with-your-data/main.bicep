@@ -412,6 +412,7 @@ module keyvault 'br/public:avm/res/key-vault/vault:0.11.2' = {
             enabled: true
           }
         ]
+        workspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceId
       }
     ]
   }
@@ -448,6 +449,20 @@ module postgresDBModule './core/database/postgresdb.bicep' = if (databaseType ==
   }
   //scope: rg
 }
+
+// module postgresDB 'br:mcr.microsoft.com/bicep/avm/res/db-for-postgre-sql/flexible-server:0.8.0' = if (databaseType == 'PostgreSQL') {
+//   name: azurePostgresDBAccountName
+//   params: {
+//     name: azurePostgresDBAccountName
+//     skuName: 'Standard_D2s_v3'
+//     tier: 'GeneralPurpose'
+//     location: 'eastus2'
+//     highAvailability: 'ZoneRedundant'
+//     administrators: []
+//     firewallRules: []
+//   }
+//   //scope: rg
+// }
 
 var defaultOpenAiDeployments = [
   {

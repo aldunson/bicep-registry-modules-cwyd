@@ -8,7 +8,7 @@ param serverName string = '${solutionName}-postgres'
 param administratorLogin string = 'admintest'
 @secure()
 param administratorLoginPassword string = 'Initial_0524'
-param serverEdition string = 'Burstable'
+param serverEdition string = 'GeneralPurpose'
 param skuSizeGB int = 32
 param dbInstanceType string = 'Standard_B1ms'
 param haMode string = 'ZoneRedundant'
