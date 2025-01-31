@@ -1302,12 +1302,11 @@ module storage 'core/storage/storage-account.bicep' = {
     sku: {
       name: 'Standard_GRS'
     }
-    deleteRetentionPolicy: azureSearchUseIntegratedVectorization
-      ? {
-          enabled: true
-          days: 7
-        }
-      : {}
+    deleteRetentionPolicy: {
+      enabled: true
+      days: 7
+    }
+
     containers: [
       {
         name: blobContainerName
