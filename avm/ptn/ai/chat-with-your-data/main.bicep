@@ -46,7 +46,7 @@ param hostingPlanSku string = 'S1'
 ])
 param skuTier string = 'Standard'
 
-@description('Optionl. The type of database to deploy (cosmos or postgres).')
+@description('Optional. The type of database to deploy (cosmos or postgres).')
 @allowed([
   'PostgreSQL'
   'CosmosDB'
@@ -449,20 +449,6 @@ module postgresDBModule './core/database/postgresdb.bicep' = if (databaseType ==
   }
   //scope: rg
 }
-
-// module postgresDB 'br:mcr.microsoft.com/bicep/avm/res/db-for-postgre-sql/flexible-server:0.8.0' = if (databaseType == 'PostgreSQL') {
-//   name: azurePostgresDBAccountName
-//   params: {
-//     name: azurePostgresDBAccountName
-//     skuName: 'Standard_D2s_v3'
-//     tier: 'GeneralPurpose'
-//     location: 'eastus2'
-//     highAvailability: 'ZoneRedundant'
-//     administrators: []
-//     firewallRules: []
-//   }
-//   //scope: rg
-// }
 
 var defaultOpenAiDeployments = [
   {

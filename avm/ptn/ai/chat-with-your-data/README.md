@@ -267,6 +267,7 @@ param location = '<location>'
 | [`computerVisionVectorizeImageModelVersion`](#parameter-computervisionvectorizeimagemodelversion) | string | Azure Computer Vision Vectorize Image Model Version. |
 | [`contentSafetyName`](#parameter-contentsafetyname) | string | Azure Content Safety Name. |
 | [`conversationFlow`](#parameter-conversationflow) | string | Chat conversation type: custom or byod. If the database type is PostgreSQL, set this to custom. |
+| [`databaseType`](#parameter-databasetype) | string | The type of database to deploy (cosmos or postgres). |
 | [`enableTelemetry`](#parameter-enabletelemetry) | bool | Enable/Disable usage telemetry for module. |
 | [`formRecognizerName`](#parameter-formrecognizername) | string | Azure Form Recognizer Name. |
 | [`functionName`](#parameter-functionname) | string | Name of Function App for Batch document processing. |
@@ -290,12 +291,6 @@ param location = '<location>'
 | [`useKeyVault`](#parameter-usekeyvault) | bool | Whether to use Key Vault to store secrets (best when using keys). If using RBAC, then please set this to false. |
 | [`websiteName`](#parameter-websitename) | string | Name of Web App. |
 | [`workbookDisplayName`](#parameter-workbookdisplayname) | string | Name of the Workbook. |
-
-**Optionl parameters**
-
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
-| [`databaseType`](#parameter-databasetype) | string | The type of database to deploy (cosmos or postgres). |
 
 ### Parameter: `environmentName`
 
@@ -812,6 +807,21 @@ Chat conversation type: custom or byod. If the database type is PostgreSQL, set 
   ]
   ```
 
+### Parameter: `databaseType`
+
+The type of database to deploy (cosmos or postgres).
+
+- Required: No
+- Type: string
+- Default: `'PostgreSQL'`
+- Allowed:
+  ```Bicep
+  [
+    'CosmosDB'
+    'PostgreSQL'
+  ]
+  ```
+
 ### Parameter: `enableTelemetry`
 
 Enable/Disable usage telemetry for module.
@@ -1043,21 +1053,6 @@ Name of the Workbook.
 - Required: No
 - Type: string
 - Default: `[format('workbook-{0}', parameters('resourceName'))]`
-
-### Parameter: `databaseType`
-
-The type of database to deploy (cosmos or postgres).
-
-- Required: No
-- Type: string
-- Default: `'PostgreSQL'`
-- Allowed:
-  ```Bicep
-  [
-    'CosmosDB'
-    'PostgreSQL'
-  ]
-  ```
 
 ## Outputs
 
