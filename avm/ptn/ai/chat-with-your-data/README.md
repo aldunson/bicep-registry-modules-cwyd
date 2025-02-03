@@ -83,9 +83,9 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
-    environmentName: 'acwydmin001'
-    keyvaultname: '<keyvaultname>'
+    environmentName: 'cwyddef001'
     // Non-required parameters
+    keyvaultname: '<keyvaultname>'
     location: '<location>'
   }
 }
@@ -105,12 +105,12 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "parameters": {
     // Required parameters
     "environmentName": {
-      "value": "acwydmin001"
+      "value": "cwyddef001"
     },
+    // Non-required parameters
     "keyvaultname": {
       "value": "<keyvaultname>"
     },
-    // Non-required parameters
     "location": {
       "value": "<location>"
     }
@@ -129,9 +129,9 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
 
 // Required parameters
-param environmentName = 'acwydmin001'
-param keyvaultname = '<keyvaultname>'
+param environmentName = 'cwyddef001'
 // Non-required parameters
+param keyvaultname = '<keyvaultname>'
 param location = '<location>'
 ```
 
@@ -152,9 +152,9 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
-    environmentName: 'acwydwaf001'
-    keyvaultname: '<keyvaultname>'
+    environmentName: 'cwydwaf001'
     // Non-required parameters
+    keyvaultname: '<keyvaultname>'
     location: '<location>'
   }
 }
@@ -174,12 +174,12 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "parameters": {
     // Required parameters
     "environmentName": {
-      "value": "acwydwaf001"
+      "value": "cwydwaf001"
     },
+    // Non-required parameters
     "keyvaultname": {
       "value": "<keyvaultname>"
     },
-    // Non-required parameters
     "location": {
       "value": "<location>"
     }
@@ -198,9 +198,9 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
 
 // Required parameters
-param environmentName = 'acwydwaf001'
-param keyvaultname = '<keyvaultname>'
+param environmentName = 'cwydwaf001'
 // Non-required parameters
+param keyvaultname = '<keyvaultname>'
 param location = '<location>'
 ```
 
@@ -214,7 +214,6 @@ param location = '<location>'
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`environmentName`](#parameter-environmentname) | string | Name of the the environment which is used to generate a short unique hash used in all resources. |
-| [`keyvaultname`](#parameter-keyvaultname) | securestring | Name of the Azure Key Vault. |
 
 **Optional parameters**
 
@@ -285,6 +284,7 @@ param location = '<location>'
 | [`hostingModel`](#parameter-hostingmodel) | string | Hosting model for the web apps. This value is fixed as "container", which uses prebuilt containers for faster deployment. |
 | [`hostingPlanName`](#parameter-hostingplanname) | string | Name of App Service plan. |
 | [`hostingPlanSku`](#parameter-hostingplansku) | string | The pricing tier for the App Service plan. |
+| [`keyvaultname`](#parameter-keyvaultname) | string | Name of the Azure Key Vault. |
 | [`location`](#parameter-location) | string | Location for all resources. |
 | [`logAnalyticsName`](#parameter-loganalyticsname) | string | Log Analytics Name. |
 | [`logLevel`](#parameter-loglevel) | string | Log level web service. |
@@ -308,13 +308,6 @@ Name of the the environment which is used to generate a short unique hash used i
 
 - Required: Yes
 - Type: string
-
-### Parameter: `keyvaultname`
-
-Name of the Azure Key Vault.
-
-- Required: Yes
-- Type: securestring
 
 ### Parameter: `adminWebsiteName`
 
@@ -903,6 +896,14 @@ The pricing tier for the App Service plan.
     'S3'
   ]
   ```
+
+### Parameter: `keyvaultname`
+
+Name of the Azure Key Vault.
+
+- Required: No
+- Type: string
+- Default: `[format('kv-{0}', parameters('resourceName'))]`
 
 ### Parameter: `location`
 

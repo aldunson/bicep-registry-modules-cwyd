@@ -2,15 +2,12 @@ metadata name = 'CWYD'
 metadata description = '''This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,
 which is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.'''
 metadata owner = 'Azure/module-maintainers'
+targetScope = 'resourceGroup'
 
 @minLength(1)
 @maxLength(20)
 @description('Required. Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
-
-@description('Required. Name of the Azure Key Vault.')
-@secure()
-param keyvaultname string
 
 @description('Optional. Resource Name.')
 param resourceName string = toLower(uniqueString(subscription().id, environmentName, location))
@@ -20,6 +17,9 @@ param location string = resourceGroup().location
 
 @description('Optional. Name of App Service plan.')
 param hostingPlanName string = 'hosting-plan-${resourceName}'
+
+@description('Optional. Name of the Azure Key Vault.')
+param keyvaultname string = 'kv-${resourceName}'
 
 @description('Optional. The pricing tier for the App Service plan.')
 @allowed([
@@ -374,13 +374,6 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
   tags: tags
 }
 
-// Organize resources in a resource group
-// resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-//   name: rgName
-//   location: location
-//   tags: tags
-// }
-
 // // Store secrets in a keyvault
 // module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
 //   name: 'keyvault'
@@ -572,7 +565,7 @@ module openAiRoleSearchService 'core/security/role.bicep' = if (authType == 'rba
 }
 
 module speechService 'core/ai/cognitiveservices.bicep' = {
-  //  scope: rg
+  // scope: rg
   name: speechServiceName
   params: {
     name: speechServiceName

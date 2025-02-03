@@ -15,13 +15,14 @@ param resourceLocation string = 'deployment().location'
 
 @description('Optional. A short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
 // e.g., for a module 'network/private-endpoint' you could use 'npe' as a prefix and then 'waf' as a suffix for the waf-aligned test
-param serviceShort string = 'acwydmin'
+param serviceShort string = 'cwyddef'
 
 @description('Optional. A token to inject into the name of each resource. This value can be automatically injected by the CI.')
 param namePrefix string = '#_namePrefix_#'
 
 @description('Optional. The name of the Key Vault to use for storing secrets.')
-param keyvaultname string = 'kv-${namePrefix}-csa-ptn-${serviceShort}'
+@secure()
+param keyvaultname string
 
 //@description('Optional. Subscription ID of the subscription to assign the RBAC role to. If no Resource Group name is provided, the module deploys at subscription level, therefore assigns the provided RBAC role to the subscription.')
 //param subscriptionId string = '#_subscriptionId_#'

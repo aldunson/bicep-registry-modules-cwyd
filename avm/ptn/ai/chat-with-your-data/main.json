@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "7819058392804377320"
+      "templateHash": "10080328785229820970"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -18,12 +18,6 @@
       "maxLength": 20,
       "metadata": {
         "description": "Required. Name of the the environment which is used to generate a short unique hash used in all resources."
-      }
-    },
-    "keyvaultname": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Required. Name of the Azure Key Vault."
       }
     },
     "resourceName": {
@@ -45,6 +39,13 @@
       "defaultValue": "[format('hosting-plan-{0}', parameters('resourceName'))]",
       "metadata": {
         "description": "Optional. Name of App Service plan."
+      }
+    },
+    "keyvaultname": {
+      "type": "string",
+      "defaultValue": "[format('kv-{0}', parameters('resourceName'))]",
+      "metadata": {
+        "description": "Optional. Name of the Azure Key Vault."
       }
     },
     "hostingPlanSku": {
