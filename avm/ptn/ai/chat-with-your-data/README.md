@@ -83,7 +83,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   name: 'chatWithYourDataDeployment'
   params: {
     // Required parameters
-    environmentName: 'cwyddef001'
+    environmentName: 'cwydmin001'
     // Non-required parameters
     keyvaultname: '<keyvaultname>'
     location: '<location>'
@@ -105,7 +105,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
   "parameters": {
     // Required parameters
     "environmentName": {
-      "value": "cwyddef001"
+      "value": "cwydmin001"
     },
     // Non-required parameters
     "keyvaultname": {
@@ -129,7 +129,7 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
 using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
 
 // Required parameters
-param environmentName = 'cwyddef001'
+param environmentName = 'cwydmin001'
 // Non-required parameters
 param keyvaultname = '<keyvaultname>'
 param location = '<location>'
