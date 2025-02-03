@@ -8,6 +8,10 @@ metadata owner = 'Azure/module-maintainers'
 @description('Required. Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
 
+@description('Required. Name of the Azure Key Vault.')
+@secure()
+param keyvaultname string
+
 @description('Optional. Resource Name.')
 param resourceName string = toLower(uniqueString(subscription().id, environmentName, location))
 
@@ -320,9 +324,6 @@ param azureMachineLearningName string = 'aml-${resourceName}'
 
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
-
-@description('Optional. Name of Keyvault.')
-param keyvaultname string = 'kv-${resourceName}'
 
 var blobContainerName = 'documents'
 var queueName = 'doc-processing'
