@@ -22,7 +22,7 @@ param namePrefix string = '#_namePrefix_#'
 
 @description('Optional. The name of the Key Vault to use for storing secrets.')
 @secure()
-param keyvaultname string
+param keyvaultname string = newGuid()
 
 // @description('Optional. Subscription ID of the subscription to assign the RBAC role to. If no Resource Group name is provided, the module deploys at subscription level, therefore assigns the provided RBAC role to the subscription.')
 // param subscriptionId string = '#_subscriptionId_#'
