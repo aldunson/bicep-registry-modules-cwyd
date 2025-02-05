@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.33.13.18514",
-      "templateHash": "8534999143132177493"
+      "templateHash": "1941414474325277242"
     },
     "name": "CWYD",
     "description": "This solution accelerator uses an Azure OpenAI GPT model and an Azure AI Search index generated from your data,\nwhich is integrated into a web application to provide a natural language interface, including speech-to-text functionality, for search queries.",
@@ -11323,7 +11323,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.33.13.18514",
-              "templateHash": "15856156429071194910"
+              "templateHash": "9304376051346195712"
             }
           },
           "parameters": {
@@ -11507,6 +11507,9 @@
                   "dockerFullImageName": {
                     "value": "[parameters('dockerFullImageName')]"
                   },
+                  "useKeyVault": {
+                    "value": "[parameters('useKeyVault')]"
+                  },
                   "managedIdentity": {
                     "value": "[or(equals(parameters('databaseType'), 'PostgreSQL'), not(empty(parameters('keyVaultName'))))]"
                   },
@@ -11521,7 +11524,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.33.13.18514",
-                      "templateHash": "13042394358019890616"
+                      "templateHash": "10556607413990142431"
                     },
                     "description": "Creates an Azure Function in an existing Azure App Service plan."
                   },
@@ -11554,6 +11557,9 @@
                     },
                     "storageAccountName": {
                       "type": "string"
+                    },
+                    "useKeyVault": {
+                      "type": "bool"
                     },
                     "runtimeName": {
                       "type": "string",
@@ -11676,7 +11682,7 @@
                             "value": "[parameters('appServicePlanId')]"
                           },
                           "appSettings": {
-                            "value": "[union(parameters('appSettings'), createObject('AzureWebJobsStorage', format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2021-09-01').keys[0].value, environment().suffixes.storage), 'FUNCTIONS_EXTENSION_VERSION', parameters('extensionVersion')), if(not(parameters('useDocker')), createObject('FUNCTIONS_WORKER_RUNTIME', parameters('runtimeName')), createObject()))]"
+                            "value": "[union(parameters('appSettings'), createObject('FUNCTIONS_EXTENSION_VERSION', parameters('extensionVersion')), if(not(parameters('useDocker')), createObject('FUNCTIONS_WORKER_RUNTIME', parameters('runtimeName')), createObject()), if(parameters('useKeyVault'), createObject('AzureWebJobsStorage', format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2021-09-01').keys[0].value, environment().suffixes.storage)), createObject('AzureWebJobsStorage__accountName', parameters('storageAccountName'))))]"
                           },
                           "clientAffinityEnabled": {
                             "value": "[parameters('clientAffinityEnabled')]"
@@ -12006,6 +12012,74 @@
                           }
                         }
                       }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "storage-blob-role-function",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "principalId": {
+                            "value": "[reference(resourceId('Microsoft.Resources/deployments', format('{0}-functions', parameters('name'))), '2022-09-01').outputs.identityPrincipalId.value]"
+                          },
+                          "roleDefinitionId": {
+                            "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+                          },
+                          "principalType": {
+                            "value": "ServicePrincipal"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.33.13.18514",
+                              "templateHash": "2846680913928784813"
+                            },
+                            "description": "Creates a role assignment for a service principal."
+                          },
+                          "parameters": {
+                            "principalId": {
+                              "type": "string"
+                            },
+                            "principalType": {
+                              "type": "string",
+                              "defaultValue": "ServicePrincipal",
+                              "allowedValues": [
+                                "Device",
+                                "ForeignGroup",
+                                "Group",
+                                "ServicePrincipal",
+                                "User"
+                              ]
+                            },
+                            "roleDefinitionId": {
+                              "type": "string"
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Authorization/roleAssignments",
+                              "apiVersion": "2022-04-01",
+                              "name": "[guid(subscription().id, resourceGroup().id, parameters('principalId'), parameters('roleDefinitionId'))]",
+                              "properties": {
+                                "principalId": "[parameters('principalId')]",
+                                "principalType": "[parameters('principalType')]",
+                                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('{0}-functions', parameters('name')))]"
+                      ]
                     }
                   ],
                   "outputs": {
@@ -12547,7 +12621,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.33.13.18514",
-              "templateHash": "15856156429071194910"
+              "templateHash": "9304376051346195712"
             }
           },
           "parameters": {
@@ -12731,6 +12805,9 @@
                   "dockerFullImageName": {
                     "value": "[parameters('dockerFullImageName')]"
                   },
+                  "useKeyVault": {
+                    "value": "[parameters('useKeyVault')]"
+                  },
                   "managedIdentity": {
                     "value": "[or(equals(parameters('databaseType'), 'PostgreSQL'), not(empty(parameters('keyVaultName'))))]"
                   },
@@ -12745,7 +12822,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.33.13.18514",
-                      "templateHash": "13042394358019890616"
+                      "templateHash": "10556607413990142431"
                     },
                     "description": "Creates an Azure Function in an existing Azure App Service plan."
                   },
@@ -12778,6 +12855,9 @@
                     },
                     "storageAccountName": {
                       "type": "string"
+                    },
+                    "useKeyVault": {
+                      "type": "bool"
                     },
                     "runtimeName": {
                       "type": "string",
@@ -12900,7 +12980,7 @@
                             "value": "[parameters('appServicePlanId')]"
                           },
                           "appSettings": {
-                            "value": "[union(parameters('appSettings'), createObject('AzureWebJobsStorage', format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2021-09-01').keys[0].value, environment().suffixes.storage), 'FUNCTIONS_EXTENSION_VERSION', parameters('extensionVersion')), if(not(parameters('useDocker')), createObject('FUNCTIONS_WORKER_RUNTIME', parameters('runtimeName')), createObject()))]"
+                            "value": "[union(parameters('appSettings'), createObject('FUNCTIONS_EXTENSION_VERSION', parameters('extensionVersion')), if(not(parameters('useDocker')), createObject('FUNCTIONS_WORKER_RUNTIME', parameters('runtimeName')), createObject()), if(parameters('useKeyVault'), createObject('AzureWebJobsStorage', format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix={2}', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2021-09-01').keys[0].value, environment().suffixes.storage)), createObject('AzureWebJobsStorage__accountName', parameters('storageAccountName'))))]"
                           },
                           "clientAffinityEnabled": {
                             "value": "[parameters('clientAffinityEnabled')]"
@@ -13230,6 +13310,74 @@
                           }
                         }
                       }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "storage-blob-role-function",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "principalId": {
+                            "value": "[reference(resourceId('Microsoft.Resources/deployments', format('{0}-functions', parameters('name'))), '2022-09-01').outputs.identityPrincipalId.value]"
+                          },
+                          "roleDefinitionId": {
+                            "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+                          },
+                          "principalType": {
+                            "value": "ServicePrincipal"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.33.13.18514",
+                              "templateHash": "2846680913928784813"
+                            },
+                            "description": "Creates a role assignment for a service principal."
+                          },
+                          "parameters": {
+                            "principalId": {
+                              "type": "string"
+                            },
+                            "principalType": {
+                              "type": "string",
+                              "defaultValue": "ServicePrincipal",
+                              "allowedValues": [
+                                "Device",
+                                "ForeignGroup",
+                                "Group",
+                                "ServicePrincipal",
+                                "User"
+                              ]
+                            },
+                            "roleDefinitionId": {
+                              "type": "string"
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Authorization/roleAssignments",
+                              "apiVersion": "2022-04-01",
+                              "name": "[guid(subscription().id, resourceGroup().id, parameters('principalId'), parameters('roleDefinitionId'))]",
+                              "properties": {
+                                "principalId": "[parameters('principalId')]",
+                                "principalType": "[parameters('principalType')]",
+                                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('{0}-functions', parameters('name')))]"
+                      ]
                     }
                   ],
                   "outputs": {
