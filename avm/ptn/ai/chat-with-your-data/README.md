@@ -154,7 +154,6 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
     // Required parameters
     environmentName: 'cwydwaf001'
     // Non-required parameters
-    keyvaultname: '<keyvaultname>'
     location: '<location>'
   }
 }
@@ -177,9 +176,6 @@ module chatWithYourData 'br/public:avm/ptn/ai/chat-with-your-data:<version>' = {
       "value": "cwydwaf001"
     },
     // Non-required parameters
-    "keyvaultname": {
-      "value": "<keyvaultname>"
-    },
     "location": {
       "value": "<location>"
     }
@@ -200,7 +196,6 @@ using 'br/public:avm/ptn/ai/chat-with-your-data:<version>'
 // Required parameters
 param environmentName = 'cwydwaf001'
 // Non-required parameters
-param keyvaultname = '<keyvaultname>'
 param location = '<location>'
 ```
 
