@@ -47,7 +47,7 @@ module testDeployment '../../../main.bicep' = [
       // You parameters go here
       environmentName: '${namePrefix}${serviceShort}001'
       location: resourceLocation
-      keyvaultname: keyvaultname
+      keyvaultname: 'kv-${keyvaultname}'
     }
   }
 ]
