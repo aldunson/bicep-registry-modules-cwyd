@@ -153,7 +153,7 @@ resource waitFunctionDeploymentSection 'Microsoft.Resources/deploymentScripts@20
   }
   properties: {
     azPowerShellVersion: '3.0'
-    scriptContent: 'start-sleep -Seconds 300'
+    scriptContent: 'start-sleep -Seconds 1200'
     cleanupPreference: 'Always'
     retentionInterval: 'PT1H'
   }
